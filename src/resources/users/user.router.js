@@ -3,21 +3,27 @@ const EntityNotExistsError = require('../../lib/error/dbError/entityNotExistsErr
 const User = require('./user.model');
 const usersService = require('./user.service');
 
-
+/**
+ * Получение всех пользователей
+ */
 router.route('/').get(async (req, res) => {
     const users = await usersService.getAll();
 
     res.json(users.map(User.toResponse));
 });
 
-
+/**
+ * Получение пользователя по id
+ */
 router.route('/:userId').get(async (req, res) => {
     const user = await usersService.get(req.params.userId);
 
     res.json(User.toResponse(user));
 });
 
-
+/**
+ * Создание пользователя
+ */
 router.route('/').post(async (req, res) => {
     try {
         const user = await usersService.create(req.body);
@@ -30,7 +36,9 @@ router.route('/').post(async (req, res) => {
     }
 });
 
-
+/**
+ * Обновление данных пользователя
+ */
 router.route('/:userId').put(async (req, res) => {
     try {
         const user = await usersService.update(
@@ -48,7 +56,9 @@ router.route('/:userId').put(async (req, res) => {
     }
 });
 
-
+/**
+ * Удаление пользователя
+ */
 router.route('/:userId').delete(async (req, res) => {
     try {
         await usersService.delete(req.params.userId);

@@ -1,16 +1,19 @@
 const User = require("../../resources/users/user.model")
+const Board = require('../../resources/boards/board.model');
 
 /**
  * @typedef DB
  * @type {Object}
  * @property {User[]} user - таблица user
+ * @property {Board[]} board - таблица досок
  */
 
 /**
  * @type {DB}
  */
 const db = {
-    user: []
+    user: [],
+    board: []
 }
 
-module.exports = db;
+module.exports = { db };

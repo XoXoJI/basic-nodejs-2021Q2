@@ -2,12 +2,11 @@ const User = require("./user.model");
 const uuid = require('uuid');
 const EntityNotExistsError = require("../../lib/error/dbError/entityNotExistsError");
 const idNotUniqueError = require("../../lib/error/dbError/idNotUniqueError");
-const db = require("../../lib/driver/dbDriver");
 
 module.exports = class UserRepository {
     /**
      * Репозиторий пользователей
-     * @param {db} db
+     * @param {import("../../lib/driver/dbDriver").DB} db
      */
     constructor(db) {
         if(!db) {

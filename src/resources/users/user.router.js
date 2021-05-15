@@ -19,7 +19,7 @@ router.route('/:userId').get(async (req, res) => {
     const user = await usersService.get(req.params.userId);
 
     if (!user) {
-        res.sendStatus(204);
+        res.sendStatus(404);
     } else {
         res.json(User.toResponse(user));
     }

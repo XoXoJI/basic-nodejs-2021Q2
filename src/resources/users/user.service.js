@@ -1,5 +1,6 @@
 const db = require("../../lib/driver/dbDriver");
 const UserRepository = require("./user.memory.repository");
+const User = require("./user.model");
 
 const DATA_USERS = [];
 class UserService {

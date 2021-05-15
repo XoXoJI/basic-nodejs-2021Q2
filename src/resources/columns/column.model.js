@@ -1,20 +1,16 @@
-const uuid = require('uuid').v4;
+const Model = require('../../lib/model');
 
-class Column {
-  constructor({
-    id = uuid(),
-    title = 'title',
-    order = 1,
-  } = {}) {
-    this.id = id;
-    this.title = title;
-    this.order = order;
-  }
+class Column extends Model {
+    constructor({
+        id,
+        title = 'title',
+        order = 1,
+    } = {}) {
+        super({ id });
 
-  static toResponse(board) {
-    const { id, title, order } = board;
-    return { id, title, order };
-  }
+        this.title = title;
+        this.order = order;
+    }
 }
 
 module.exports = Column;

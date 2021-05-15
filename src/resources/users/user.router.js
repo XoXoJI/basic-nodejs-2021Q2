@@ -32,7 +32,7 @@ router.route('/').post(async (req, res) => {
     }
     catch(err) {
         console.error(err.message);
-        res.sendStatus(404);
+        res.sendStatus(500);
     }
 });
 
@@ -52,7 +52,7 @@ router.route('/:userId').put(async (req, res) => {
     }
     catch(err) {
         console.error(err.message);
-        res.sendStatus(404);
+        res.sendStatus(500);
     }
 });
 
@@ -71,7 +71,7 @@ router.route('/:userId').delete(async (req, res) => {
         if(err instanceof EntityNotExistsError) {
             res.sendStatus(204);
         } else {
-            res.sendStatus(404);
+            res.sendStatus(500);
         }
     }
 });

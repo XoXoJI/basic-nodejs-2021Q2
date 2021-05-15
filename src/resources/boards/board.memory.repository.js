@@ -2,6 +2,8 @@ const Board = require("./board.model");
 const uuid = require('uuid');
 const EntityNotExistsError = require("../../lib/error/dbError/entityNotExistsError");
 const idNotUniqueError = require("../../lib/error/dbError/idNotUniqueError");
+const ColumnRepository = require("../columns/column.memory.repository");
+const Column = require("../columns/column.model");
 
 module.exports = class BoardRepository {
     /**
@@ -14,6 +16,8 @@ module.exports = class BoardRepository {
         }
 
         this.dataBoards = db.board;
+
+        this.columnRepository = new ColumnRepository(db);
     }
 
     async getAll() {
@@ -44,6 +48,8 @@ module.exports = class BoardRepository {
             }
         }
 
+        board.columns = await this._createColumns(board.columns);
+
         board = new Board(board);
         this.dataBoards.push(board);
 
@@ -64,7 +70,9 @@ module.exports = class BoardRepository {
         }
 
         dataBoard.title = board.title;
-        dataBoard.columns = board.columns;
+
+        await this._deleteLinkedColumns(dataBoard);
+        dataBoard.columns = await this._createColumns(board.columns);
 
         return dataBoard;
     }
@@ -82,6 +90,38 @@ module.exports = class BoardRepository {
             throw new EntityNotExistsError(`board with id: ${id} not exsits!`);
         }
 
+        await this._deleteLinkedColumns(this.dataBoards[index]);
+
         this.dataBoards.splice(index, 1);
+    }
+
+    /**
+     * Функция удаления связанных колонок
+     * @param {Board} board
+     */
+    async _deleteLinkedColumns(board) {
+        for(let column of board.columns) {
+            await this.columnRepository.delete(column.id);
+        }
+    }
+
+    /**
+     * Функция создания колонок
+     * @param {Column[]} columns
+     * @returns {Column[]}
+     */
+    async _createColumns(columns) {
+        /**
+         * @type {Column[]}
+         */
+        const newColumns = [];
+
+        for(let column of columns) {
+            const columnRow = await this.columnRepository.create(column);
+
+            newColumns.push(columnRow);
+        }
+
+        return newColumns;
     }
 }

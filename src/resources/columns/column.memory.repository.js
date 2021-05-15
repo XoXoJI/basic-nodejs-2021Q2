@@ -1,32 +1,33 @@
 const Column = require("./column.model");
-const uuid = require('uuid');
-const EntityNotExistsError = require("../../lib/error/dbError/entityNotExistsError");
-const idNotUniqueError = require("../../lib/error/dbError/idNotUniqueError");
+const CRUDRepository = require("../../lib/repository/crudRepository");
 
-module.exports = class ColumnRepository {
+module.exports = class ColumnRepository extends CRUDRepository {
     /**
      * Репозиторий досок
      * @param {import("../../lib/driver/dbDriver").DB} db
      */
     constructor(db) {
-        if(!db) {
-            throw new Error("undefined column data!");
-        }
+        super(db);
 
-        this.dataColumns = db.column;
+        this.table = db.column;
+        this.tableName = 'column';
     }
 
+    /**
+     * Функция получения всех колонок
+     * @returns {Column[]}
+     */
     async getAll() {
-        return this.dataColumns;
+        return await super.getAll();
     }
 
     /**
      * Функция получения колонки по id
      * @param {string} id
-     * @returns
+     * @returns {Column}
      */
     async get(id) {
-        return this.dataColumns.find((dataColumn) => dataColumn.id === id);
+        return await super.get(id);
     }
 
     /**
@@ -34,18 +35,10 @@ module.exports = class ColumnRepository {
      * @param {Column} column
      */
     async create(column) {
-        if(column.id) {
-            const index = this.dataColumns.findIndex(
-              (dataColumn) => dataColumn.id === column.id
-            );
-
-            if(index) {
-                throw new idNotUniqueError(`column with id: ${column.id} exsits!`);
-            }
-        }
+        this._checkToUnique(column);
 
         column = new Column(column);
-        this.dataColumns.push(column);
+        this.table.push(column);
 
         return column;
     }
@@ -55,13 +48,11 @@ module.exports = class ColumnRepository {
      * @param {Column} column
      */
     async update(column) {
-        const dataColumn = this.dataColumns.find(
+        this._checkToExists(column);
+
+        const dataColumn = this.table.find(
           (dataColumn) => dataColumn.id === column.id
         );
-
-        if(!dataColumn) {
-            throw new EntityNotExistsError(`column with id: ${column.id} not exsits!`);
-        }
 
         dataColumn.title = column.title;
         dataColumn.order = column.order;
@@ -74,14 +65,6 @@ module.exports = class ColumnRepository {
      * @param {string} id
      */
     async delete(id) {
-        const index = this.dataColumns.findIndex(
-          (dataColumn) => dataColumn.id === id
-        );
-
-        if(!index) {
-            throw new EntityNotExistsError(`column with id: ${id} not exsits!`);
-        }
-
-        this.dataColumns.splice(index, 1);
+        await super.delete(id);
     }
 }

@@ -1,33 +1,33 @@
 const User = require("./user.model");
-const uuid = require('uuid');
-const EntityNotExistsError = require("../../lib/error/dbError/entityNotExistsError");
-const idNotUniqueError = require("../../lib/error/dbError/idNotUniqueError");
+const CRUDRepository = require("../../lib/repository/crudRepository");
 
-module.exports = class UserRepository {
+module.exports = class UserRepository extends CRUDRepository {
     /**
      * Репозиторий пользователей
      * @param {import("../../lib/driver/dbDriver").DB} db
      */
     constructor(db) {
-        if(!db) {
-            throw new Error("undefined user data!");
-        }
+        super(db);
 
-        this.dataUsers = db.user;
+        this.table = db.user;
+        this.tableName = "user";
     }
 
+    /**
+     * Функция получения всех пользователей
+     * @returns {User[]}
+     */
     async getAll() {
-        // TODO: mock implementation. should be replaced during task development
-        return this.dataUsers;
+        return await super.getAll();
     }
 
     /**
      * Функция получения пользователя по id
      * @param {string} id
-     * @returns
+     * @returns {User}
      */
     async get(id) {
-        return this.dataUsers.find((dataUser) => dataUser.id === id);
+        return await super.get(id);
     }
 
     /**
@@ -35,16 +35,10 @@ module.exports = class UserRepository {
      * @param {User} user
      */
     async create(user) {
-        if(user.id) {
-            const index = this.dataUsers.findIndex((dataUser) => dataUser.id === user.id);
-
-            if(index) {
-                throw new idNotUniqueError(`user with id: ${user.id} exsits!`);
-            }
-        }
+        this._checkToUnique(user);
 
         user = new User(user);
-        this.dataUsers.push(user);
+        this.table.push(user);
 
         return user;
     }
@@ -54,11 +48,9 @@ module.exports = class UserRepository {
      * @param {User} user
      */
     async update(user) {
-        const dataUser = this.dataUsers.find((dataUser) => dataUser.id === user.id);
+        this._checkToExists(user);
 
-        if(!dataUser) {
-            throw new EntityNotExistsError(`user with id: ${user.id} not exsits!`);
-        }
+        const dataUser = this.table.find((dataUser) => dataUser.id === user.id);
 
         dataUser.name = user.name;
         dataUser.login = user.login;
@@ -72,12 +64,6 @@ module.exports = class UserRepository {
      * @param {string} id
      */
     async delete(id) {
-        const index = this.dataUsers.findIndex((dataUser) => dataUser.id === id);
-
-        if(!index) {
-            throw new EntityNotExistsError(`user with id: ${id} not exsits!`);
-        }
-
-        this.dataUsers.splice(index, 1);
+        await super.delete(id);
     }
 }

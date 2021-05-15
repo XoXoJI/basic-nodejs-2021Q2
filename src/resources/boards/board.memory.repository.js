@@ -1,27 +1,28 @@
 const Board = require("./board.model");
-const uuid = require('uuid');
-const EntityNotExistsError = require("../../lib/error/dbError/entityNotExistsError");
-const idNotUniqueError = require("../../lib/error/dbError/idNotUniqueError");
 const ColumnRepository = require("../columns/column.memory.repository");
 const Column = require("../columns/column.model");
+const CRUDRepository = require("../../lib/repository/crudRepository");
 
-module.exports = class BoardRepository {
+module.exports = class BoardRepository extends CRUDRepository {
     /**
      * Репозиторий досок
      * @param {import("../../lib/driver/dbDriver").DB} db
      */
     constructor(db) {
-        if(!db) {
-            throw new Error("undefined board data!");
-        }
+        super(db);
 
-        this.dataBoards = db.board;
+        this.table = db.board;
+        this.tableName = 'board';
 
         this.columnRepository = new ColumnRepository(db);
     }
 
+    /**
+     * Функция получения всех досок
+     * @returns {Board[]}
+     */
     async getAll() {
-        return this.dataBoards;
+        return await super.getAll();
     }
 
     /**
@@ -30,7 +31,7 @@ module.exports = class BoardRepository {
      * @returns
      */
     async get(id) {
-        return this.dataBoards.find((dataBoard) => dataBoard.id === id);
+        return await super.get(id);
     }
 
     /**
@@ -38,20 +39,12 @@ module.exports = class BoardRepository {
      * @param {Board} board
      */
     async create(board) {
-        if(board.id) {
-            const index = this.dataBoards.findIndex(
-              (dataBoard) => dataBoard.id === board.id
-            );
-
-            if(index) {
-                throw new idNotUniqueError(`board with id: ${board.id} exsits!`);
-            }
-        }
+        this._checkToUnique(board);
 
         board.columns = await this._createColumns(board.columns);
 
         board = new Board(board);
-        this.dataBoards.push(board);
+        this.table.push(board);
 
         return board;
     }
@@ -61,13 +54,11 @@ module.exports = class BoardRepository {
      * @param {Board} board
      */
     async update(board) {
-        const dataBoard = this.dataBoards.find(
+        this._checkToExists(board);
+
+        const dataBoard = this.table.find(
           (dataBoard) => dataBoard.id === board.id
         );
-
-        if(!dataBoard) {
-            throw new EntityNotExistsError(`board with id: ${board.id} not exsits!`);
-        }
 
         dataBoard.title = board.title;
 
@@ -82,17 +73,11 @@ module.exports = class BoardRepository {
      * @param {string} id
      */
     async delete(id) {
-        const index = this.dataBoards.findIndex(
-          (dataBoard) => dataBoard.id === id
-        );
+        const board = await super.get(id);
 
-        if(!index) {
-            throw new EntityNotExistsError(`board with id: ${id} not exsits!`);
-        }
+        await this._deleteLinkedColumns(board);
 
-        await this._deleteLinkedColumns(this.dataBoards[index]);
-
-        this.dataBoards.splice(index, 1);
+        await super.delete(id);
     }
 
     /**

@@ -14,23 +14,6 @@ module.exports = class UserRepository extends CRUDRepository {
     }
 
     /**
-     * Функция получения всех пользователей
-     * @returns {User[]}
-     */
-    async getAll() {
-        return await super.getAll();
-    }
-
-    /**
-     * Функция получения пользователя по id
-     * @param {string} id
-     * @returns {User}
-     */
-    async get(id) {
-        return await super.get(id);
-    }
-
-    /**
      * Функция создания пользователя
      * @param {User} user
      */

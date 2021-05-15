@@ -18,23 +18,6 @@ module.exports = class BoardRepository extends CRUDRepository {
     }
 
     /**
-     * Функция получения всех досок
-     * @returns {Board[]}
-     */
-    async getAll() {
-        return await super.getAll();
-    }
-
-    /**
-     * Функция получения доски по id
-     * @param {string} id
-     * @returns
-     */
-    async get(id) {
-        return await super.get(id);
-    }
-
-    /**
      * Функция создания доски
      * @param {Board} board
      */

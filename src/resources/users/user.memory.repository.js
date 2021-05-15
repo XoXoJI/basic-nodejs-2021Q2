@@ -2,18 +2,19 @@ const User = require("./user.model");
 const uuid = require('uuid');
 const EntityNotExistsError = require("../../lib/error/dbError/entityNotExistsError");
 const idNotUniqueError = require("../../lib/error/dbError/idNotUniqueError");
+const db = require("../../lib/driver/dbDriver");
 
 module.exports = class UserRepository {
     /**
      * Репозиторий пользователей
-     * @param {User[]} dataUsers
+     * @param {db} db
      */
-    constructor(dataUsers) {
-        if(!dataUsers) {
+    constructor(db) {
+        if(!db) {
             throw new Error("undefined user data!");
         }
 
-        this.dataUsers = dataUsers;
+        this.dataUsers = db.user;
     }
 
     async getAll() {

@@ -1,9 +1,10 @@
+const db = require("../../lib/driver/dbDriver");
 const UserRepository = require("./user.memory.repository");
 
 const DATA_USERS = [];
 class UserService {
     constructor() {
-        this.userRepository = new UserRepository(DATA_USERS);
+        this.userRepository = new UserRepository(db);
     }
 
     async getAll() {

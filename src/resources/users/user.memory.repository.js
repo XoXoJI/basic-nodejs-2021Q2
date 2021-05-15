@@ -68,6 +68,10 @@ module.exports = class UserRepository {
         return dataUser;
     }
 
+    /**
+     * Функция удаления пользователя
+     * @param {string} id
+     */
     async delete(id) {
         const index = this.dataUsers.findIndex((dataUser) => dataUser.id === id);
 

@@ -16,7 +16,6 @@ const Task = require('../../resources/tasks/task.model');
 const db = {
     user: [],
     board: [],
-    column: [],
     task: []
 }
 

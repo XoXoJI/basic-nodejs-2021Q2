@@ -19,7 +19,7 @@ module.exports = class BoardRepository extends CRUDRepository {
      * @param {Board} data
      */
     async create(data) {
-        this._checkToUnique(data);
+        await this._checkToUnique(data);
 
         const workData = {};
         Object.assign(workData, data);
@@ -37,7 +37,7 @@ module.exports = class BoardRepository extends CRUDRepository {
      * @param {Board} data
      */
     async update(data) {
-        this._checkToExists(data);
+        await this._checkToExists(data);
 
         const board = this.table.find((row) => row.id === data.id);
 

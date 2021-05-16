@@ -30,12 +30,12 @@ class CRUDRepository {
      * @param {*} row
      */
     async create(row) {
-        this._checkToUnique(row);
+        await this._checkToUnique(row);
 
         return row;
     }
 
-    _checkToUnique(row) {
+    async _checkToUnique(row) {
         if(row.id) {
             const index = this.table.findIndex((tableRow) => tableRow.id === row.id);
 
@@ -50,12 +50,12 @@ class CRUDRepository {
      * @param {*} row
      */
     async update(row) {
-        this._checkToExists(row);
+        await this._checkToExists(row);
 
         return row;
     }
 
-    _checkToExists(data) {
+    async _checkToExists(data) {
         const tableRow = this.table.find((row) => row.id === data.id);
 
         if (!tableRow) {

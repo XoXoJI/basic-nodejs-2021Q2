@@ -18,7 +18,7 @@ module.exports = class UserRepository extends CRUDRepository {
      * @param {User} data
      */
     async create(data) {
-        this._checkToUnique(data);
+        await this._checkToUnique(data);
 
         const user = new User(data);
         this.table.push(user);
@@ -31,7 +31,7 @@ module.exports = class UserRepository extends CRUDRepository {
      * @param {User} data
      */
     async update(data) {
-        this._checkToExists(data);
+        await this._checkToExists(data);
 
         const user = this.table.find((row) => row.id === data.id);
 

@@ -24,7 +24,7 @@ module.exports = class TaskRepository extends CRUDRepository {
      * @param {Task} data
      */
     async create(data) {
-        this._checkToUnique(data);
+        await this._checkToUnique(data);
         await this._checkLinkedEntities(data);
 
         const task = new Task(data);
@@ -38,7 +38,7 @@ module.exports = class TaskRepository extends CRUDRepository {
      * @param {Task} data
      */
     async update(data) {
-        this._checkToExists(data);
+        await this._checkToExists(data);
         await this._checkLinkedEntities(data);
 
         const task = this.table.find((row) => row.id === data.id);
@@ -84,9 +84,9 @@ module.exports = class TaskRepository extends CRUDRepository {
     }
 
     async _checkLinkedEntity(tableName, id) {
-        const row = this.db[tableName].find((row) => row.id === id);
+        const entity = this.db[tableName].find((row) => row.id === id);
 
-            if(!row) {
+            if(!entity) {
                 throw new EntityNotExistsError(
                   `${tableName} with id: ${id} not exsits!`
                 );

@@ -1,6 +1,7 @@
 const User = require("../../resources/users/user.model")
 const Board = require('../../resources/boards/board.model');
 const Column = require('../../resources/columns/column.model');
+const Task = require('../../resources/tasks/task.model');
 
 /**
  * @typedef DB
@@ -8,6 +9,7 @@ const Column = require('../../resources/columns/column.model');
  * @property {User[]} user - таблица user
  * @property {Board[]} board - таблица досок
  * @property {Column[]} column - таблица колонок
+ * @property {Task[]} task - таблица тасок
  */
 
 /**
@@ -16,7 +18,8 @@ const Column = require('../../resources/columns/column.model');
 const db = {
     user: [],
     board: [],
-    column: []
+    column: [],
+    task: []
 }
 
 module.exports = { db };

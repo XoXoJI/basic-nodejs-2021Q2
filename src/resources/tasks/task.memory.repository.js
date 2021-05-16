@@ -19,12 +19,12 @@ module.exports = class TaskRepository extends CRUDRepository {
 
     /**
      * Функция создания пользователя
-     * @param {Task} task
+     * @param {Task} data
      */
-    async create(task) {
-        this._checkToUnique(task);
+    async create(data) {
+        this._checkToUnique(data);
 
-        task = new Task(task);
+        const task = new Task(data);
         this.table.push(task);
 
         return task;
@@ -32,22 +32,22 @@ module.exports = class TaskRepository extends CRUDRepository {
 
     /**
      * Функция обновления пользователя
-     * @param {Task} task
+     * @param {Task} data
      */
-    async update(task) {
-        this._checkToExists(task);
+    async update(data) {
+        this._checkToExists(data);
 
-        const dataTask = this.table.find((row) => row.id === task.id);
+        const task = this.table.find((row) => row.id === data.id);
 
         // TODO проверка на существование всех зависимостей
-        dataTask.title = task.title;
-        dataTask.order = task.order;
-        dataTask.description = task.description;
-        dataTask.userId = task.userId;
-        dataTask.boardId = task.boardId;
-        dataTask.columnId = task.columnId;
+        task.title = data.title;
+        task.order = data.order;
+        task.description = data.description;
+        task.userId = data.userId;
+        task.boardId = data.boardId;
+        task.columnId = data.columnId;
 
-        return dataTask;
+        return task;
     }
 
     /**

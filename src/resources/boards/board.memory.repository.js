@@ -16,14 +16,17 @@ module.exports = class BoardRepository extends CRUDRepository {
 
     /**
      * Функция создания доски
-     * @param {Board} board
+     * @param {Board} data
      */
-    async create(board) {
-        this._checkToUnique(board);
+    async create(data) {
+        this._checkToUnique(data);
 
-        board.columns = board.columns.map((column) => new Column(column));
+        const workData = {};
+        Object.assign(workData, data);
 
-        board = new Board(board);
+        workData.columns = data.columns.map((column) => new Column(column));
+
+        const board = new Board(workData);
         this.table.push(board);
 
         return board;
@@ -31,18 +34,18 @@ module.exports = class BoardRepository extends CRUDRepository {
 
     /**
      * Функция обновления доски
-     * @param {Board} board
+     * @param {Board} data
      */
-    async update(board) {
-        this._checkToExists(board);
+    async update(data) {
+        this._checkToExists(data);
 
-        const dataBoard = this.table.find((row) => row.id === board.id);
+        const board = this.table.find((row) => row.id === data.id);
 
-        dataBoard.title = board.title;
+        board.title = data.title;
 
-        dataBoard.columns = board.columns.map((column) => new Column(column));
+        board.columns = data.columns.map((column) => new Column(column));
 
-        return dataBoard;
+        return board;
     }
 
     /**

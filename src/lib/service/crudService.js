@@ -48,7 +48,6 @@ class CRUDService {
      * @param {string} id
      */
     async delete(id) {
-        // TODO сделать обработку остальных сущностей
         await this.repository.delete(id);
     }
 };

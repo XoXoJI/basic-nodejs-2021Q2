@@ -15,12 +15,12 @@ module.exports = class UserRepository extends CRUDRepository {
 
     /**
      * Функция создания пользователя
-     * @param {User} user
+     * @param {User} data
      */
-    async create(user) {
-        this._checkToUnique(user);
+    async create(data) {
+        this._checkToUnique(data);
 
-        user = new User(user);
+        const user = new User(data);
         this.table.push(user);
 
         return user;
@@ -28,18 +28,18 @@ module.exports = class UserRepository extends CRUDRepository {
 
     /**
      * Функция обновления пользователя
-     * @param {User} user
+     * @param {User} data
      */
-    async update(user) {
-        this._checkToExists(user);
+    async update(data) {
+        this._checkToExists(data);
 
-        const dataUser = this.table.find((row) => row.id === user.id);
+        const user = this.table.find((row) => row.id === data.id);
 
-        dataUser.name = user.name;
-        dataUser.login = user.login;
-        dataUser.password = user.password;
+        user.name = data.name;
+        user.login = data.login;
+        user.password = data.password;
 
-        return dataUser;
+        return user;
     }
 
     /**
@@ -60,6 +60,8 @@ module.exports = class UserRepository extends CRUDRepository {
         const linkedTasks = this.db.task.filter((task) => task.userId === id);
 
         linkedTasks.forEach((linkedTask) => {
+            // Потому что в данном случае это правило бред.
+            // eslint-disable-next-line no-param-reassign
             linkedTask.userId = null;
         });
     }

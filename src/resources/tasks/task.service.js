@@ -10,7 +10,9 @@ class UserService extends CRUDService {
     }
 
     async getAll(idBoard) {
-        return await this.repository.getAll(idBoard);
+        const tasks = await this.repository.getAll(idBoard);
+
+        return tasks;
     }
 
     async get(idBoard, id) {

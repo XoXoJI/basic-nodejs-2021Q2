@@ -7,7 +7,9 @@ class CRUDService {
     }
 
     async getAll() {
-        return await this.repository.getAll();
+        const models = await this.repository.getAll();
+
+        return models;
     }
 
      /**
@@ -16,23 +18,29 @@ class CRUDService {
      * @returns
      */
     async get(id) {
-        return await this.repository.get(id);
+        const model = await this.repository.get(id);
+
+        return model;
     }
 
     /**
      * Функция создания строки
-     * @param {import("../model")} model
+     * @param {import("../model")} data
      */
-    async create(model) {
-        return await this.repository.create(model);
+    async create(data) {
+        const model = await this.repository.create(data);
+
+        return model;
     }
 
     /**
      * Функция обновления строки
-     * @param {import("../model")} model
+     * @param {import("../model")} data
      */
-    async update(model) {
-        return await this.repository.update(model);
+    async update(data) {
+        const model = await this.repository.update(data);
+
+        return model;
     }
 
     /**
@@ -41,7 +49,7 @@ class CRUDService {
      */
     async delete(id) {
         // TODO сделать обработку остальных сущностей
-        return await this.repository.delete(id);
+        await this.repository.delete(id);
     }
 };
 

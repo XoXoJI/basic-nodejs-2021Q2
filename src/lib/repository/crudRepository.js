@@ -72,7 +72,7 @@ class CRUDRepository {
     async delete(id) {
         const index = this.table.findIndex((tableRow) => tableRow.id === id);
 
-        if(!index) {
+        if(!index === -1) {
             throw new EntityNotExistsError(
                 `${this.tableName} with id: ${id} not exsits!`
             );

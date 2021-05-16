@@ -1,5 +1,5 @@
 const EntityNotExistsError = require("../error/dbError/entityNotExistsError");
-const idNotUniqueError = require("../error/dbError/idNotUniqueError");
+const IdNotUniqueError = require("../error/dbError/idNotUniqueError");
 
 class CRUDRepository {
     /**
@@ -32,7 +32,7 @@ class CRUDRepository {
     async create(row) {
         this._checkToUnique(row);
 
-        
+
     }
 
     _checkToUnique(row) {
@@ -40,7 +40,7 @@ class CRUDRepository {
             const index = this.table.findIndex((tableRow) => tableRow.id === row.id);
 
             if(index) {
-                throw new idNotUniqueError(`${this.tableName} with id: ${row.id} exsits!`);
+                throw new IdNotUniqueError(`${this.tableName} with id: ${row.id} exsits!`);
             }
         }
     }
@@ -52,7 +52,7 @@ class CRUDRepository {
     async update(row) {
         this._checkToExists(row);
 
-        
+
     }
 
     _checkToExists(row) {

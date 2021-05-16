@@ -1,13 +1,9 @@
-const User = require("../../resources/users/user.model")
-const Board = require('../../resources/boards/board.model');
-const Task = require('../../resources/tasks/task.model');
-
 /**
  * @typedef DB
  * @type {Object}
- * @property {User[]} user - таблица user
- * @property {Board[]} board - таблица досок
- * @property {Task[]} task - таблица тасок
+ * @property {import("../../resources/users/user.model")[]} user - таблица user
+ * @property {import("../../resources/boards/board.model")[]} board - таблица досок
+ * @property {import("../../resources/tasks/task.model")[]} task - таблица тасок
  */
 
 /**

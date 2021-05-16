@@ -1,7 +1,5 @@
 const CRUDController = require('../../lib/controller/crudController');
 const EntityNotExistsError = require('../../lib/error/dbError/entityNotExistsError');
-const Task = require('./task.model');
-const taskService = require('./task.service');
 
 class TaskController extends CRUDController {
     constructor(taskService, toResponse) {

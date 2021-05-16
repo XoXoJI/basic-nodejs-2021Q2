@@ -52,8 +52,6 @@ module.exports = class BoardRepository extends CRUDRepository {
      * @param {string} id
      */
     async delete(id) {
-        const board = await super.get(id);
-
         await this._deleteLinkedTasks(id);
 
         await super.delete(id);

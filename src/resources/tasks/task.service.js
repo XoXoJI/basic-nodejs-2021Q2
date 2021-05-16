@@ -1,6 +1,5 @@
 const { db } = require("../../lib/driver/dbDriver");
 const TaskRepository = require("./task.memory.repository");
-const Task = require("./task.model");
 const CRUDService = require("../../lib/service/crudService");
 
 class UserService extends CRUDService {

@@ -1,5 +1,4 @@
 const { db } = require("../driver/dbDriver");
-const Model = require("../model");
 const CRUDRepository = require("../repository/crudRepository");
 
 class CRUDService {
@@ -22,7 +21,7 @@ class CRUDService {
 
     /**
      * Функция создания строки
-     * @param {Model} model
+     * @param {import("../model")} model
      */
     async create(model) {
         return await this.repository.create(model);
@@ -30,7 +29,7 @@ class CRUDService {
 
     /**
      * Функция обновления строки
-     * @param {Model} model
+     * @param {import("../model")} model
      */
     async update(model) {
         return await this.repository.update(model);

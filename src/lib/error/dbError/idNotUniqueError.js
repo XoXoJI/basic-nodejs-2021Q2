@@ -1,10 +1,10 @@
 const DBError = require('./dbError');
 
-class idNotUniqueError extends DBError {
+class IdNotUniqueError extends DBError {
   constructor(message) {
     super(message);
     this.name = 'IdNotUniqueError';
   }
 }
 
-module.exports = idNotUniqueError;
+module.exports = IdNotUniqueError;

@@ -11,6 +11,7 @@ class CRUDRepository {
             throw new Error("undefined user data!");
         }
 
+        this.db = db;
         this.table = [];
         this.tableName = 'tableName';
     }

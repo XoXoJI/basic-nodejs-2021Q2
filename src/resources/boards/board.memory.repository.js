@@ -54,6 +54,24 @@ module.exports = class BoardRepository extends CRUDRepository {
     async delete(id) {
         const board = await super.get(id);
 
+        await this._deleteLinkedTasks(id);
+
         await super.delete(id);
+    }
+
+    /**
+     * Функция удаления связанных тасок
+     * @param {string} id
+     */
+    async _deleteLinkedTasks(id) {
+        const linkedTasks = this.db.task.filter((task) => task.boardId === id);
+
+        linkedTasks.forEach((linkedTask) => {
+            const index = this.db.task.findIndex(
+              (task) => task.id === linkedTask.id
+            );
+
+            this.db.task.splice(index, 1);
+        });
     }
 }

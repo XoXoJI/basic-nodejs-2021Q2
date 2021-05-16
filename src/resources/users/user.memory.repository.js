@@ -47,6 +47,20 @@ module.exports = class UserRepository extends CRUDRepository {
      * @param {string} id
      */
     async delete(id) {
+        await this._unlinkLinkedTasks(id);
+
         await super.delete(id);
+    }
+
+    /**
+     * Функция удаления связанных тасок
+     * @param {string} id
+     */
+    async _unlinkLinkedTasks(id) {
+        const linkedTasks = this.db.task.filter((task) => task.userId === id);
+
+        linkedTasks.forEach((linkedTask) => {
+            linkedTask.userId = null;
+        });
     }
 }

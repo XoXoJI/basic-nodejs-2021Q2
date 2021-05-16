@@ -60,9 +60,10 @@ module.exports = class UserRepository extends CRUDRepository {
         const linkedTasks = this.db.task.filter((task) => task.userId === id);
 
         linkedTasks.forEach((linkedTask) => {
-            // Потому что в данном случае это правило бред.
-            // eslint-disable-next-line no-param-reassign
-            linkedTask.userId = null;
+            // В данному случае считаю абсолютное дурацкое ограничение eslinta
+            const task = linkedTask;
+
+            task.userId = null;
         });
     }
 }

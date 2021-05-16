@@ -55,12 +55,12 @@ class CRUDRepository {
 
     }
 
-    _checkToExists(row) {
-        const tableRow = this.table.find((tableRow) => tableRow.id === row.id);
+    _checkToExists(data) {
+        const tableRow = this.table.find((row) => row.id === data.id);
 
         if (!tableRow) {
             throw new EntityNotExistsError(
-                `${this.tableName} with id: ${row.id} not exsits!`
+                `${this.tableName} with id: ${data.id} not exsits!`
             );
         }
     }

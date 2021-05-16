@@ -2,7 +2,6 @@ const router = require('express').Router();
 const TaskController = require('./task.controller');
 const Task = require('./task.model');
 const taskService = require('./task.service');
-const boardService = require('../boards/board.service');
 
 
 const taskController = new TaskController(taskService, Task.toResponse);

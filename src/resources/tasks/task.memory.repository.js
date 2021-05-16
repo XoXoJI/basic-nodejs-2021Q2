@@ -37,7 +37,7 @@ module.exports = class TaskRepository extends CRUDRepository {
     async update(task) {
         this._checkToExists(task);
 
-        const dataTask = this.table.find((dataTask) => dataTask.id === task.id);
+        const dataTask = this.table.find((row) => row.id === task.id);
 
         // TODO проверка на существование всех зависимостей
         dataTask.title = task.title;

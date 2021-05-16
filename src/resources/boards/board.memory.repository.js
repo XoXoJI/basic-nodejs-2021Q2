@@ -36,9 +36,7 @@ module.exports = class BoardRepository extends CRUDRepository {
     async update(board) {
         this._checkToExists(board);
 
-        const dataBoard = this.table.find(
-          (dataBoard) => dataBoard.id === board.id
-        );
+        const dataBoard = this.table.find((row) => row.id === board.id);
 
         dataBoard.title = board.title;
 

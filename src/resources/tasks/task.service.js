@@ -21,9 +21,9 @@ class UserService extends CRUDService {
 
     async delete(idBoard, id) {
         const tasks = await this.getAll(idBoard);
-        const task = tasks.find((task) => task.id === id);
+        const turgetTask = tasks.find((task) => task.id === id);
 
-        await super.delete(task.id);
+        await super.delete(turgetTask.id);
     }
 };
 

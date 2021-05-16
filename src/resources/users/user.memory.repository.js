@@ -33,7 +33,7 @@ module.exports = class UserRepository extends CRUDRepository {
     async update(user) {
         this._checkToExists(user);
 
-        const dataUser = this.table.find((dataUser) => dataUser.id === user.id);
+        const dataUser = this.table.find((row) => row.id === user.id);
 
         dataUser.name = user.name;
         dataUser.login = user.login;

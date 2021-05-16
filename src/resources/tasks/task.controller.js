@@ -2,10 +2,6 @@ const CRUDController = require('../../lib/controller/crudController');
 const EntityNotExistsError = require('../../lib/error/dbError/entityNotExistsError');
 
 class TaskController extends CRUDController {
-    constructor(taskService, toResponse) {
-        super(taskService, toResponse);
-    }
-
     async getAll(idBoard, res) {
         const tasks = await this.service.getAll(idBoard);
 

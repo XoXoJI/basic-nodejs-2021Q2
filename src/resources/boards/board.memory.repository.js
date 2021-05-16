@@ -1,5 +1,4 @@
 const Board = require("./board.model");
-const ColumnRepository = require("../columns/column.memory.repository");
 const Column = require("../columns/column.model");
 const CRUDRepository = require("../../lib/repository/crudRepository");
 
@@ -13,8 +12,6 @@ module.exports = class BoardRepository extends CRUDRepository {
 
         this.table = db.board;
         this.tableName = 'board';
-
-        this.columnRepository = new ColumnRepository(db);
     }
 
     /**
@@ -24,7 +21,7 @@ module.exports = class BoardRepository extends CRUDRepository {
     async create(board) {
         this._checkToUnique(board);
 
-        board.columns = await this._createColumns(board.columns);
+        board.columns = board.columns.map((column) => new Column(column));
 
         board = new Board(board);
         this.table.push(board);
@@ -45,8 +42,7 @@ module.exports = class BoardRepository extends CRUDRepository {
 
         dataBoard.title = board.title;
 
-        await this._deleteLinkedColumns(dataBoard);
-        dataBoard.columns = await this._createColumns(board.columns);
+        dataBoard.columns = board.columns.map((column) => new Column(column));
 
         return dataBoard;
     }
@@ -58,38 +54,6 @@ module.exports = class BoardRepository extends CRUDRepository {
     async delete(id) {
         const board = await super.get(id);
 
-        await this._deleteLinkedColumns(board);
-
         await super.delete(id);
-    }
-
-    /**
-     * Функция удаления связанных колонок
-     * @param {Board} board
-     */
-    async _deleteLinkedColumns(board) {
-        for(let column of board.columns) {
-            await this.columnRepository.delete(column.id);
-        }
-    }
-
-    /**
-     * Функция создания колонок
-     * @param {Column[]} columns
-     * @returns {Column[]}
-     */
-    async _createColumns(columns) {
-        /**
-         * @type {Column[]}
-         */
-        const newColumns = [];
-
-        for(let column of columns) {
-            const columnRow = await this.columnRepository.create(column);
-
-            newColumns.push(columnRow);
-        }
-
-        return newColumns;
     }
 }

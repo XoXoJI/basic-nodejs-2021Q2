@@ -15,21 +15,21 @@ class CRUDController {
    * Получение всех сущностей
    */
   async getAll(res) {
-    const users = await this.service.getAll();
+    const models = await this.service.getAll();
 
-    res.json(users.map(this.toResponse));
+    res.json(models.map(this.toResponse));
   }
 
   /**
    * Получение сущности по id
    */
   async get(id, res) {
-    const user = await this.service.get(id);
+    const model = await this.service.get(id);
 
-    if (!user) {
+    if (!model) {
       res.sendStatus(404);
     } else {
-      res.json(this.toResponse(user));
+      res.json(this.toResponse(model));
     }
   }
 
@@ -38,9 +38,9 @@ class CRUDController {
    */
   async create(body, res) {
     try {
-      const user = await this.service.create(body);
+      const model = await this.service.create(body);
 
-      res.status(201).json(this.toResponse(user));
+      res.status(201).json(this.toResponse(model));
     } catch (err) {
       console.error(err.message);
       res.sendStatus(500);
@@ -52,12 +52,12 @@ class CRUDController {
    */
   async update(id, body, res) {
     try {
-      const user = await this.service.update({
+      const model = await this.service.update({
         id,
         ...body,
       });
 
-      res.json(this.toResponse(user));
+      res.json(this.toResponse(model));
     } catch (err) {
       console.error(err.message);
       res.sendStatus(500);

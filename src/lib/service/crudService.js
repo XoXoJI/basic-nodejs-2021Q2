@@ -1,4 +1,4 @@
-const { db } = require("../../lib/driver/dbDriver");
+const { db } = require("../driver/dbDriver");
 const Model = require("../model");
 const CRUDRepository = require("../repository/crudRepository");
 
@@ -41,7 +41,7 @@ class CRUDService {
      * @param {string} id
      */
     async delete(id) {
-        //TODO сделать обработку остальных сущностей
+        // TODO сделать обработку остальных сущностей
         return await this.repository.delete(id);
     }
 };

@@ -32,7 +32,7 @@ class CRUDRepository {
     async create(row) {
         this._checkToUnique(row);
 
-        return;
+        
     }
 
     _checkToUnique(row) {
@@ -52,7 +52,7 @@ class CRUDRepository {
     async update(row) {
         this._checkToExists(row);
 
-        return;
+        
     }
 
     _checkToExists(row) {

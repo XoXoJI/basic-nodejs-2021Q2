@@ -22,7 +22,7 @@ app.use('/', (req, res, next) => {
   next();
 });
 
-app.param('boardId', async function (req, res, next, boardId) {
+app.param('boardId', async (req, res, next, boardId) => {
     const board = await boardService.get(boardId);
 
     if(!board) {

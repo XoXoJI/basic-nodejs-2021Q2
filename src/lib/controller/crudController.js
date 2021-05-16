@@ -55,10 +55,10 @@ class CRUDController {
     async update(id, body, res) {
         try {
             const user = await this.service.update(
-                Object.assign(
-                    { id },
-                    body
-                )
+                {
+                    id,
+                    ...body
+                }
             );
 
             res.json(this.toResponse(user));

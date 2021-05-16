@@ -1,5 +1,7 @@
 const Task = require("./task.model");
 const CRUDRepository = require("../../lib/repository/crudRepository");
+const EntityNotExistsError = require("../../lib/error/dbError/entityNotExistsError");
+const DBError = require("../../lib/error/dbError/dbError");
 
 module.exports = class TaskRepository extends CRUDRepository {
     /**
@@ -23,6 +25,7 @@ module.exports = class TaskRepository extends CRUDRepository {
      */
     async create(data) {
         this._checkToUnique(data);
+        await this._checkLinkedEntities(data);
 
         const task = new Task(data);
         this.table.push(task);
@@ -36,10 +39,10 @@ module.exports = class TaskRepository extends CRUDRepository {
      */
     async update(data) {
         this._checkToExists(data);
+        await this._checkLinkedEntities(data);
 
         const task = this.table.find((row) => row.id === data.id);
 
-        // TODO проверка на существование всех зависимостей
         task.title = data.title;
         task.order = data.order;
         task.description = data.description;
@@ -48,6 +51,46 @@ module.exports = class TaskRepository extends CRUDRepository {
         task.columnId = data.columnId;
 
         return task;
+    }
+
+    /**
+     * Функция проверки существования связанных сущностей
+     * @param {Task} data
+     */
+    async _checkLinkedEntities(data) {
+        if(data.boardId) {
+            await this._checkLinkedEntity('board', data.boardId);
+        }
+        else {
+            throw new DBError('boardId is undefinded');
+        }
+
+        if(data.userId) {
+            await this._checkLinkedEntity('user', data.userId);
+        }
+
+        if(data.columnId) {
+            const board = this.db.board.find((row) => row.id === data.boardId);
+            const column = board.columns.find(
+                (boardColumn) => boardColumn.id === data.columnId
+            );
+
+            if(!column) {
+                throw new EntityNotExistsError(
+                  `column with id ${data.boardId} in board with id ${data.columnId} not exsits!`
+                );
+            }
+        }
+    }
+
+    async _checkLinkedEntity(tableName, id) {
+        const row = this.db[tableName].find((row) => row.id === id);
+
+            if(!row) {
+                throw new EntityNotExistsError(
+                  `${tableName} with id: ${id} not exsits!`
+                );
+            }
     }
 
     /**

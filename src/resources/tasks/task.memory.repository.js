@@ -20,7 +20,7 @@ module.exports = class TaskRepository extends CRUDRepository {
     }
 
     /**
-     * Функция создания пользователя
+     * Функция создания таски
      * @param {Task} data
      */
     async create(data) {
@@ -34,7 +34,7 @@ module.exports = class TaskRepository extends CRUDRepository {
     }
 
     /**
-     * Функция обновления пользователя
+     * Функция обновления таски
      * @param {Task} data
      */
     async update(data) {
@@ -94,7 +94,7 @@ module.exports = class TaskRepository extends CRUDRepository {
     }
 
     /**
-     * Функция удаления пользователя
+     * Функция удаления таски
      * @param {string} id
      */
     async delete(id) {

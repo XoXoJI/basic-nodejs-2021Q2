@@ -1,5 +1,5 @@
 const CRUDController = require('../../lib/controller/crudController');
-const taskNotExistsError = require('../../lib/error/dbError/taskNotExistsError');
+const EntityNotExistsError = require('../../lib/error/dbError/entityNotExistsError');
 
 class TaskController extends CRUDController {
     /**
@@ -46,7 +46,7 @@ class TaskController extends CRUDController {
         } catch (err) {
             console.error(err.message);
 
-            if (err instanceof taskNotExistsError) {
+            if (err instanceof EntityNotExistsError) {
                 res.sendStatus(204);
             } else {
                 res.sendStatus(500);

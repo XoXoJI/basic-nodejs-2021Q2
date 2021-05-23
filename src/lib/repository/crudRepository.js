@@ -48,7 +48,7 @@ class CRUDRepository {
         /**
          * @type {import("../model")}
          */
-        const row;
+        const row = null;
 
         return row;
     }
@@ -83,7 +83,7 @@ class CRUDRepository {
         /**
          * @type {import("../model")}
          */
-        const row;
+        const row = null;
 
         return row;
     }

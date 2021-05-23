@@ -4,7 +4,7 @@ const CRUDRepository = require("../../lib/repository/crudRepository");
 
 module.exports = class BoardRepository extends CRUDRepository {
     /**
-     * Репозиторий досок
+     * @constructor
      * @param {import("../../lib/driver/dbDriver").DB} db
      */
     constructor(db) {
@@ -15,8 +15,9 @@ module.exports = class BoardRepository extends CRUDRepository {
     }
 
     /**
-     * Функция создания доски
+     * Create board
      * @param {Board} data
+     * @returns {Promise<import("../model")>} board
      */
     async create(data) {
         await this._checkToUnique(data);
@@ -33,8 +34,9 @@ module.exports = class BoardRepository extends CRUDRepository {
     }
 
     /**
-     * Функция обновления доски
+     * Update board
      * @param {Board} data
+     * @returns {Promise<import("../model")>} board
      */
     async update(data) {
         await this._checkToExists(data);
@@ -49,8 +51,9 @@ module.exports = class BoardRepository extends CRUDRepository {
     }
 
     /**
-     * Функция удаления доски
+     * Delete board
      * @param {string} id
+     * @returns {Promise<void>}
      */
     async delete(id) {
         await this._deleteLinkedTasks(id);
@@ -59,18 +62,19 @@ module.exports = class BoardRepository extends CRUDRepository {
     }
 
     /**
-     * Функция удаления связанных тасок
+     * Delete linked tasks
      * @param {string} id
+     * @returns {Promise<void>}
      */
     async _deleteLinkedTasks(id) {
         const linkedTasks = this.db.task.filter((task) => task.boardId === id);
 
         linkedTasks.forEach((linkedTask) => {
             const index = this.db.task.findIndex(
-              (task) => task.id === linkedTask.id
+                (task) => task.id === linkedTask.id
             );
 
             this.db.task.splice(index, 1);
         });
     }
-}
+};

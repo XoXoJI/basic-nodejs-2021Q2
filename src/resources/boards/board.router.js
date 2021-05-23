@@ -6,35 +6,35 @@ const boardService = require('./board.service');
 const crudController = new CRUDController(boardService, Board.toResponse);
 
 /**
- * Получение всех досок
+ * Get all boards
  */
 router.route('/').get(async (req, res) => {
     await crudController.getAll(res);
 });
 
 /**
- * Получение доски по id
+ * Get board from id
  */
 router.route('/:boardId').get(async (req, res) => {
     await crudController.get(req.params.boardId, res);
 });
 
 /**
- * Создание доски
+ * Maker board
  */
 router.route('/').post(async (req, res) => {
     await crudController.create(req.body, res);
 });
 
 /**
- * Обновление данных доски
+ * Update board
  */
 router.route('/:boardId').put(async (req, res) => {
     await crudController.update(req.params.boardId, req.body, res);
 });
 
 /**
- * Удаление доски
+ * Delete board
  */
 router.route('/:boardId').delete(async (req, res) => {
     await crudController.delete(req.params.boardId, res);

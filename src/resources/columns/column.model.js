@@ -1,11 +1,11 @@
 const Model = require('../../lib/model');
 
 class Column extends Model {
-    constructor({
-        id,
-        title = 'title',
-        order = 1,
-    } = {}) {
+    /**
+     * @constructor
+     * @param {Object} param0
+     */
+    constructor({ id, title = 'title', order = 1 } = {}) {
         super({ id });
 
         this.title = title;

@@ -58,6 +58,7 @@ class CRUDService {
     /**
      * Delete entity
      * @param {string} id - id entity
+     * @returns {Promise<void>}
      */
     async delete(id) {
         await this.repository.delete(id);

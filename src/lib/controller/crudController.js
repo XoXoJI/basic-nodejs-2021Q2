@@ -14,6 +14,7 @@ class CRUDController {
     /**
      * Get all entities
      * @param {import('express').Response} res - express response Object
+     * @returns {Promise<void>}
      */
     async getAll(res) {
         const models = await this.service.getAll();
@@ -25,6 +26,7 @@ class CRUDController {
      * Get entity from id
      * @param {string} id - id entity
      * @param {import('express').Response} res - express response Object
+     * @returns {Promise<void>}
      */
     async get(id, res) {
         const model = await this.service.get(id);
@@ -40,6 +42,7 @@ class CRUDController {
      * Make entity
      * @param {Object} body - request body
      * @param {import('express').Response} res - express response Object
+     * @returns {Promise<void>}
      */
     async create(body, res) {
         try {
@@ -57,6 +60,7 @@ class CRUDController {
      * @param {string} id - id entity
      * @param {Object} body - request body
      * @param {import('express').Response} res - express response Object
+     * @returns {Promise<void>}
      */
     async update(id, body, res) {
         try {
@@ -76,6 +80,7 @@ class CRUDController {
      * Delete entity
      * @param {string} id - id entity
      * @param {import('express').Response} res - express response Object
+     * @returns {Promise<void>}
      */
     async delete(id, res) {
         try {

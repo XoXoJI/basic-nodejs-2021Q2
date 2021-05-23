@@ -1,14 +1,17 @@
-const EntityNotExistsError = require("../error/dbError/entityNotExistsError");
-const IdNotUniqueError = require("../error/dbError/idNotUniqueError");
+const EntityNotExistsError = require('../error/dbError/entityNotExistsError');
+const IdNotUniqueError = require('../error/dbError/idNotUniqueError');
 
+/**
+ * Crud operations repository class
+ */
 class CRUDRepository {
     /**
-     * Репозиторий таблицы
+     * @constructor
      * @param {import("../../lib/driver/dbDriver").DB} db
      */
     constructor(db) {
-        if(!db) {
-            throw new Error("undefined user data!");
+        if (!db) {
+            throw new Error('undefined user data!');
         }
 
         this.db = db;
@@ -16,45 +19,78 @@ class CRUDRepository {
         this.tableName = 'tableName';
     }
 
+    /**
+     * Get all entities
+     * @returns {Promise<import("../model")[]>} entities
+     */
     async getAll() {
         // TODO: mock implementation. should be replaced during task development
         return this.table;
     }
 
+    /**
+     * Get entity from id
+     * @param {string} id - id entity
+     * @returns {Promise<import("../model")>} entity
+     */
     async get(id) {
         return this.table.find((row) => row.id === id);
     }
 
     /**
      * redifine me
-     * @param {*} row
+     * Make entity
+     * @param {Object} body - request body
+     * @returns {Promise<import("../model")>} entity
      */
-    async create(row) {
-        await this._checkToUnique(row);
+    async create(body) {
+        await this._checkToUnique(body);
+        /**
+         * @type {import("../model")}
+         */
+        const row;
 
         return row;
     }
 
+    /**
+     *  Check to unique
+     * @param {Object} row
+     */
     async _checkToUnique(row) {
-        if(row.id) {
-            const index = this.table.findIndex((tableRow) => tableRow.id === row.id);
+        if (row.id) {
+            const index = this.table.findIndex(
+                (tableRow) => tableRow.id === row.id
+            );
 
-            if(index) {
-                throw new IdNotUniqueError(`${this.tableName} with id: ${row.id} exsits!`);
+            if (index) {
+                throw new IdNotUniqueError(
+                    `${this.tableName} with id: ${row.id} exsits!`
+                );
             }
         }
     }
 
     /**
      * redifine me
-     * @param {*} row
+     * Update entity
+     * @param {Object} body - request body
+     * @returns {Promise<import("../model")>} entity
      */
-    async update(row) {
-        await this._checkToExists(row);
+    async update(body) {
+        await this._checkToExists(body);
+        /**
+         * @type {import("../model")}
+         */
+        const row;
 
         return row;
     }
 
+    /**
+     * Check to exists entity
+     * @param {Promise<import("../model")>} data
+     */
     async _checkToExists(data) {
         const tableRow = this.table.find((row) => row.id === data.id);
 
@@ -66,13 +102,13 @@ class CRUDRepository {
     }
 
     /**
-     * Функция удаления строки
-     * @param {string} id
+     * Delete entity
+     * @param {string} id - id entity
      */
     async delete(id) {
         const index = this.table.findIndex((tableRow) => tableRow.id === id);
 
-        if(!index === -1) {
+        if (!index === -1) {
             throw new EntityNotExistsError(
                 `${this.tableName} with id: ${id} not exsits!`
             );

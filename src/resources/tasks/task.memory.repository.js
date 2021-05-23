@@ -26,7 +26,7 @@ module.exports = class TaskRepository extends CRUDRepository {
 
     /**
      * Create task
-     * @param {task} data
+     * @param {Task} data
      * @returns {Promise<import("../model")>} task
      */
     async create(data) {
@@ -41,7 +41,7 @@ module.exports = class TaskRepository extends CRUDRepository {
 
     /**
      * Update task
-     * @param {task} data
+     * @param {Task} data
      * @returns {Promise<import("../model")>} task
      */
     async update(data) {

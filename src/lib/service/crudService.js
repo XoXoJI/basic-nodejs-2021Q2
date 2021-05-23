@@ -36,6 +36,7 @@ class CRUDService {
     /**
      * Make entity
      * @param {Promise<import("../model")>} data
+     * @returns {Promise<import("../model")>} entity
      */
     async create(data) {
         const model = await this.repository.create(data);
@@ -46,6 +47,7 @@ class CRUDService {
     /**
      * Update entity
      * @param {Promise<import("../model")>} data
+     * @returns {Promise<import("../model")>} entity
      */
     async update(data) {
         const model = await this.repository.update(data);

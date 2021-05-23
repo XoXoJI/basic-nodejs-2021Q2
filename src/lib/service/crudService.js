@@ -1,21 +1,31 @@
 const { db } = require("../driver/dbDriver");
 const CRUDRepository = require("../repository/crudRepository");
 
+/**
+ * Crud service class
+ */
 class CRUDService {
+    /**
+     * @constructor
+     */
     constructor() {
         this.repository = new CRUDRepository(db);
     }
 
+    /**
+     * Get all entities
+     * @returns {Promise<import("../model")[]>} entities
+     */
     async getAll() {
         const models = await this.repository.getAll();
 
         return models;
     }
 
-     /**
-     * Функция получения строки по id
-     * @param {string} id
-     * @returns
+    /**
+     * Get entity from id
+     * @param {string} id - id entity
+     * @returns {Promise<import("../model")>} entity
      */
     async get(id) {
         const model = await this.repository.get(id);
@@ -24,8 +34,8 @@ class CRUDService {
     }
 
     /**
-     * Функция создания строки
-     * @param {import("../model")} data
+     * Make entity
+     * @param {Promise<import("../model")>} data
      */
     async create(data) {
         const model = await this.repository.create(data);
@@ -34,8 +44,8 @@ class CRUDService {
     }
 
     /**
-     * Функция обновления строки
-     * @param {import("../model")} data
+     * Update entity
+     * @param {Promise<import("../model")>} data
      */
     async update(data) {
         const model = await this.repository.update(data);
@@ -44,8 +54,8 @@ class CRUDService {
     }
 
     /**
-     * Функция удаления строки
-     * @param {string} id
+     * Delete entity
+     * @param {string} id - id entity
      */
     async delete(id) {
         await this.repository.delete(id);

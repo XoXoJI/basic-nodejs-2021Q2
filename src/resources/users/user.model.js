@@ -18,6 +18,11 @@ class User extends Model {
         this.password = password;
     }
 
+    /**
+     * return model to response
+     * @param {User} model
+     * @returns {Object}
+     */
     static toResponse(user) {
         const { id, name, login } = user;
         return { id, name, login };

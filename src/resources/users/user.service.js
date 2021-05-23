@@ -1,5 +1,13 @@
-const usersRepo = require('./user.memory.repository');
+const { db } = require("../../lib/driver/dbDriver");
+const UserRepository = require("./user.memory.repository");
+const CRUDService = require("../../lib/service/crudService");
 
-const getAll = () => usersRepo.getAll();
+class UserService extends CRUDService {
+    constructor() {
+        super();
 
-module.exports = { getAll };
+        this.repository = new UserRepository(db);
+    }
+};
+
+module.exports = new UserService();

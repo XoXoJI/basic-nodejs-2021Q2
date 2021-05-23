@@ -14,6 +14,11 @@ class Model {
         this.id = id;
     }
 
+    /**
+     * return model to response
+     * @param {Model} model
+     * @returns
+     */
     static toResponse(model) {
         return model;
     }

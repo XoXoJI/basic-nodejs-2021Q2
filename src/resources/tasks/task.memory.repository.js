@@ -5,23 +5,29 @@ const DBError = require("../../lib/error/dbError/dbError");
 
 module.exports = class TaskRepository extends CRUDRepository {
     /**
-     * Репозиторий пользователей
+     * @constructor
      * @param {import("../../lib/driver/dbDriver").DB} db
      */
     constructor(db) {
         super(db);
 
         this.table = db.task;
-        this.tableName = "task";
+        this.tableName = 'task';
     }
 
+    /**
+     * Get all tasks
+     * @param {string} idBoard - id board
+     * @returns {Promise<import("../model")[]>} tasks
+     */
     async getAll(idBoard) {
         return this.table.filter((task) => task.boardId === idBoard);
     }
 
     /**
-     * Функция создания таски
-     * @param {Task} data
+     * Create task
+     * @param {task} data
+     * @returns {Promise<import("../model")>} task
      */
     async create(data) {
         await this._checkToUnique(data);
@@ -34,8 +40,9 @@ module.exports = class TaskRepository extends CRUDRepository {
     }
 
     /**
-     * Функция обновления таски
-     * @param {Task} data
+     * Update task
+     * @param {task} data
+     * @returns {Promise<import("../model")>} task
      */
     async update(data) {
         await this._checkToExists(data);
@@ -47,57 +54,64 @@ module.exports = class TaskRepository extends CRUDRepository {
         task.order = data.order;
         task.description = data.description;
         task.userId = data.userId;
-        task.boardId = data.boardId;
+        task.taskId = data.taskId;
         task.columnId = data.columnId;
 
         return task;
     }
 
     /**
-     * Функция проверки существования связанных сущностей
+     * Check linked entities
      * @param {Task} data
+     * @returns {Promise<void>}
      */
     async _checkLinkedEntities(data) {
-        if(data.boardId) {
-            await this._checkLinkedEntity('board', data.boardId);
-        }
-        else {
-            throw new DBError('boardId is undefinded');
+        if (data.taskId) {
+            await this._checkLinkedEntity('task', data.taskId);
+        } else {
+            throw new DBError('taskId is undefinded');
         }
 
-        if(data.userId) {
+        if (data.userId) {
             await this._checkLinkedEntity('user', data.userId);
         }
 
-        if(data.columnId) {
-            const board = this.db.board.find((row) => row.id === data.boardId);
-            const column = board.columns.find(
-                (boardColumn) => boardColumn.id === data.columnId
+        if (data.columnId) {
+            const task = this.db.task.find((row) => row.id === data.taskId);
+            const column = task.columns.find(
+                (taskColumn) => taskColumn.id === data.columnId
             );
 
-            if(!column) {
+            if (!column) {
                 throw new EntityNotExistsError(
-                  `column with id ${data.boardId} in board with id ${data.columnId} not exsits!`
+                    `column with id ${data.taskId} in task with id ${data.columnId} not exsits!`
                 );
             }
         }
     }
 
+    /**
+     * Check linked entities
+     * @param {string} tableName - table name
+     * @param {string} id - id table
+     * @returns {Promise<void>}
+     */
     async _checkLinkedEntity(tableName, id) {
         const entity = this.db[tableName].find((row) => row.id === id);
 
-            if(!entity) {
-                throw new EntityNotExistsError(
-                  `${tableName} with id: ${id} not exsits!`
-                );
-            }
+        if (!entity) {
+            throw new EntityNotExistsError(
+                `${tableName} with id: ${id} not exsits!`
+            );
+        }
     }
 
     /**
-     * Функция удаления таски
+     * Delete task
      * @param {string} id
+     * @returns {Promise<void>}
      */
     async delete(id) {
         await super.delete(id);
     }
-}
+};

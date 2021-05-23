@@ -1,14 +1,18 @@
 const Model = require('../../lib/model');
 
 class Task extends Model {
+    /**
+     * @constructor
+     * @param {Object} param0
+     */
     constructor({
         id,
-        title = "title",
-        order = "order",
-        description = "description",
-        userId = "userId",
-        boardId = "boardId",
-        columnId = "columnId"
+        title = 'title',
+        order = 'order',
+        description = 'description',
+        userId = 'userId',
+        boardId = 'boardId',
+        columnId = 'columnId',
     } = {}) {
         super({ id });
 

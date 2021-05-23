@@ -2,7 +2,6 @@ const EntityNotExistsError = require('../error/dbError/entityNotExistsError');
 
 class CRUDController {
     /**
-     *
      * @param {import("../service/crudService")} crudService
      * @param {Function} toResponse
      */

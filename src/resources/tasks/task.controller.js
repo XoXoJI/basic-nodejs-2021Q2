@@ -1,13 +1,26 @@
 const CRUDController = require('../../lib/controller/crudController');
-const EntityNotExistsError = require('../../lib/error/dbError/entityNotExistsError');
+const taskNotExistsError = require('../../lib/error/dbError/taskNotExistsError');
 
 class TaskController extends CRUDController {
+    /**
+     * Get all tasks
+     * @param {string} idBoard - id board
+     * @param {import('express').Response} res - express response Object
+     * @returns {Promise<void>}
+     */
     async getAll(idBoard, res) {
         const tasks = await this.service.getAll(idBoard);
 
         res.json(tasks.map(this.toResponse));
     }
 
+    /**
+     * Get task from id
+     * @param {string} idBoard - id board
+     * @param {string} id - id task
+     * @param {import('express').Response} res - express response Object
+     * @returns {Promise<void>}
+     */
     async get(idBoard, id, res) {
         const task = await this.service.get(idBoard, id);
 
@@ -18,16 +31,22 @@ class TaskController extends CRUDController {
         }
     }
 
+    /**
+     * Delete task
+     * @param {string} idBoard - id board
+     * @param {string} id - id task
+     * @param {import('express').Response} res - express response Object
+     * @returns {Promise<void>}
+     */
     async delete(idBoard, id, res) {
         try {
             await this.service.delete(idBoard, id);
 
             res.sendStatus(200);
-        }
-        catch(err) {
+        } catch (err) {
             console.error(err.message);
 
-            if(err instanceof EntityNotExistsError) {
+            if (err instanceof taskNotExistsError) {
                 res.sendStatus(204);
             } else {
                 res.sendStatus(500);

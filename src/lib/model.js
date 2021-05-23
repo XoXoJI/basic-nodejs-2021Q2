@@ -17,7 +17,7 @@ class Model {
     /**
      * return model to response
      * @param {Model} model
-     * @returns
+     * @returns {Object}
      */
     static toResponse(model) {
         return model;

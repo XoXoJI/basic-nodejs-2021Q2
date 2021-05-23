@@ -54,7 +54,7 @@ module.exports = class TaskRepository extends CRUDRepository {
         task.order = data.order;
         task.description = data.description;
         task.userId = data.userId;
-        task.taskId = data.taskId;
+        task.boardId = data.boardId;
         task.columnId = data.columnId;
 
         return task;
@@ -66,10 +66,10 @@ module.exports = class TaskRepository extends CRUDRepository {
      * @returns {Promise<void>}
      */
     async _checkLinkedEntities(data) {
-        if (data.taskId) {
-            await this._checkLinkedEntity('task', data.taskId);
+        if (data.boardId) {
+            await this._checkLinkedEntity('board', data.boardId);
         } else {
-            throw new DBError('taskId is undefinded');
+            throw new DBError('boardId is undefinded');
         }
 
         if (data.userId) {
@@ -77,14 +77,14 @@ module.exports = class TaskRepository extends CRUDRepository {
         }
 
         if (data.columnId) {
-            const task = this.db.task.find((row) => row.id === data.taskId);
-            const column = task.columns.find(
+            const board = this.db.task.find((row) => row.id === data.boardId);
+            const column = board.columns.find(
                 (taskColumn) => taskColumn.id === data.columnId
             );
 
             if (!column) {
                 throw new EntityNotExistsError(
-                    `column with id ${data.taskId} in task with id ${data.columnId} not exsits!`
+                    `column with id ${data.boardId} in task with id ${data.columnId} not exsits!`
                 );
             }
         }

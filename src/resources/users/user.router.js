@@ -6,35 +6,35 @@ const usersService = require('./user.service');
 const crudController = new CRUDController(usersService, User.toResponse);
 
 /**
- * Получение всех пользователей
+ * Get all users
  */
 router.route('/').get(async (req, res) => {
     await crudController.getAll(res);
 });
 
 /**
- * Получение пользователя по id
+ * Get user from id
  */
 router.route('/:userId').get(async (req, res) => {
     await crudController.get(req.params.userId, res);
 });
 
 /**
- * Создание пользователя
+ * Make user
  */
 router.route('/').post(async (req, res) => {
     await crudController.create(req.body, res);
 });
 
 /**
- * Обновление данных пользователя
+ * Update user
  */
 router.route('/:userId').put(async (req, res) => {
     await crudController.update(req.params.userId, req.body, res);
 });
 
 /**
- * Удаление пользователя
+ * Delete user
  */
 router.route('/:userId').delete(async (req, res) => {
     await crudController.delete(req.params.userId, res);

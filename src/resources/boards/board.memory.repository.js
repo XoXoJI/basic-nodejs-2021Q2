@@ -16,8 +16,8 @@ module.exports = class BoardRepository extends CRUDRepository {
 
     /**
      * Create board
-     * @param {Board} data
-     * @returns {Promise<import("../model")>} board
+     * @param {Object} data
+     * @returns {Promise<Board>} board
      */
     async create(data) {
         await this._checkToUnique(data);
@@ -35,8 +35,8 @@ module.exports = class BoardRepository extends CRUDRepository {
 
     /**
      * Update board
-     * @param {Board} data
-     * @returns {Promise<import("../model")>} board
+     * @param {Object} data
+     * @returns {Promise<Board>} board
      */
     async update(data) {
         await this._checkToExists(data);
@@ -52,7 +52,7 @@ module.exports = class BoardRepository extends CRUDRepository {
 
     /**
      * Delete board
-     * @param {string} id
+     * @param {string} id - id board
      * @returns {Promise<void>}
      */
     async delete(id) {
@@ -63,7 +63,7 @@ module.exports = class BoardRepository extends CRUDRepository {
 
     /**
      * Delete linked tasks
-     * @param {string} id
+     * @param {string} id - id board
      * @returns {Promise<void>}
      */
     async _deleteLinkedTasks(id) {

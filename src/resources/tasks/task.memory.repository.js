@@ -18,7 +18,7 @@ module.exports = class TaskRepository extends CRUDRepository {
     /**
      * Get all tasks
      * @param {string} idBoard - id board
-     * @returns {Promise<import("../model")[]>} tasks
+     * @returns {Promise<Task[]>} tasks
      */
     async getAll(idBoard) {
         return this.table.filter((task) => task.boardId === idBoard);
@@ -26,8 +26,8 @@ module.exports = class TaskRepository extends CRUDRepository {
 
     /**
      * Create task
-     * @param {Task} data
-     * @returns {Promise<import("../model")>} task
+     * @param {Object} data
+     * @returns {Promise<Task>} task
      */
     async create(data) {
         await this._checkToUnique(data);
@@ -41,8 +41,8 @@ module.exports = class TaskRepository extends CRUDRepository {
 
     /**
      * Update task
-     * @param {Task} data
-     * @returns {Promise<import("../model")>} task
+     * @param {Object} data
+     * @returns {Promise<Task>} task
      */
     async update(data) {
         await this._checkToExists(data);
@@ -108,7 +108,7 @@ module.exports = class TaskRepository extends CRUDRepository {
 
     /**
      * Delete task
-     * @param {string} id
+     * @param {string} id - id task
      * @returns {Promise<void>}
      */
     async delete(id) {

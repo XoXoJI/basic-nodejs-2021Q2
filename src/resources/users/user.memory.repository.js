@@ -3,19 +3,20 @@ const CRUDRepository = require("../../lib/repository/crudRepository");
 
 module.exports = class UserRepository extends CRUDRepository {
     /**
-     * Репозиторий пользователей
+     * @constructor
      * @param {import("../../lib/driver/dbDriver").DB} db
      */
     constructor(db) {
         super(db);
 
         this.table = db.user;
-        this.tableName = "user";
+        this.tableName = 'user';
     }
 
     /**
-     * Функция создания пользователя
-     * @param {User} data
+     * Create user
+     * @param {Object} data
+     * @returns {Promise<User>} user
      */
     async create(data) {
         await this._checkToUnique(data);
@@ -27,8 +28,9 @@ module.exports = class UserRepository extends CRUDRepository {
     }
 
     /**
-     * Функция обновления пользователя
-     * @param {User} data
+     * Update user
+     * @param {Object} data
+     * @returns {Promise<User>} user
      */
     async update(data) {
         await this._checkToExists(data);
@@ -43,8 +45,9 @@ module.exports = class UserRepository extends CRUDRepository {
     }
 
     /**
-     * Функция удаления пользователя
-     * @param {string} id
+     * Delete user
+     * @param {string} id - id user
+     * @returns {Promise<void>}
      */
     async delete(id) {
         await this._unlinkLinkedTasks(id);
@@ -53,8 +56,9 @@ module.exports = class UserRepository extends CRUDRepository {
     }
 
     /**
-     * Функция удаления связанных тасок
-     * @param {string} id
+     * Delete linked tasks
+     * @param {string} id - id user
+     * @returns {Promise<void>}
      */
     async _unlinkLinkedTasks(id) {
         const linkedTasks = this.db.task.filter((task) => task.userId === id);
@@ -66,4 +70,4 @@ module.exports = class UserRepository extends CRUDRepository {
             task.userId = null;
         });
     }
-}
+};

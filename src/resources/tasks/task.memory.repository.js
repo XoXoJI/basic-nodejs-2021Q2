@@ -1,9 +1,9 @@
-const Task = require("./task.model");
-const CRUDRepository = require("../../lib/repository/crudRepository");
-const EntityNotExistsError = require("../../lib/error/dbError/entityNotExistsError");
-const DBError = require("../../lib/error/dbError/dbError");
+import Task from "./task.model.js";
+import CRUDRepository from"../../lib/repository/crudRepository.js";
+import EntityNotExistsError from"../../lib/error/dbError/entityNotExistsError.js";
+import DBError from"../../lib/error/dbError/dbError.js";
 
-module.exports = class TaskRepository extends CRUDRepository {
+export default class TaskRepository extends CRUDRepository {
     /**
      * @constructor
      * @param {import("../../lib/driver/dbDriver").DB} db

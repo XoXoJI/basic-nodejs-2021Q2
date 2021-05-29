@@ -1,6 +1,6 @@
-const Model = require('../../lib/model');
+import Model from '../../lib/model.js';
 
-class Column extends Model {
+export default class Column extends Model {
     /**
      * @constructor
      * @param {Object} param0
@@ -12,5 +12,3 @@ class Column extends Model {
         this.order = order;
     }
 }
-
-module.exports = Column;

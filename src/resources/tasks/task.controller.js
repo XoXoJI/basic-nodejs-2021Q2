@@ -1,7 +1,7 @@
-const CRUDController = require('../../lib/controller/crudController');
-const EntityNotExistsError = require('../../lib/error/dbError/entityNotExistsError');
+import CRUDController from '../../lib/controller/crudController.js';
+import EntityNotExistsError from '../../lib/error/dbError/entityNotExistsError.js';
 
-class TaskController extends CRUDController {
+export default class TaskController extends CRUDController {
     /**
      * Get all tasks
      * @param {string} idBoard - id board
@@ -54,5 +54,3 @@ class TaskController extends CRUDController {
         }
     }
 }
-
-module.exports = TaskController;

@@ -1,8 +1,8 @@
-const Board = require("./board.model");
-const Column = require("../columns/column.model");
-const CRUDRepository = require("../../lib/repository/crudRepository");
+import Board from "./board.model.js";
+import Column from "../columns/column.model.js";
+import CRUDRepository from "../../lib/repository/crudRepository.js";
 
-module.exports = class BoardRepository extends CRUDRepository {
+export default class BoardRepository extends CRUDRepository {
     /**
      * @constructor
      * @param {import("../../lib/driver/dbDriver").DB} db

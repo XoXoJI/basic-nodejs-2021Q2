@@ -1,7 +1,7 @@
-const User = require("./user.model");
-const CRUDRepository = require("../../lib/repository/crudRepository");
+import User from "./user.model.js";
+import CRUDRepository from "../../lib/repository/crudRepository.js";
 
-module.exports = class UserRepository extends CRUDRepository {
+export default class UserRepository extends CRUDRepository {
     /**
      * @constructor
      * @param {import("../../lib/driver/dbDriver").DB} db

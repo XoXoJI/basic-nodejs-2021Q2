@@ -15,4 +15,4 @@ const db = {
     task: []
 }
 
-module.exports = { db };
+export { db };

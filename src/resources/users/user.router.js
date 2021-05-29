@@ -1,9 +1,10 @@
-const router = require('express').Router();
-const CRUDController = require('../../lib/controller/crudController');
-const User = require('./user.model');
-const usersService = require('./user.service');
+import { Router } from 'express';
+import CRUDController from '../../lib/controller/crudController.js';
+import User from './user.model.js';
+import { userService } from './user.service.js';
 
-const crudController = new CRUDController(usersService, User.toResponse);
+const router = Router();
+const crudController = new CRUDController(userService, User.toResponse);
 
 /**
  * Get all users
@@ -40,4 +41,4 @@ router.route('/:userId').delete(async (req, res) => {
     await crudController.delete(req.params.userId, res);
 });
 
-module.exports = router;
+export default router;

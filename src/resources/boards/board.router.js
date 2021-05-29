@@ -1,8 +1,9 @@
-const router = require('express').Router();
-const CRUDController = require('../../lib/controller/crudController');
-const Board = require('./board.model');
-const boardService = require('./board.service');
+import { Router } from 'express';
+import CRUDController from '../../lib/controller/crudController.js';
+import Board from './board.model.js';
+import { boardService } from './board.service.js';
 
+const router = Router();
 const crudController = new CRUDController(boardService, Board.toResponse);
 
 /**
@@ -40,4 +41,4 @@ router.route('/:boardId').delete(async (req, res) => {
     await crudController.delete(req.params.boardId, res);
 });
 
-module.exports = router;
+export default router;

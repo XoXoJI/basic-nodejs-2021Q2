@@ -1,6 +1,6 @@
-const Model = require('../../lib/model');
+import Model from '../../lib/model.js';
 
-class Task extends Model {
+export default class Task extends Model {
     /**
      * @constructor
      * @param {Object} param0
@@ -24,5 +24,3 @@ class Task extends Model {
         this.columnId = columnId;
     }
 }
-
-module.exports = Task;

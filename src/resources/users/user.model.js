@@ -1,4 +1,4 @@
-const Model = require('../../lib/model');
+import Model from '../../lib/model.js';
 
 class User extends Model {
     /**
@@ -29,4 +29,4 @@ class User extends Model {
     }
 }
 
-module.exports = User;
+export default User;

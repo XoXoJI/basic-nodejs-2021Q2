@@ -1,6 +1,6 @@
-const EntityNotExistsError = require('../error/dbError/entityNotExistsError');
+import EntityNotExistsError from '../error/dbError/entityNotExistsError.js';
 
-class CRUDController {
+export default class CRUDController {
     /**
      * @param {import("../service/crudService")} crudService
      * @param {Function} toResponse
@@ -97,5 +97,3 @@ class CRUDController {
         }
     }
 }
-
-module.exports = CRUDController;

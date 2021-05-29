@@ -1,6 +1,6 @@
-const Model = require('../../lib/model');
+import Model from '../../lib/model.js';
 
-class Board extends Model {
+export default class Board extends Model {
     /**
      * @constructor
      * @param {Object} param0
@@ -16,5 +16,3 @@ class Board extends Model {
         this.columns = columns;
     }
 }
-
-module.exports = Board;

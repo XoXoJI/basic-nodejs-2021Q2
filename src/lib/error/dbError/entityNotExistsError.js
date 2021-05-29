@@ -1,6 +1,6 @@
-const DBError = require("./dbError");
+import DBError from "./dbError.js";
 
-class EntityNotExistsError extends DBError {
+export default class EntityNotExistsError extends DBError {
     /**
      * @constructor
      * @param {string} message - error message
@@ -10,5 +10,3 @@ class EntityNotExistsError extends DBError {
         this.name = 'EntityNotExistsError';
     }
 }
-
-module.exports = EntityNotExistsError;

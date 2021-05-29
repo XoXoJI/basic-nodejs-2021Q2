@@ -1,6 +1,6 @@
-const { db } = require("../../lib/driver/dbDriver");
-const UserRepository = require("./user.memory.repository");
-const CRUDService = require("../../lib/service/crudService");
+import { db } from "../../lib/driver/dbDriver.js";
+import UserRepository from "./user.memory.repository.js";
+import CRUDService from "../../lib/service/crudService.js";
 
 class UserService extends CRUDService {
     constructor() {
@@ -10,4 +10,4 @@ class UserService extends CRUDService {
     }
 };
 
-module.exports = new UserService();
+export const userService = new UserService();

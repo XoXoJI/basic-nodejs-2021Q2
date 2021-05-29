@@ -1,10 +1,10 @@
-const EntityNotExistsError = require('../error/dbError/entityNotExistsError');
-const IdNotUniqueError = require('../error/dbError/idNotUniqueError');
+import EntityNotExistsError from '../error/dbError/entityNotExistsError.js';
+import IdNotUniqueError from '../error/dbError/idNotUniqueError.js';
 
 /**
  * Crud operations repository class
  */
-class CRUDRepository {
+export default class CRUDRepository {
     /**
      * @constructor
      * @param {import("../../lib/driver/dbDriver").DB} db
@@ -120,5 +120,3 @@ class CRUDRepository {
         this.table.splice(index, 1);
     }
 }
-
-module.exports = CRUDRepository;

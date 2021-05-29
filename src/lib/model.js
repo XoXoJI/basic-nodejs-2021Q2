@@ -1,16 +1,14 @@
-const uuid = require('uuid').v4;
+import { v4 as uuidv4 } from 'uuid';
 
 /**
  * Model class
  */
-class Model {
+export default class Model {
     /**
      * @constructor
      * @param {Object} param0
      */
-    constructor({
-        id = uuid()
-    } = {}) {
+    constructor({ id = uuidv4() } = {}) {
         this.id = id;
     }
 
@@ -23,5 +21,3 @@ class Model {
         return model;
     }
 }
-
-module.exports = Model;

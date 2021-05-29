@@ -1,8 +1,8 @@
-const { db } = require("../../lib/driver/dbDriver");
-const TaskRepository = require("./task.memory.repository");
-const CRUDService = require("../../lib/service/crudService");
+import { db } from "../../lib/driver/dbDriver.js";
+import TaskRepository from "./task.memory.repository.js";
+import CRUDService from "../../lib/service/crudService.js";
 
-class UserService extends CRUDService {
+class TaskService extends CRUDService {
     /**
      * @constructor
      */
@@ -49,4 +49,4 @@ class UserService extends CRUDService {
     }
 };
 
-module.exports = new UserService();
+export const taskService = new TaskService();

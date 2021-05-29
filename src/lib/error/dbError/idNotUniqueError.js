@@ -1,6 +1,6 @@
-const DBError = require('./dbError');
+import DBError from './dbError.js';
 
-class IdNotUniqueError extends DBError {
+export default class IdNotUniqueError extends DBError {
     /**
      * @constructor
      * @param {string} message - error message
@@ -10,5 +10,3 @@ class IdNotUniqueError extends DBError {
         this.name = 'IdNotUniqueError';
     }
 }
-
-module.exports = IdNotUniqueError;

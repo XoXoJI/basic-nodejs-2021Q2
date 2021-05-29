@@ -1,9 +1,9 @@
-const router = require('express').Router();
-const TaskController = require('./task.controller');
-const Task = require('./task.model');
-const taskService = require('./task.service');
+import { Router } from 'express';
+import TaskController from './task.controller.js';
+import Task from './task.model.js';
+import { taskService } from './task.service.js';
 
-
+const router = Router();
 const taskController = new TaskController(taskService, Task.toResponse);
 
 
@@ -42,4 +42,4 @@ router.route('/:taskId').delete(async (req, res) => {
     await taskController.delete(req.board.id, req.params.taskId, res);
 });
 
-module.exports = router;
+export default router;

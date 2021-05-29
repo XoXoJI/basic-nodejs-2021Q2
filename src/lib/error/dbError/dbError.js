@@ -1,7 +1,7 @@
 /**
  * Basic db error class
  */
-class DBError extends Error {
+export default class DBError extends Error {
     /**
      * @constructor
      * @param {string} message - error message
@@ -11,5 +11,3 @@ class DBError extends Error {
         this.name = 'DBError';
     }
 }
-
-module.exports = DBError;

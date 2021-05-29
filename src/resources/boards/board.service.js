@@ -1,6 +1,6 @@
-const { db } = require("../../lib/driver/dbDriver");
-const BoardRepository = require("./board.memory.repository");
-const CRUDService = require('../../lib/service/crudService');
+import { db } from "../../lib/driver/dbDriver.js";
+import BoardRepository from "./board.memory.repository.js";
+import CRUDService from '../../lib/service/crudService.js';
 
 class BoardService extends CRUDService {
     constructor() {
@@ -10,4 +10,4 @@ class BoardService extends CRUDService {
     }
 };
 
-module.exports = new BoardService();
+export const boardService =  new BoardService();

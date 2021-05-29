@@ -1,10 +1,10 @@
-const { db } = require("../driver/dbDriver");
-const CRUDRepository = require("../repository/crudRepository");
+import { db } from "../driver/dbDriver.js";
+import CRUDRepository from "../repository/crudRepository.js";
 
 /**
  * Crud service class
  */
-class CRUDService {
+export default class CRUDService {
     /**
      * @constructor
      */
@@ -64,5 +64,3 @@ class CRUDService {
         await this.repository.delete(id);
     }
 };
-
-module.exports = CRUDService;

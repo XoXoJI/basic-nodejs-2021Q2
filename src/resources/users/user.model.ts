@@ -1,12 +1,12 @@
 import Model from '../../lib/model';
 
 class User extends Model {
-    /**
-     * @constructor
-     * @param {Object} param0
-     */
+    name: string;
+    login: string;
+    password: string;
+
     constructor({
-        id,
+        id = undefined,
         name = 'USER',
         login = 'user',
         password = 'P@55w0rd',
@@ -18,12 +18,7 @@ class User extends Model {
         this.password = password;
     }
 
-    /**
-     * return model to response
-     * @param {User} model
-     * @returns {Object}
-     */
-    static toResponse(user) {
+    static toResponse(user: User) {
         const { id, name, login } = user;
         return { id, name, login };
     }

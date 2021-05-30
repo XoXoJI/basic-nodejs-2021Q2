@@ -2,7 +2,7 @@
     "compilerOptions": {
         "target": "es6",
         "module": "commonjs",
-        "allowJs": true,
+        "allowJs": false,
         "outDir": "./dist",
         "rootDir": "./src",
         "downlevelIteration": false,

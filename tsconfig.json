@@ -3,7 +3,7 @@
         "target": "es6",
         "module": "commonjs",
         "allowJs": true,
-        "outDir": "./build",
+        "outDir": "./dist",
         "rootDir": "./src",
         "downlevelIteration": false,
         "strict": true,
@@ -18,7 +18,8 @@
         "experimentalDecorators": true,
         "emitDecoratorMetadata": true,
         "skipLibCheck": true,
-        "forceConsistentCasingInFileNames": true
+        "forceConsistentCasingInFileNames": true,
+        "sourceMap": true
     },
     "exclude": [
         "node_modules/",

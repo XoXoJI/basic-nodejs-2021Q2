@@ -1,8 +1,9 @@
+import Model from "../model.js";
 import CRUDRepository from "../repository/crudRepository.js";
 
 
 export default class CRUDService {
-    constructor(private repository: CRUDRepository) {
+    constructor(private repository: CRUDRepository<Model>) {
     }
 
 

@@ -3,9 +3,9 @@ import swaggerUI from 'swagger-ui-express';
 import { join } from 'path';
 import YAML from 'yamljs';
 import userRouter from './resources/users/user.router.js';
-import boardRouter from './resources/boards/board.router.js';
+import boardRouter from './resources/boards/board.router';
 import taskRouter from './resources/tasks/task.router.js';
-import { boardService } from './resources/boards/board.service.js';
+import { boardService } from './resources/boards/board.service';
 
 const app = express();
 const swaggerDocument = YAML.load(join(__dirname, '../doc/api.yaml'));

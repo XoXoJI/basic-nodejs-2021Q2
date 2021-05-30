@@ -4,11 +4,11 @@ import IdNotUniqueError from '../error/dbError/idNotUniqueError.js';
 import Model from '../model.js';
 
 
-export default abstract class CRUDRepository {
-    table: Model[];
+export default abstract class CRUDRepository<T extends Model> {
+    table: T[];
     tableName: string;
 
-    constructor(private db: DB) {
+    constructor(protected db: DB) {
         this.table = [];
         this.tableName = 'tableName';
     }
@@ -25,17 +25,17 @@ export default abstract class CRUDRepository {
     }
 
 
-    abstract create(body: Object): Promise<Model>
-    abstract update(body: Object): Promise<Model>
+    abstract create(body: Object): Promise<T>
+    abstract update(body: Object): Promise<T>
 
 
-    protected async checkToUnique(model: Model) {
+    protected async checkToUnique(model: T) {
         if (model.id) {
             const index = this.table.findIndex(
                 (tableRow) => tableRow.id === model.id
             );
 
-            if (index) {
+            if (index !== -1) {
                 throw new IdNotUniqueError(
                     `${this.tableName} with id: ${model.id} exsits!`
                 );
@@ -44,7 +44,7 @@ export default abstract class CRUDRepository {
     }
 
 
-    protected async checkToExists(model: Model) {
+    protected async checkToExists(model: T) {
         const tableRow = this.table.find((row) => row.id === model.id);
 
         if (!tableRow) {

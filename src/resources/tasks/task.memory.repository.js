@@ -30,7 +30,7 @@ export default class TaskRepository extends CRUDRepository {
      * @returns {Promise<Task>} task
      */
     async create(data) {
-        await this._checkToUnique(data);
+        await this.checkToUnique(data);
         await this._checkLinkedEntities(data);
 
         const task = new Task(data);
@@ -45,7 +45,7 @@ export default class TaskRepository extends CRUDRepository {
      * @returns {Promise<Task>} task
      */
     async update(data) {
-        await this._checkToExists(data);
+        await this.checkToExists(data);
         await this._checkLinkedEntities(data);
 
         const task = this.table.find((row) => row.id === data.id);

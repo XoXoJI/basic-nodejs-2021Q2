@@ -19,7 +19,7 @@ export default class UserRepository extends CRUDRepository {
      * @returns {Promise<User>} user
      */
     async create(data) {
-        await this._checkToUnique(data);
+        await this.checkToUnique(data);
 
         const user = new User(data);
         this.table.push(user);
@@ -33,7 +33,7 @@ export default class UserRepository extends CRUDRepository {
      * @returns {Promise<User>} user
      */
     async update(data) {
-        await this._checkToExists(data);
+        await this.checkToExists(data);
 
         const user = this.table.find((row) => row.id === data.id);
 

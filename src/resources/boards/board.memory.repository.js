@@ -20,7 +20,7 @@ export default class BoardRepository extends CRUDRepository {
      * @returns {Promise<Board>} board
      */
     async create(data) {
-        await this._checkToUnique(data);
+        await this.checkToUnique(data);
 
         const workData = {};
         Object.assign(workData, data);
@@ -39,7 +39,7 @@ export default class BoardRepository extends CRUDRepository {
      * @returns {Promise<Board>} board
      */
     async update(data) {
-        await this._checkToExists(data);
+        await this.checkToExists(data);
 
         const board = this.table.find((row) => row.id === data.id);
 

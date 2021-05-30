@@ -1,5 +1,5 @@
 import { db } from "../../lib/driver/dbDriver";
-import UserRepository from "./user.memory.repository.js";
+import UserRepository from "./user.memory.repository";
 import CRUDService from "../../lib/service/crudService";
 
 

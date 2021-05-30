@@ -1,5 +1,5 @@
-import Model from "../model.js";
-import CRUDRepository from "../repository/crudRepository.js";
+import Model from "../model";
+import CRUDRepository from "../repository/crudRepository";
 
 
 export default class CRUDService {
@@ -38,4 +38,4 @@ export default class CRUDService {
     async delete(id: string) {
         await this.repository.delete(id);
     }
-};
+}

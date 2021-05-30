@@ -2,10 +2,15 @@ import Model from '../../lib/model';
 
 export default class Task extends Model {
     title: string;
+
     order: string;
+
     description: string;
+
     userId: string | null;
+
     boardId: string;
+
     columnId: string;
 
     constructor({

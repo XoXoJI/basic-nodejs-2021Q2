@@ -2,7 +2,9 @@ import Model from '../../lib/model';
 
 class User extends Model {
     name: string;
+
     login: string;
+
     password: string;
 
     constructor({

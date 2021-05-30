@@ -1,4 +1,4 @@
-import User from "./user.model.js";
+import User from "./user.model";
 import CRUDRepository from "../../lib/repository/crudRepository";
 import EntityNotExistsError from "../../lib/error/dbError/entityNotExistsError";
 import { DB } from "../../lib/driver/dbDriver";
@@ -61,4 +61,4 @@ export default class UserRepository extends CRUDRepository<User> {
             task.userId = null;
         });
     }
-};
+}

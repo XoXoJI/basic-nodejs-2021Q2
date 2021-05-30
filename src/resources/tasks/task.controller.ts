@@ -1,6 +1,6 @@
 import { Response } from 'express';
 import CRUDController from '../../lib/controller/crudController';
-import EntityNotExistsError from '../../lib/error/dbError/entityNotExistsError.js';
+import EntityNotExistsError from '../../lib/error/dbError/entityNotExistsError';
 import Model from '../../lib/model';
 import { TaskService } from './task.service';
 

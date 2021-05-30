@@ -2,9 +2,9 @@ import express from 'express';
 import swaggerUI from 'swagger-ui-express';
 import { join } from 'path';
 import YAML from 'yamljs';
-import userRouter from './resources/users/user.router.js';
+import userRouter from './resources/users/user.router';
 import boardRouter from './resources/boards/board.router';
-import taskRouter from './resources/tasks/task.router.js';
+import taskRouter from './resources/tasks/task.router';
 import { boardService } from './resources/boards/board.service';
 
 const app = express();
@@ -28,7 +28,7 @@ app.param('boardId', async (req, res, next, boardId) => {
     if(!board) {
         res.sendStatus(404);
     } else {
-        //@ts-ignore
+        // @ts-ignore
         req.board = board;
 
         if(req.body) {

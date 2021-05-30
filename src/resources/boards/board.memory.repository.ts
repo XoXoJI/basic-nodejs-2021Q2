@@ -58,4 +58,4 @@ export default class BoardRepository extends CRUDRepository<Board> {
             this.db.task.splice(index, 1);
         });
     }
-};
+}

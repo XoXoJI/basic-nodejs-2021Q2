@@ -9,13 +9,13 @@ const taskController = new TaskController(taskService, Task.toResponse);
 
 
 router.route('/').get(async (req, res) => {
-    //@ts-ignore
+    // @ts-ignore
     await taskController.getAllFromBoard(req.board.id, res);
 });
 
 
 router.route('/:taskId').get(async (req, res) => {
-    //@ts-ignore
+    // @ts-ignore
     await taskController.getFromBoard(req.board.id, req.params.taskId, res);
 });
 
@@ -31,7 +31,7 @@ router.route('/:taskId').put(async (req, res) => {
 
 
 router.route('/:taskId').delete(async (req, res) => {
-    //@ts-ignore
+    // @ts-ignore
     await taskController.deleteFromBoard(req.board.id, req.params.taskId, res);
 });
 

@@ -103,4 +103,4 @@ export default class TaskRepository extends CRUDRepository<Task> {
     async delete(id: string) {
         await super.delete(id);
     }
-};
+}

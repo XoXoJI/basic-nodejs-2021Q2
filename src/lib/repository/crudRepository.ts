@@ -1,11 +1,12 @@
-import { DB } from '../driver/dbDriver.js';
-import EntityNotExistsError from '../error/dbError/entityNotExistsError.js';
-import IdNotUniqueError from '../error/dbError/idNotUniqueError.js';
+import { DB } from '../driver/dbDriver';
+import EntityNotExistsError from '../error/dbError/entityNotExistsError';
+import IdNotUniqueError from '../error/dbError/idNotUniqueError';
 import Model from '../model.js';
 
 
 export default abstract class CRUDRepository<T extends Model> {
     table: T[];
+
     tableName: string;
 
     constructor(protected db: DB) {
@@ -26,6 +27,7 @@ export default abstract class CRUDRepository<T extends Model> {
 
 
     abstract create(body: Object): Promise<T>
+
     abstract update(body: Object): Promise<T>
 
 

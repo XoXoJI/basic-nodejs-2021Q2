@@ -34,6 +34,6 @@ export class TaskService extends CRUDService {
 
         await super.delete(turgetTask.id);
     }
-};
+}
 
 export const taskService = new TaskService(new TaskRepository(db));

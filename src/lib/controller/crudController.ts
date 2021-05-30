@@ -1,7 +1,7 @@
 import { Response } from 'express';
-import EntityNotExistsError from '../error/dbError/entityNotExistsError.js';
+import EntityNotExistsError from '../error/dbError/entityNotExistsError';
 import Model from '../model.js';
-import CRUDService from '../service/crudService.js';
+import CRUDService from '../service/crudService';
 
 export default class CRUDController {
     constructor(

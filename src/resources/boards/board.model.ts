@@ -4,6 +4,7 @@ import Column from '../columns/column.model';
 
 export default class Board extends Model {
     title: string;
+
     columns: Column[];
 
     constructor({

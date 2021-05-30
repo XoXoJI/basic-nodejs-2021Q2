@@ -6,9 +6,10 @@
     "url": ""
   },
   "description": "REST service starter for RS School",
-  "main": "src/server.ts",
+  "main": "dist/server.js",
   "scripts": {
-    "start": "nodemon src/server",
+    "start": "npm run build & node dist/server.js",
+    "dev": "nodemon --config nodemon.json src/server.ts",
     "build": "tsc --build tsconfig.json",
     "lint": "eslint --ext .js,.ts --fix src/",
     "test": "cross-env DEBUG=rs:* jest --testMatch \"<rootDir>/test/e2e/test/*.test.js\" --noStackTrace --runInBand",

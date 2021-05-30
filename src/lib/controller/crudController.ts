@@ -1,33 +1,26 @@
+import { Response } from 'express';
 import EntityNotExistsError from '../error/dbError/entityNotExistsError.js';
+import Model from '../model.js';
+import CRUDService from '../service/crudService.js';
 
 export default class CRUDController {
-    /**
-     * @param {import("../service/crudService")} crudService
-     * @param {Function} toResponse
-     */
-    constructor(crudService, toResponse) {
-        this.service = crudService;
+    constructor(
+        private service: CRUDService,
+        private toResponse: (arg0: Model) => Object
+    ) {
+        this.service = service;
         this.toResponse = toResponse;
     }
 
-    /**
-     * Get all entities
-     * @param {import('express').Response} res - express response Object
-     * @returns {Promise<void>}
-     */
-    async getAll(res) {
+
+    async getAll(res: Response) {
         const models = await this.service.getAll();
 
         res.json(models.map(this.toResponse));
     }
 
-    /**
-     * Get entity from id
-     * @param {string} id - id entity
-     * @param {import('express').Response} res - express response Object
-     * @returns {Promise<void>}
-     */
-    async get(id, res) {
+
+    async get(id: string, res: Response) {
         const model = await this.service.get(id);
 
         if (!model) {
@@ -37,13 +30,8 @@ export default class CRUDController {
         }
     }
 
-    /**
-     * Make entity
-     * @param {Object} body - request body
-     * @param {import('express').Response} res - express response Object
-     * @returns {Promise<void>}
-     */
-    async create(body, res) {
+
+    async create(body: Object, res: Response) {
         try {
             const model = await this.service.create(body);
 
@@ -54,14 +42,8 @@ export default class CRUDController {
         }
     }
 
-    /**
-     * Update entity
-     * @param {string} id - id entity
-     * @param {Object} body - request body
-     * @param {import('express').Response} res - express response Object
-     * @returns {Promise<void>}
-     */
-    async update(id, body, res) {
+
+    async update(id: string, body: Object, res: Response) {
         try {
             const model = await this.service.update({
                 id,
@@ -75,13 +57,8 @@ export default class CRUDController {
         }
     }
 
-    /**
-     * Delete entity
-     * @param {string} id - id entity
-     * @param {import('express').Response} res - express response Object
-     * @returns {Promise<void>}
-     */
-    async delete(id, res) {
+
+    async delete(id: string, res: Response) {
         try {
             await this.service.delete(id);
 

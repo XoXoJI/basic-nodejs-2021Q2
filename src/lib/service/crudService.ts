@@ -21,14 +21,14 @@ export default class CRUDService {
     }
 
 
-    async create(data: Model) {
+    async create(data: Object) {
         const model = await this.repository.create(data);
 
         return model;
     }
 
 
-    async update(data: Model) {
+    async update(data: Object) {
         const model = await this.repository.update(data);
 
         return model;

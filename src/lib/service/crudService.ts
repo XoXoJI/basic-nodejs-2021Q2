@@ -1,4 +1,3 @@
-import Model from "../model.js";
 import CRUDRepository from "../repository/crudRepository.js";
 
 

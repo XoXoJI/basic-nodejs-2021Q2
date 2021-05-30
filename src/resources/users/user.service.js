@@ -1,6 +1,6 @@
-import { db } from "../../lib/driver/dbDriver.js";
+import { db } from "../../lib/driver/dbDriver";
 import UserRepository from "./user.memory.repository.js";
-import CRUDService from "../../lib/service/crudService.js";
+import CRUDService from "../../lib/service/crudService";
 
 class UserService extends CRUDService {
     constructor() {

@@ -1,6 +1,6 @@
-import { db } from "../../lib/driver/dbDriver.js";
+import { db } from "../../lib/driver/dbDriver";
 import TaskRepository from "./task.memory.repository.js";
-import CRUDService from "../../lib/service/crudService.js";
+import CRUDService from "../../lib/service/crudService";
 
 class TaskService extends CRUDService {
     /**

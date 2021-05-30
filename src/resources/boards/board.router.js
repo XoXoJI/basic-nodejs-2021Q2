@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import CRUDController from '../../lib/controller/crudController.js';
+import CRUDController from '../../lib/controller/crudController';
 import Board from './board.model.js';
 import { boardService } from './board.service.js';
 

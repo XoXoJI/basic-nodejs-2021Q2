@@ -1,6 +1,6 @@
-import { db } from "../../lib/driver/dbDriver.js";
+import { db } from "../../lib/driver/dbDriver";
 import BoardRepository from "./board.memory.repository.js";
-import CRUDService from '../../lib/service/crudService.js';
+import CRUDService from '../../lib/service/crudService';
 
 class BoardService extends CRUDService {
     constructor() {

@@ -1,5 +1,5 @@
 import User from "./user.model.js";
-import CRUDRepository from "../../lib/repository/crudRepository.js";
+import CRUDRepository from "../../lib/repository/crudRepository";
 
 export default class UserRepository extends CRUDRepository {
     /**

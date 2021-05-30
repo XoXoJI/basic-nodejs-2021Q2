@@ -1,6 +1,6 @@
 import Board from "./board.model.js";
 import Column from "../columns/column.model.js";
-import CRUDRepository from "../../lib/repository/crudRepository.js";
+import CRUDRepository from "../../lib/repository/crudRepository";
 
 export default class BoardRepository extends CRUDRepository {
     /**

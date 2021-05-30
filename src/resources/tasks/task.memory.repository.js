@@ -1,7 +1,7 @@
 import Task from "./task.model.js";
-import CRUDRepository from"../../lib/repository/crudRepository.js";
-import EntityNotExistsError from"../../lib/error/dbError/entityNotExistsError.js";
-import DBError from"../../lib/error/dbError/dbError.js";
+import CRUDRepository from"../../lib/repository/crudRepository";
+import EntityNotExistsError from"../../lib/error/dbError/entityNotExistsError";
+import DBError from"../../lib/error/dbError/dbError";
 
 export default class TaskRepository extends CRUDRepository {
     /**

@@ -1,4 +1,4 @@
-import Model from '../../lib/model.js';
+import Model from '../../lib/model';
 
 export default class Board extends Model {
     /**

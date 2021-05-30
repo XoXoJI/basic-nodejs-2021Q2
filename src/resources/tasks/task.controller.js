@@ -1,4 +1,4 @@
-import CRUDController from '../../lib/controller/crudController.js';
+import CRUDController from '../../lib/controller/crudController';
 import EntityNotExistsError from '../../lib/error/dbError/entityNotExistsError.js';
 
 export default class TaskController extends CRUDController {

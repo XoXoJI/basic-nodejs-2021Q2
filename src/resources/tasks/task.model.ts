@@ -4,7 +4,7 @@ export default class Task extends Model {
     title: string;
     order: string;
     description: string;
-    userId: string;
+    userId: string | null;
     boardId: string;
     columnId: string;
 
@@ -13,9 +13,9 @@ export default class Task extends Model {
         title = 'title',
         order = 'order',
         description = 'description',
-        userId = 'userId',
-        boardId = 'boardId',
-        columnId = 'columnId',
+        userId = '',
+        boardId = '',
+        columnId = '',
     } = {}) {
         super({ id });
 

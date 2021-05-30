@@ -58,7 +58,7 @@ export default abstract class CRUDRepository<T extends Model> {
     async delete(id: string) {
         const index = this.table.findIndex((tableRow) => tableRow.id === id);
 
-        if (index !== -1) {
+        if (index === -1) {
             throw new EntityNotExistsError(
                 `${this.tableName} with id: ${id} not exsits!`
             );

@@ -5,8 +5,8 @@ import CRUDService from '../service/crudService.js';
 
 export default class CRUDController {
     constructor(
-        private service: CRUDService,
-        private toResponse: (arg0: Model) => Object
+        protected service: CRUDService,
+        protected toResponse: (arg0: Model) => Object
     ) {
         this.service = service;
         this.toResponse = toResponse;

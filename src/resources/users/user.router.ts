@@ -4,6 +4,7 @@ import User from './user.model.js';
 import { userService } from './user.service.js';
 
 const router = Router();
+//@ts-ignore
 const crudController = new CRUDController(userService, User.toResponse);
 
 

@@ -1,12 +1,15 @@
 import Model from '../../lib/model';
 
 export default class Task extends Model {
-    /**
-     * @constructor
-     * @param {Object} param0
-     */
+    title: string;
+    order: string;
+    description: string;
+    userId: string;
+    boardId: string;
+    columnId: string;
+
     constructor({
-        id,
+        id = undefined,
         title = 'title',
         order = 'order',
         description = 'description',

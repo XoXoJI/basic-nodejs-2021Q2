@@ -3,7 +3,7 @@ import CRUDRepository from "../repository/crudRepository.js";
 
 
 export default class CRUDService {
-    constructor(private repository: CRUDRepository<Model>) {
+    constructor(protected repository: CRUDRepository<Model>) {
     }
 
 

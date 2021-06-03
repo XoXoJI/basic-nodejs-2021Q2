@@ -11,8 +11,7 @@ export default class UserRepository extends CRUDRepository<User> {
         this.tableName = 'user';
     }
 
-
-    async create(data: Object) {
+    async create(data: Partial<User>) {
         const model = new User(data);
 
         await this.checkToUnique(model);
@@ -22,15 +21,14 @@ export default class UserRepository extends CRUDRepository<User> {
         return model;
     }
 
-
-    async update(data: Object) {
+    async update(data: Partial<User>) {
         const model = new User(data);
 
         await this.checkToExists(model);
 
         const user = this.table.find((row) => row.id === model.id);
 
-        if(!user) {
+        if (!user) {
             throw new EntityNotExistsError(
                 `${this.tableName} with id: ${model.id} not exsits!`
             );
@@ -43,13 +41,11 @@ export default class UserRepository extends CRUDRepository<User> {
         return user;
     }
 
-
     async delete(id: string) {
         await this._unlinkLinkedTasks(id);
 
         await super.delete(id);
     }
-
 
     async _unlinkLinkedTasks(id: string) {
         const linkedTasks = this.db.task.filter((task) => task.userId === id);

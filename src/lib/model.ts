@@ -3,11 +3,11 @@ import { v4 as uuidv4 } from 'uuid';
 export default class Model {
     id: string;
 
-    constructor({ id = uuidv4() } = {}) {
-        this.id = id;
+    constructor() {
+        this.id = uuidv4();
     }
 
-    static toResponse(model: Model): Object {
+    static toResponse(model: Model): Partial<Model> {
         return model;
     }
 }

@@ -8,12 +8,11 @@ class User extends Model {
     password: string;
 
     constructor({
-        id = undefined,
         name = 'USER',
         login = 'user',
         password = 'P@55w0rd',
     } = {}) {
-        super({ id });
+        super();
 
         this.name = name;
         this.login = login;

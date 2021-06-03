@@ -7,7 +7,7 @@ import { TaskService } from './task.service';
 export default class TaskController extends CRUDController {
     constructor(
         protected service: TaskService,
-        protected toResponse: (arg0: Model) => Object
+        protected toResponse: (arg0: Model) => Partial<Model>
     ) {
         super(service, toResponse);
     }

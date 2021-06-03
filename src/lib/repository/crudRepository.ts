@@ -14,22 +14,18 @@ export default abstract class CRUDRepository<T extends Model> {
         this.tableName = 'tableName';
     }
 
-
     async getAll() {
         // TODO: mock implementation. should be replaced during task development
         return this.table;
     }
 
-
     async get(id: string) {
         return this.table.find((row) => row.id === id);
     }
 
+    abstract create(body: Partial<T>): Promise<T>;
 
-    abstract create(body: Object): Promise<T>
-
-    abstract update(body: Object): Promise<T>
-
+    abstract update(body: Partial<T>): Promise<T>;
 
     protected async checkToUnique(model: T) {
         if (model.id) {
@@ -45,7 +41,6 @@ export default abstract class CRUDRepository<T extends Model> {
         }
     }
 
-
     protected async checkToExists(model: T) {
         const tableRow = this.table.find((row) => row.id === model.id);
 
@@ -55,7 +50,6 @@ export default abstract class CRUDRepository<T extends Model> {
             );
         }
     }
-
 
     async delete(id: string) {
         const index = this.table.findIndex((tableRow) => tableRow.id === id);

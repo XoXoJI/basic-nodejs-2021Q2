@@ -11,8 +11,7 @@ export default class BoardRepository extends CRUDRepository<Board> {
         this.tableName = 'board';
     }
 
-
-    async create(data: Object) {
+    async create(data: Partial<Board>) {
         const model = new Board(data);
 
         await this.checkToUnique(model);
@@ -22,12 +21,11 @@ export default class BoardRepository extends CRUDRepository<Board> {
         return model;
     }
 
-
-    async update(data: Object) {
+    async update(data: Partial<Board>) {
         const model = new Board(data);
         const board = this.table.find((row) => row.id === model.id);
 
-        if(!board) {
+        if (!board) {
             throw new EntityNotExistsError(
                 `${this.tableName} with id: ${model.id} not exsits!`
             );
@@ -39,13 +37,11 @@ export default class BoardRepository extends CRUDRepository<Board> {
         return board;
     }
 
-
     async delete(id: string) {
         await this._deleteLinkedTasks(id);
 
         await super.delete(id);
     }
-
 
     async _deleteLinkedTasks(id: string) {
         const linkedTasks = this.db.task.filter((task) => task.boardId === id);

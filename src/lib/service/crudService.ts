@@ -3,9 +3,7 @@ import CRUDRepository from "../repository/crudRepository";
 
 
 export default class CRUDService {
-    constructor(protected repository: CRUDRepository<Model>) {
-    }
-
+    constructor(protected repository: CRUDRepository<Model>) {}
 
     async getAll() {
         const models = await this.repository.getAll();
@@ -13,27 +11,23 @@ export default class CRUDService {
         return models;
     }
 
-
     async get(id: string) {
         const model = await this.repository.get(id);
 
         return model;
     }
 
-
-    async create(data: Object) {
+    async create(data: Partial<Model>) {
         const model = await this.repository.create(data);
 
         return model;
     }
 
-
-    async update(data: Object) {
+    async update(data: Partial<Model>) {
         const model = await this.repository.update(data);
 
         return model;
     }
-
 
     async delete(id: string) {
         await this.repository.delete(id);

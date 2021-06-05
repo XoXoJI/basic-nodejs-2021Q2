@@ -3,7 +3,7 @@ import TaskController from './task.controller';
 import Task from './task.model';
 import { taskService } from './task.service';
 
-const router = Router();
+const router = Router({mergeParams: true});
 const taskController = new TaskController(
     taskService,
     Task.toResponse as <T>(arg0: T) => Partial<T>

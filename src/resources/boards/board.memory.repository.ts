@@ -21,18 +21,17 @@ export default class BoardRepository extends CRUDRepository<Board> {
         return model;
     }
 
-    async update(data: Partial<Board>) {
-        const model = new Board(data);
-        const board = this.table.find((row) => row.id === model.id);
+    async update(data: Board) {
+        const board = this.table.find((row) => row.id === data.id);
 
         if (!board) {
             throw new EntityNotExistsError(
-                `${this.tableName} with id: ${model.id} not exsits!`
+                `${this.tableName} with id: ${data.id} not exsits!`
             );
         }
 
-        board.title = model.title;
-        board.columns = model.columns.map((column) => column);
+        board.title = data.title;
+        board.columns = data.columns.map((column) => column);
 
         return board;
     }

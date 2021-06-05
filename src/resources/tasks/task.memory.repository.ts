@@ -27,26 +27,24 @@ export default class TaskRepository extends CRUDRepository<Task> {
         return model;
     }
 
-    async update(data: Partial<Task>) {
-        const model = new Task(data);
+    async update(data: Task) {
+        await this.checkToExists(data);
+        await this._checkLinkedEntities(data);
 
-        await this.checkToExists(model);
-        await this._checkLinkedEntities(model);
-
-        const task = this.table.find((row) => row.id === model.id);
+        const task = this.table.find((row) => row.id === data.id);
 
         if (!task) {
             throw new EntityNotExistsError(
-                `${this.tableName} with id: ${model.id} not exsits!`
+                `${this.tableName} with id: ${data.id} not exsits!`
             );
         }
 
-        task.title = model.title;
-        task.order = model.order;
-        task.description = model.description;
-        task.userId = model.userId;
-        task.boardId = model.boardId;
-        task.columnId = model.columnId;
+        task.title = data.title;
+        task.order = data.order;
+        task.description = data.description;
+        task.userId = data.userId;
+        task.boardId = data.boardId;
+        task.columnId = data.columnId;
 
         return task;
     }

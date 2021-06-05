@@ -21,22 +21,20 @@ export default class UserRepository extends CRUDRepository<User> {
         return model;
     }
 
-    async update(data: Partial<User>) {
-        const model = new User(data);
+    async update(data: User) {
+        await this.checkToExists(data);
 
-        await this.checkToExists(model);
-
-        const user = this.table.find((row) => row.id === model.id);
+        const user = this.table.find((row) => row.id === data.id);
 
         if (!user) {
             throw new EntityNotExistsError(
-                `${this.tableName} with id: ${model.id} not exsits!`
+                `${this.tableName} with id: ${data.id} not exsits!`
             );
         }
 
-        user.name = model.name;
-        user.login = model.login;
-        user.password = model.password;
+        user.name = data.name;
+        user.login = data.login;
+        user.password = data.password;
 
         return user;
     }

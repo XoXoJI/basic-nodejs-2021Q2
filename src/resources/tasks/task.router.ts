@@ -21,8 +21,11 @@ router.route('/:taskId' as '/:boardId/tasks/:taskId').get(async (req, res) => {
     );
 });
 
-router.route('/').post(async (req, res) => {
-    await taskController.create(req.body, res);
+router.route('/' as '/:boardId/tasks/').post(async (req, res) => {
+    await taskController.create(
+        Object.assign(req.body, { boardId: req.params.boardId }),
+        res
+    );
 });
 
 router.route('/:taskId').put(async (req, res) => {

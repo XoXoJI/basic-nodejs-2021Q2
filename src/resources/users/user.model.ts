@@ -19,7 +19,7 @@ class User extends Model {
         this.password = password;
     }
 
-    static toResponse(user: User) {
+    static toResponse(user: User): Partial<User> {
         const { id, name, login } = user;
         return { id, name, login };
     }

@@ -6,7 +6,7 @@ import CRUDService from '../service/crudService';
 export default class CRUDController {
     constructor(
         protected service: CRUDService,
-        protected toResponse: (arg0: Model) => Partial<Model>
+        protected toResponse: <T>(arg0: T) => Partial<T>
     ) {
         this.service = service;
         this.toResponse = toResponse;

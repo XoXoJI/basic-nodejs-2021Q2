@@ -1,4 +1,4 @@
-import DBError from './dbError.js';
+import DBError from './dbError';
 
 export default class IdNotUniqueError extends DBError {
     /**

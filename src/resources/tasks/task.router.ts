@@ -4,7 +4,10 @@ import Task from './task.model';
 import { taskService } from './task.service';
 
 const router = Router();
-const taskController = new TaskController(taskService, Task.toResponse);
+const taskController = new TaskController(
+    taskService,
+    Task.toResponse as <T>(arg0: T) => Partial<T>
+);
 
 router.route('/' as '/:boardId/tasks/').get(async (req, res) => {
     await taskController.getAllFromBoard(req.params.boardId, res);

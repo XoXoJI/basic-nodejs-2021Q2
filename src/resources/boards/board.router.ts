@@ -7,7 +7,10 @@ import Board from './board.model';
 
 const router = Router();
 const boardService = new CRUDService(new BoardRepository(db));
-const crudController = new CRUDController(boardService, Board.toResponse);
+const crudController = new CRUDController(
+    boardService,
+    Board.toResponse as <T>(arg0: T) => Partial<T>
+);
 
 
 router.route('/').get(async (_req, res) => {

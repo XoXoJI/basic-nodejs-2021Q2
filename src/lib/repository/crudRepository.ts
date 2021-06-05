@@ -1,7 +1,7 @@
 import { DB } from '../driver/dbDriver';
 import EntityNotExistsError from '../error/dbError/entityNotExistsError';
 import IdNotUniqueError from '../error/dbError/idNotUniqueError';
-import Model from '../model.js';
+import Model from '../model';
 
 
 export default abstract class CRUDRepository<T extends Model> {

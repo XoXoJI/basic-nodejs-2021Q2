@@ -9,6 +9,7 @@ import userRouter from './resources/users/user.router';
 import boardRouter from './resources/boards/board.router';
 import taskRouter from './resources/tasks/task.router';
 import EntityNotExistsError from './lib/error/dbError/entityNotExistsError';
+import { StatusCodes } from 'http-status-codes';
 
 const app = express();
 const swaggerDocument = YAML.load(join(__dirname, '../doc/api.yaml'));
@@ -24,19 +25,21 @@ app.use((req, res, next) => {
     });
 
     next();
-})
+});
 
 app.use((err: Error, _req: Request, res: Response, next: NextFunction) => {
     console.log(err.message);
 
     if (err instanceof EntityNotExistsError) {
-        res.sendStatus(404);
-    } else {
-        res.sendStatus(500);
+        res.sendStatus(StatusCodes.NOT_FOUND);
     }
 
-    next();
-})
+    next(err);
+});
+
+app.use((_err: Error, _req: Request, res: Response, _next: NextFunction) => {
+    res.sendStatus(StatusCodes.INTERNAL_SERVER_ERROR);
+});
 
 app.use('/', (req, res, next) => {
     if (req.originalUrl === '/') {

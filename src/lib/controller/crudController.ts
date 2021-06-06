@@ -1,6 +1,7 @@
 import { Response } from 'express';
 import Model from '../model';
 import CRUDService from '../service/crudService';
+import {StatusCodes} from 'http-status-codes'
 
 export default class CRUDController {
     constructor(
@@ -21,7 +22,7 @@ export default class CRUDController {
         const model = await this.service.get(id);
 
         if (!model) {
-            res.sendStatus(404);
+            res.sendStatus(StatusCodes.NOT_FOUND);
         } else {
             res.json(this.toResponse(model));
         }
@@ -30,7 +31,7 @@ export default class CRUDController {
     async create(body: Partial<Model>, res: Response) {
         const model = await this.service.create(body);
 
-        res.status(201).json(this.toResponse(model));
+        res.status(StatusCodes.CREATED).json(this.toResponse(model));
     }
 
     async update(id: string, body: Partial<Model>, res: Response) {
@@ -45,6 +46,6 @@ export default class CRUDController {
     async delete(id: string, res: Response) {
         await this.service.delete(id);
 
-        res.sendStatus(204);
+        res.sendStatus(StatusCodes.NO_CONTENT);
     }
 }

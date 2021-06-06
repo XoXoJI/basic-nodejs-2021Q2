@@ -11,10 +11,14 @@ import taskRouter from './resources/tasks/task.router';
 import EntityNotExistsError from './lib/error/dbError/entityNotExistsError';
 import { StatusCodes } from 'http-status-codes';
 
-process.on('uncaughtException', (err: Error) => {
-    console.error(err.message);
+process.on('uncaughtException', (err) => {
+    console.error(err);
 
     process.exit(1);
+});
+
+process.on('unhandledRejection', (reason, promise) => {
+    console.error('Unhandled Rejection at:', promise, 'reason:', reason);
 });
 
 const app = express();

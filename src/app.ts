@@ -11,6 +11,12 @@ import taskRouter from './resources/tasks/task.router';
 import EntityNotExistsError from './lib/error/dbError/entityNotExistsError';
 import { StatusCodes } from 'http-status-codes';
 
+process.on('uncaughtException', (err: Error) => {
+    console.error(err.message);
+
+    process.exit(1);
+});
+
 const app = express();
 const swaggerDocument = YAML.load(join(__dirname, '../doc/api.yaml'));
 
@@ -28,7 +34,7 @@ app.use((req, res, next) => {
 });
 
 app.use((err: Error, _req: Request, res: Response, next: NextFunction) => {
-    console.log(err.message);
+    console.error(err.message);
 
     if (err instanceof EntityNotExistsError) {
         res.sendStatus(StatusCodes.NOT_FOUND);

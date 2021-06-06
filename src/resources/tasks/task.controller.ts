@@ -1,6 +1,5 @@
 import { Response } from 'express';
 import CRUDController from '../../lib/controller/crudController';
-import EntityNotExistsError from '../../lib/error/dbError/entityNotExistsError';
 import { TaskService } from './task.service';
 
 export default class TaskController extends CRUDController {
@@ -30,18 +29,8 @@ export default class TaskController extends CRUDController {
 
 
     async deleteFromBoard(idBoard: string, id: string, res: Response) {
-        try {
-            await this.service.deleteFromBoard(idBoard, id);
+        await this.service.deleteFromBoard(idBoard, id);
 
-            res.sendStatus(200);
-        } catch (err) {
-            console.error(err.message);
-
-            if (err instanceof EntityNotExistsError) {
-                res.sendStatus(204);
-            } else {
-                res.sendStatus(500);
-            }
-        }
+        res.sendStatus(204);
     }
 }

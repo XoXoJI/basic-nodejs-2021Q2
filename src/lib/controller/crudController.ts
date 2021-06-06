@@ -1,5 +1,4 @@
 import { Response } from 'express';
-import EntityNotExistsError from '../error/dbError/entityNotExistsError';
 import Model from '../model';
 import CRUDService from '../service/crudService';
 
@@ -29,43 +28,23 @@ export default class CRUDController {
     }
 
     async create(body: Partial<Model>, res: Response) {
-        try {
-            const model = await this.service.create(body);
+        const model = await this.service.create(body);
 
-            res.status(201).json(this.toResponse(model));
-        } catch (err) {
-            console.error(err.message);
-            res.sendStatus(500);
-        }
+        res.status(201).json(this.toResponse(model));
     }
 
     async update(id: string, body: Partial<Model>, res: Response) {
-        try {
-            const model = await this.service.update({
-                id,
-                ...body,
-            });
+        const model = await this.service.update({
+            id,
+            ...body,
+        });
 
-            res.json(this.toResponse(model));
-        } catch (err) {
-            console.error(err.message);
-            res.sendStatus(500);
-        }
+        res.json(this.toResponse(model));
     }
 
     async delete(id: string, res: Response) {
-        try {
-            await this.service.delete(id);
+        await this.service.delete(id);
 
-            res.sendStatus(200);
-        } catch (err) {
-            console.error(err.message);
-
-            if (err instanceof EntityNotExistsError) {
-                res.sendStatus(204);
-            } else {
-                res.sendStatus(500);
-            }
-        }
+        res.sendStatus(204);
     }
 }

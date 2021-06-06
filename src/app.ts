@@ -46,11 +46,13 @@ app.use('/doc', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 app.use((req, res, next) => {
     const {url, query, body, params} = req;
     finished(res, () => {
-        logger.info(
-            `${url}, ${JSON.stringify(query)}, ${JSON.stringify(
-                body
-            )}, ${JSON.stringify(params)}, ${res.statusCode}`
-        );
+        logger.info({
+            url,
+            query,
+            body,
+            params,
+            code: res.statusCode,
+        });
     });
 
     next();

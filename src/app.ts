@@ -10,15 +10,30 @@ import boardRouter from './resources/boards/board.router';
 import taskRouter from './resources/tasks/task.router';
 import EntityNotExistsError from './lib/error/dbError/entityNotExistsError';
 import { StatusCodes } from 'http-status-codes';
+import { logger } from './common/logger';
+import { writeFileSync } from 'fs';
+import { resolve } from 'path';
+import moment from 'moment';
+import {DATE_FORMAT} from './common/config'
 
+// Поскольку winston не может в синхронность приходится самому
 process.on('uncaughtException', (err) => {
-    console.error(err);
+    const {message, stack} = err;
+    const level = 'error';
+    const timestamp = moment().format(DATE_FORMAT);
+
+    writeFileSync(
+        resolve('logs/error.log'),
+        JSON.stringify({level, timestamp, message, stack}),
+        {flag: 'a'}
+    );
+    writeFileSync(resolve('logs/error.log'), '\n', {flag: 'a'});
 
     process.exit(1);
 });
 
-process.on('unhandledRejection', (reason, promise) => {
-    console.error('Unhandled Rejection at:', promise, 'reason:', reason);
+process.on('unhandledRejection', (reason, _promise) => {
+    logger.error(reason);
 });
 
 const app = express();
@@ -31,14 +46,18 @@ app.use('/doc', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 app.use((req, res, next) => {
     const {url, query, body, params} = req;
     finished(res, () => {
-        console.log(`${url}, ${JSON.stringify(query)}, ${JSON.stringify(body)}, ${JSON.stringify(params)}, ${res.statusCode}`);
+        logger.info(
+            `${url}, ${JSON.stringify(query)}, ${JSON.stringify(
+                body
+            )}, ${JSON.stringify(params)}, ${res.statusCode}`
+        );
     });
 
     next();
 });
 
 app.use((err: Error, _req: Request, res: Response, next: NextFunction) => {
-    console.error(err.message);
+    logger.error(err.message);
 
     if (err instanceof EntityNotExistsError) {
         res.sendStatus(StatusCodes.NOT_FOUND);

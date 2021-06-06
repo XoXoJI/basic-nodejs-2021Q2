@@ -14,7 +14,7 @@ export const logger = createLogger({
     ),
     transports: [
         new transports.Console({
-            format: format.combine(format.colorize(), format.simple()),
+            format: format.combine(),
         }),
         new transports.File({
             filename: path.resolve('logs/error.log'),

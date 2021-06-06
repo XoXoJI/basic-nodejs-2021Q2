@@ -1,14 +1,14 @@
-const express = require('express');
-const swaggerUI = require('swagger-ui-express');
-const path = require('path');
-const YAML = require('yamljs');
-const userRouter = require('./resources/users/user.router');
-const boardRouter = require('./resources/boards/board.router');
-const taskRouter = require('./resources/tasks/task.router');
-const boardService = require('./resources/boards/board.service');
+import express from 'express';
+import swaggerUI from 'swagger-ui-express';
+import { join } from 'path';
+import YAML from 'yamljs';
+import userRouter from './resources/users/user.router';
+import boardRouter from './resources/boards/board.router';
+import taskRouter from './resources/tasks/task.router';
+import { boardService } from './resources/boards/board.service';
 
 const app = express();
-const swaggerDocument = YAML.load(path.join(__dirname, '../doc/api.yaml'));
+const swaggerDocument = YAML.load(join(__dirname, '../doc/api.yaml'));
 
 app.use(express.json());
 
@@ -28,6 +28,7 @@ app.param('boardId', async (req, res, next, boardId) => {
     if(!board) {
         res.sendStatus(404);
     } else {
+        // @ts-ignore
         req.board = board;
 
         if(req.body) {
@@ -42,4 +43,4 @@ app.use('/users', userRouter);
 app.use('/boards', boardRouter);
 app.use('/boards/:boardId/tasks', taskRouter);
 
-module.exports = app;
+export default app;

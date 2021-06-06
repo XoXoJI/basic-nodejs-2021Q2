@@ -58,19 +58,6 @@ app.use((req, res, next) => {
     next();
 });
 
-app.use((err: Error, _req: Request, res: Response, next: NextFunction) => {
-    logger.error(err.message);
-
-    if (err instanceof EntityNotExistsError) {
-        res.sendStatus(StatusCodes.NOT_FOUND);
-    }
-
-    next(err);
-});
-
-app.use((_err: Error, _req: Request, res: Response, _next: NextFunction) => {
-    res.sendStatus(StatusCodes.INTERNAL_SERVER_ERROR);
-});
 
 app.use('/', (req, res, next) => {
     if (req.originalUrl === '/') {
@@ -84,6 +71,21 @@ boardRouter.use('/:boardId/tasks', taskRouter);
 
 app.use('/users', userRouter);
 app.use('/boards', boardRouter);
+
+
+app.use((err: Error, _req: Request, res: Response, next: NextFunction) => {
+    logger.error(err.message);
+
+    if (err instanceof EntityNotExistsError) {
+        res.sendStatus(StatusCodes.NOT_FOUND);
+    }
+
+    next(err);
+});
+
+app.use((_err: Error, _req: Request, res: Response, _next: NextFunction) => {
+    res.sendStatus(StatusCodes.INTERNAL_SERVER_ERROR);
+});
 
 
 export default app;

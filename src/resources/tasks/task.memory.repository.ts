@@ -1,7 +1,7 @@
 import Task from "./task.model";
 import CRUDRepository from"../../lib/repository/crudRepository";
 import EntityNotExistsError from"../../lib/error/dbError/entityNotExistsError";
-import DBError from"../../lib/error/dbError/dbError";
+import DBError from "../../lib/error/dbError/dbError";
 import { DB } from "../../lib/driver/dbDriver";
 
 export default class TaskRepository extends CRUDRepository<Task> {
@@ -12,13 +12,11 @@ export default class TaskRepository extends CRUDRepository<Task> {
         this.tableName = 'task';
     }
 
-
     async getAllFromBoard(idBoard: string) {
         return this.table.filter((task) => task.boardId === idBoard);
     }
 
-
-    async create(data: Object) {
+    async create(data: Partial<Task>) {
         const model = new Task(data);
 
         await this.checkToUnique(model);
@@ -29,35 +27,33 @@ export default class TaskRepository extends CRUDRepository<Task> {
         return model;
     }
 
+    async update(data: Task) {
+        await this.checkToExists(data);
+        await this._checkLinkedEntities(data);
 
-    async update(data: Object) {
-        const model = new Task(data);
+        const task = this.table.find((row) => row.id === data.id);
 
-        await this.checkToExists(model);
-        await this._checkLinkedEntities(model);
-
-        const task = this.table.find((row) => row.id === model.id);
-
-        if(!task) {
+        if (!task) {
             throw new EntityNotExistsError(
-                `${this.tableName} with id: ${model.id} not exsits!`
+                `${this.tableName} with id: ${data.id} not exsits!`
             );
         }
 
-        task.title = model.title;
-        task.order = model.order;
-        task.description = model.description;
-        task.userId = model.userId;
-        task.boardId = model.boardId;
-        task.columnId = model.columnId;
+        task.title = data.title;
+        task.order = data.order;
+        task.description = data.description;
+        task.userId = data.userId;
+        task.boardId = data.boardId;
+        task.columnId = data.columnId;
 
         return task;
     }
 
-
     async _checkLinkedEntities(model: Task) {
         if (model.boardId) {
-            const entity = this.db.board.find((row) => row.id === model.boardId);
+            const entity = this.db.board.find(
+                (row) => row.id === model.boardId
+            );
 
             if (!entity) {
                 throw new EntityNotExistsError(
@@ -81,7 +77,7 @@ export default class TaskRepository extends CRUDRepository<Task> {
         if (model.columnId) {
             const board = this.db.board.find((row) => row.id === model.boardId);
 
-            if(!board) {
+            if (!board) {
                 throw new EntityNotExistsError(
                     `${this.tableName} with id: ${model.id} not exsits!`
                 );
@@ -98,7 +94,6 @@ export default class TaskRepository extends CRUDRepository<Task> {
             }
         }
     }
-
 
     async delete(id: string) {
         await super.delete(id);

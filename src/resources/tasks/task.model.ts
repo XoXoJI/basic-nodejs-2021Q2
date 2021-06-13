@@ -14,20 +14,19 @@ export default class Task extends Model {
     columnId: string;
 
     constructor({
-        id = undefined,
         title = 'title',
         order = 'order',
         description = 'description',
-        userId = '',
+        userId,
         boardId = '',
         columnId = '',
-    } = {}) {
-        super({ id });
+    } = {} as Partial<Task>) {
+        super();
 
         this.title = title;
         this.order = order;
         this.description = description;
-        this.userId = userId;
+        this.userId = userId ? userId : null;
         this.boardId = boardId;
         this.columnId = columnId;
     }

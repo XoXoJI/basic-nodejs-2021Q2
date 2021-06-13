@@ -1,17 +1,16 @@
 import { Response } from 'express';
-import EntityNotExistsError from '../error/dbError/entityNotExistsError';
-import Model from '../model.js';
+import Model from '../model';
 import CRUDService from '../service/crudService';
+import {StatusCodes} from 'http-status-codes'
 
 export default class CRUDController {
     constructor(
         protected service: CRUDService,
-        protected toResponse: (arg0: Model) => Object
+        protected toResponse: <T>(arg0: T) => Partial<T>
     ) {
         this.service = service;
         this.toResponse = toResponse;
     }
-
 
     async getAll(res: Response) {
         const models = await this.service.getAll();
@@ -19,58 +18,34 @@ export default class CRUDController {
         res.json(models.map(this.toResponse));
     }
 
-
     async get(id: string, res: Response) {
         const model = await this.service.get(id);
 
         if (!model) {
-            res.sendStatus(404);
+            res.sendStatus(StatusCodes.NOT_FOUND);
         } else {
             res.json(this.toResponse(model));
         }
     }
 
+    async create(body: Partial<Model>, res: Response) {
+        const model = await this.service.create(body);
 
-    async create(body: Object, res: Response) {
-        try {
-            const model = await this.service.create(body);
-
-            res.status(201).json(this.toResponse(model));
-        } catch (err) {
-            console.error(err.message);
-            res.sendStatus(500);
-        }
+        res.status(StatusCodes.CREATED).json(this.toResponse(model));
     }
 
+    async update(id: string, body: Partial<Model>, res: Response) {
+        const model = await this.service.update({
+            id,
+            ...body,
+        });
 
-    async update(id: string, body: Object, res: Response) {
-        try {
-            const model = await this.service.update({
-                id,
-                ...body,
-            });
-
-            res.json(this.toResponse(model));
-        } catch (err) {
-            console.error(err.message);
-            res.sendStatus(500);
-        }
+        res.json(this.toResponse(model));
     }
-
 
     async delete(id: string, res: Response) {
-        try {
-            await this.service.delete(id);
+        await this.service.delete(id);
 
-            res.sendStatus(200);
-        } catch (err) {
-            console.error(err.message);
-
-            if (err instanceof EntityNotExistsError) {
-                res.sendStatus(204);
-            } else {
-                res.sendStatus(500);
-            }
-        }
+        res.sendStatus(StatusCodes.NO_CONTENT);
     }
 }

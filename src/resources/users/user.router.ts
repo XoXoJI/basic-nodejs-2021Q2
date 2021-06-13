@@ -4,8 +4,10 @@ import User from './user.model';
 import { userService } from './user.service';
 
 const router = Router();
-// @ts-ignore
-const crudController = new CRUDController(userService, User.toResponse);
+const crudController = new CRUDController(
+    userService,
+    User.toResponse as <T>(arg0: T) => Partial<T>
+);
 
 
 router.route('/').get(async (_req, res) => {

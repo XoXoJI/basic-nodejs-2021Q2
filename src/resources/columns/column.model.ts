@@ -5,8 +5,8 @@ export default class Column extends Model {
 
     order: number;
 
-    constructor({ id = undefined, title = 'title', order = 1 } = {}) {
-        super({ id });
+    constructor({ title = 'title', order = 1 } = {}) {
+        super();
 
         this.title = title;
         this.order = order;

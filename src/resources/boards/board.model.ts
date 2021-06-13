@@ -8,11 +8,10 @@ export default class Board extends Model {
     columns: Column[];
 
     constructor({
-        id = undefined,
         title = 'title',
-        columns = []
+        columns = [] as Column[]
     }) {
-        super({ id });
+        super();
 
         this.title = title;
         this.columns = columns.map((column) => new Column(column));

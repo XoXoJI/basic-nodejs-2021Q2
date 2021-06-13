@@ -1,13 +1,12 @@
 import { Response } from 'express';
 import CRUDController from '../../lib/controller/crudController';
-import EntityNotExistsError from '../../lib/error/dbError/entityNotExistsError';
-import Model from '../../lib/model';
 import { TaskService } from './task.service';
+import {StatusCodes} from 'http-status-codes'
 
 export default class TaskController extends CRUDController {
     constructor(
         protected service: TaskService,
-        protected toResponse: (arg0: Model) => Object
+        protected toResponse:  <T>(arg0: T) => Partial<T>
     ) {
         super(service, toResponse);
     }
@@ -23,7 +22,7 @@ export default class TaskController extends CRUDController {
         const task = await this.service.getFromBoard(idBoard, id);
 
         if (!task) {
-            res.sendStatus(404);
+            res.sendStatus(StatusCodes.NOT_FOUND);
         } else {
             res.json(this.toResponse(task));
         }
@@ -31,18 +30,8 @@ export default class TaskController extends CRUDController {
 
 
     async deleteFromBoard(idBoard: string, id: string, res: Response) {
-        try {
-            await this.service.deleteFromBoard(idBoard, id);
+        await this.service.deleteFromBoard(idBoard, id);
 
-            res.sendStatus(200);
-        } catch (err) {
-            console.error(err.message);
-
-            if (err instanceof EntityNotExistsError) {
-                res.sendStatus(204);
-            } else {
-                res.sendStatus(500);
-            }
-        }
+        res.sendStatus(StatusCodes.NO_CONTENT);
     }
 }

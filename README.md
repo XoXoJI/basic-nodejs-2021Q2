@@ -19,8 +19,10 @@ npm install
 
 ## Running application
 
+install docker-compose (https://docs.docker.com/compose/install/)
+
 ```
-npm start
+docker-compose up
 ```
 
 After starting the app on port (4000 as default) you can open

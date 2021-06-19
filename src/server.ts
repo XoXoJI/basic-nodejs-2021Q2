@@ -6,6 +6,7 @@ import { connectToDB } from './common/db';
 (async () => {
     try {
         await connectToDB();
+        logger.info('Connect to DB successful');
     }
     catch(err) {
         logger.error(err);

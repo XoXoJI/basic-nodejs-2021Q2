@@ -15,6 +15,7 @@ import { writeFileSync } from 'fs';
 import { resolve } from 'path';
 import moment from 'moment';
 import {DATE_FORMAT} from './common/config'
+import 'reflect-metadata';
 
 // Поскольку winston не может в синхронность приходится самому
 process.on('uncaughtException', (err) => {

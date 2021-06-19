@@ -22,4 +22,6 @@ export default {
         migrationsDir: 'src/migration',
         subscribersDir: 'src/subscriber',
     },
+    autoReconnect: true,
+    recconectionIterval: 1000
 };

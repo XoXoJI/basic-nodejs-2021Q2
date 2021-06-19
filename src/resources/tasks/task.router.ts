@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import TaskController from './task.controller';
-import Task from '../../entity/task.model';
+import Task from '../../entity/task';
 import { taskService } from './task.service';
 
 const router = Router({mergeParams: true});

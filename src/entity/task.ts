@@ -1,7 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column as dbColumn, ManyToOne } from 'typeorm';
-import Board from './board.model';
-import Column from './column.model';
-import User from './user.model';
+import Board from './board';
+import Column from './column';
+import User from './user';
 
 @Entity()
 export default class Task {
@@ -24,14 +24,12 @@ export default class Task {
     user!: User;
 
     @ManyToOne(() => Board, {
-        cascade: true,
-        onDelete: 'SET NULL',
+        cascade: true
     })
     board!: Board;
 
     @ManyToOne(() => Column, {
-        cascade: true,
-        onDelete: 'SET NULL',
+        cascade: true
     })
     column!: Column;
 }

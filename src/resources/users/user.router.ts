@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import CRUDController from '../../lib/controller/crudController';
-import User from '../../entity/user.model';
+import User from '../../entity/user';
 import { userService } from './user.service';
 
 const router = Router();

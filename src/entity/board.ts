@@ -5,7 +5,7 @@ import {
     ManyToMany,
     JoinTable,
 } from 'typeorm';
-import Column from './column.model';
+import Column from './column';
 
 @Entity()
 export default class Board {

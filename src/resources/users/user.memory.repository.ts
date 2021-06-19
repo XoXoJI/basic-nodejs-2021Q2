@@ -1,4 +1,4 @@
-import User from "./user.model";
+import User from "../../entity/user.model";
 import CRUDRepository from "../../lib/repository/crudRepository";
 import EntityNotExistsError from "../../lib/error/dbError/entityNotExistsError";
 import { DB } from "../../lib/driver/dbDriver";

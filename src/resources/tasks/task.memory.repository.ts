@@ -1,4 +1,4 @@
-import Task from "./task.model";
+import Task from "../../entity/task.model";
 import CRUDRepository from"../../lib/repository/crudRepository";
 import EntityNotExistsError from"../../lib/error/dbError/entityNotExistsError";
 import DBError from "../../lib/error/dbError/dbError";

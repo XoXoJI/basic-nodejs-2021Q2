@@ -3,7 +3,7 @@ import CRUDController from '../../lib/controller/crudController';
 import { db } from '../../lib/driver/dbDriver';
 import CRUDService from '../../lib/service/crudService';
 import BoardRepository from './board.memory.repository';
-import Board from './board.model';
+import Board from '../../entity/board.model';
 
 const router = Router();
 const boardService = new CRUDService(new BoardRepository(db));

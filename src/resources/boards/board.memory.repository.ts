@@ -1,4 +1,4 @@
-import Board from "./board.model";
+import Board from "../../entity/board.model";
 import CRUDRepository from "../../lib/repository/crudRepository";
 import { DB } from "../../lib/driver/dbDriver";
 import EntityNotExistsError from "../../lib/error/dbError/entityNotExistsError";

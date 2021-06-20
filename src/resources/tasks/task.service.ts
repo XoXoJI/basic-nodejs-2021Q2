@@ -71,7 +71,7 @@ export class TaskService extends CRUDService<Task, taskDTO> {
                 data.columnId
             );
         }
-        //@ts-ignore
+
         const model = await this.repository.update(task);
 
         return model;

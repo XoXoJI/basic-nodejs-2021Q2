@@ -21,11 +21,17 @@ export default abstract class CRUDRepository<T extends { id: string }> {
     }
 
     async update(data: T) {
-        //@ts-ignore
-        await getRepository(this.entity).update(data.id, data);
-        const board = await this.get(data.id);
+        const instance = await getRepository(this.entity).findOneOrFail(
+            data.id
+        );
 
-        return board;
+        for(let key in data) {
+            instance[key] = data[key];
+        }
+        //@ts-ignore
+        getRepository(this.entity).save(instance);
+
+        return instance;
     }
 
     async delete(id: string) {

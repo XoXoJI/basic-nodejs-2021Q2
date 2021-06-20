@@ -2,11 +2,22 @@ import { Router } from 'express';
 import TaskController from './task.controller';
 import Task from '../../entity/task';
 import { taskService } from './task.service';
-
 const router = Router({mergeParams: true});
 const taskController = new TaskController(
     taskService,
-    ((task: Task) => task) as <T>(arg0: T) => Partial<T>
+    ((task: Task) => {
+        return {
+            id: task.id,
+            title: task.title,
+            order: +task.order,
+            description: task.description,
+            userId: task.user?.id ? task.user?.id : null,
+            boardId: task.board?.id ? task.board?.id : null,
+            columnId: task.column?.id ? task.column?.id : null,
+        };
+
+
+    }) as <T>(arg0: T) => Partial<T>
 );
 
 router.route('/' as '/:boardId/tasks/').get(async (req, res) => {

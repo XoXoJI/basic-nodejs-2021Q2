@@ -11,8 +11,8 @@ export default class Task {
     @dbColumn('text')
     title!: string;
 
-    @dbColumn('text')
-    order!: string;
+    @dbColumn('bigint')
+    order!: number;
 
     @dbColumn('text')
     description!: string;

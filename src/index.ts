@@ -94,4 +94,6 @@ createConnection(ormconfig as ConnectionOptions).then((_connection) => {
     app.listen(PORT, () =>
         logger.info(`App is running on http://localhost:${PORT}`)
     );
-});
+}).catch((err) => {
+    console.log(err);
+})

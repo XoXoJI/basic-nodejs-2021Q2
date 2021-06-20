@@ -12,6 +12,6 @@ export default class Column {
     @dbColumn('text')
     title!: string;
 
-    @dbColumn('bigint')
+    @dbColumn('integer')
     order!: number;
 }

@@ -1,4 +1,6 @@
 import { getRepository } from "typeorm";
+import Board from "../../entity/board";
+import Column from "../../entity/column";
 import Task from "../../entity/task";
 import User from "../../entity/user";
 import EntityNotExistsError from "../../lib/error/dbError/entityNotExistsError";
@@ -20,13 +22,25 @@ export class TaskService extends CRUDService<Task, taskDTO> {
     async create(data: Partial<taskDTO>) {
         const task = new Task();
 
-        for (let key in task) {
-            //@ts-ignore
-            task[key] = data[key];
+        for (let key in data) {
+            if (['userId', 'boardId', 'columnId'].indexOf(key) === -1) {
+                //@ts-ignore
+                task[key] = data[key];
+            }
         }
 
         if (data.userId) {
             task.user = await getRepository(User).findOneOrFail(data.userId);
+        }
+
+        if (data.boardId) {
+            task.board = await getRepository(Board).findOneOrFail(data.boardId);
+        }
+
+        if (data.columnId) {
+            task.column = await getRepository(Column).findOneOrFail(
+                data.columnId
+            );
         }
 
         const model = await this.repository.create(task);
@@ -37,13 +51,25 @@ export class TaskService extends CRUDService<Task, taskDTO> {
     async update(data: Partial<taskDTO>) {
         const task = new Task();
 
-        for (let key in task) {
-            //@ts-ignore
-            task[key] = data[key];
+        for (let key in data) {
+            if (['userId', 'boardId', 'columnId'].indexOf(key) === -1) {
+                //@ts-ignore
+                task[key] = data[key];
+            }
         }
 
         if (data.userId) {
             task.user = await getRepository(User).findOneOrFail(data.userId);
+        }
+
+        if (data.boardId) {
+            task.board = await getRepository(Board).findOneOrFail(data.boardId);
+        }
+
+        if (data.columnId) {
+            task.column = await getRepository(Column).findOneOrFail(
+                data.columnId
+            );
         }
         //@ts-ignore
         const model = await this.repository.update(task);

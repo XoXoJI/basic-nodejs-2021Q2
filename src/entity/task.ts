@@ -20,16 +20,21 @@ export default class Task {
     @ManyToOne(() => User, {
         cascade: true,
         onDelete: 'SET NULL',
+        onUpdate: 'CASCADE',
     })
     user!: User;
 
     @ManyToOne(() => Board, {
-        cascade: true
+        cascade: true,
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
     })
     board!: Board;
 
     @ManyToOne(() => Column, {
-        cascade: true
+        cascade: true,
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
     })
     column!: Column;
 }

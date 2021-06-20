@@ -3,10 +3,11 @@ import CRUDController from '../../lib/controller/crudController';
 import CRUDService from '../../lib/service/crudService';
 import BoardRepository from './board.memory.repository';
 import Board from '../../entity/board';
+import { boardDTO } from './board.dto';
 
 const router = Router();
 const boardService = new CRUDService(new BoardRepository());
-const crudController = new CRUDController(
+const crudController = new CRUDController<Board, boardDTO>(
     boardService,
     ((board: Board) => board) as <T>(arg0: T) => Partial<T>
 );

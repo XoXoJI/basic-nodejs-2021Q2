@@ -3,8 +3,9 @@ import CRUDController from '../../lib/controller/crudController';
 import { TaskService } from './task.service';
 import {StatusCodes} from 'http-status-codes'
 import Task from '../../entity/task';
+import { taskDTO } from './task.dto';
 
-export default class TaskController extends CRUDController<Task> {
+export default class TaskController extends CRUDController<Task, taskDTO> {
     constructor(
         protected service: TaskService,
         protected toResponse:  <T>(arg0: T) => Partial<T>

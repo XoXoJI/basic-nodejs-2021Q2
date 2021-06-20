@@ -2,9 +2,10 @@ import { Router } from 'express';
 import CRUDController from '../../lib/controller/crudController';
 import User from '../../entity/user';
 import { userService } from './user.service';
+import { userDTO } from './user.dto';
 
 const router = Router();
-const crudController = new CRUDController<User>(
+const crudController = new CRUDController<User, userDTO>(
     userService,
     ((user: User) => {
         const {id, name, login} = user;

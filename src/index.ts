@@ -6,9 +6,9 @@ import swaggerUI from 'swagger-ui-express';
 import { join } from 'path';
 import YAML from 'yamljs';
 import userRouter from './resources/users/user.router';
-// import boardRouter from './resources/boards/board.router';
-// import taskRouter from './resources/tasks/task.router';
-// import EntityNotExistsError from './lib/error/dbError/entityNotExistsError';
+import boardRouter from './resources/boards/board.router';
+import taskRouter from './resources/tasks/task.router';
+import EntityNotExistsError from './lib/error/dbError/entityNotExistsError';
 import { StatusCodes } from 'http-status-codes';
 import { logger } from './common/logger';
 import { writeFileSync } from 'fs';
@@ -70,20 +70,20 @@ createConnection(ormconfig as ConnectionOptions).then((_connection) => {
         next();
     });
 
-    // boardRouter.use('/:boardId/tasks', taskRouter);
+    boardRouter.use('/:boardId/tasks', taskRouter);
 
     app.use('/users', userRouter);
-    // app.use('/boards', boardRouter);
+    app.use('/boards', boardRouter);
 
-    // app.use((err: Error, _req: Request, res: Response, next: NextFunction) => {
-    //     logger.error(err.message);
+    app.use((err: Error, _req: Request, res: Response, next: NextFunction) => {
+        logger.error(err.message);
 
-    //     if (err instanceof EntityNotExistsError) {
-    //         res.sendStatus(StatusCodes.NOT_FOUND);
-    //     }
+        if (err instanceof EntityNotExistsError) {
+            res.sendStatus(StatusCodes.NOT_FOUND);
+        }
 
-    //     next(err);
-    // });
+        next(err);
+    });
 
     app.use(
         (_err: Error, _req: Request, res: Response, _next: NextFunction) => {

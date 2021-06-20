@@ -15,8 +15,7 @@ export default abstract class CRUDRepository<T extends { id: string }> {
     }
 
     async create(data: DeepPartial<T>) {
-        const model = getRepository(this.entity).create(data);
-        await getRepository(this.entity).save(data);
+        const model = await getRepository(this.entity).save(data);
 
         return model;
     }

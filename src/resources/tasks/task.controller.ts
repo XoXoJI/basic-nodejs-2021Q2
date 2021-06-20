@@ -13,26 +13,40 @@ export default class TaskController extends CRUDController<Task> {
     }
 
     async getAllFromBoard(idBoard: string, res: Response) {
-        const tasks = await this.service.getAllFromBoard(idBoard);
+        try{
+            const tasks = await this.service.getAllFromBoard(idBoard);
 
-        res.json(tasks.map(this.toResponse));
+            res.json(tasks.map(this.toResponse));
+        }
+        catch(err) {
+            res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(err);
+        }
     }
 
 
     async getFromBoard(idBoard: string, id: string, res: Response) {
-        const task = await this.service.getFromBoard(idBoard, id);
+        try {
+            const task = await this.service.getFromBoard(idBoard, id);
 
-        if (!task) {
-            res.sendStatus(StatusCodes.NOT_FOUND);
-        } else {
-            res.json(this.toResponse(task));
+            if (!task) {
+                res.sendStatus(StatusCodes.NOT_FOUND);
+            } else {
+                res.json(this.toResponse(task));
+            }
+        } catch (err) {
+            res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(err);
         }
     }
 
 
     async deleteFromBoard(idBoard: string, id: string, res: Response) {
-        await this.service.deleteFromBoard(idBoard, id);
+        try {
+            await this.service.deleteFromBoard(idBoard, id);
 
-        res.sendStatus(StatusCodes.NO_CONTENT);
+            res.sendStatus(StatusCodes.NO_CONTENT);
+        }
+        catch(err) {
+            res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(err);
+        }
     }
 }

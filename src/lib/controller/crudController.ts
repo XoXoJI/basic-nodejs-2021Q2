@@ -13,39 +13,59 @@ export default class CRUDController<T extends {id: string}> {
     }
 
     async getAll(res: Response) {
-        const models = await this.service.getAll();
+        try {
+            const models = await this.service.getAll();
 
-        res.json(models.map(this.toResponse));
+            res.json(models.map(this.toResponse));
+        } catch (err) {
+            res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(err);
+        }
     }
 
     async get(id: string, res: Response) {
-        const model = await this.service.get(id);
+        try {
+            const model = await this.service.get(id);
 
-        if (!model) {
-            res.sendStatus(StatusCodes.NOT_FOUND);
-        } else {
-            res.json(this.toResponse(model));
+            if (!model) {
+                res.sendStatus(StatusCodes.NOT_FOUND);
+            } else {
+                res.json(this.toResponse(model));
+            }
+        } catch (err) {
+            res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(err);
         }
     }
 
     async create(body: DeepPartial<T>, res: Response) {
-        const model = await this.service.create(body);
+        try {
+            const model = await this.service.create(body);
 
-        res.status(StatusCodes.CREATED).json(this.toResponse(model));
+            res.status(StatusCodes.CREATED).json(this.toResponse(model));
+        } catch (err) {
+            res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(err);
+        }
     }
 
     async update(id: string, body: Partial<T>, res: Response) {
-        const model = await this.service.update({
-            id,
-            ...body,
-        });
+        try {
+            const model = await this.service.update({
+                id,
+                ...body,
+            });
 
-        res.json(this.toResponse(model));
+            res.json(this.toResponse(model));
+        } catch (err) {
+            res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(err);
+        }
     }
 
     async delete(id: string, res: Response) {
-        await this.service.delete(id);
+        try {
+            await this.service.delete(id);
 
-        res.sendStatus(StatusCodes.NO_CONTENT);
+            res.sendStatus(StatusCodes.NO_CONTENT);
+        } catch (err) {
+            res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(err);
+        }
     }
 }

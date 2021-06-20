@@ -8,10 +8,11 @@ export default class TaskRepository extends CRUDRepository<Task> {
     }
 
     async getAllFromBoard(boardId: string) {
-        return await getRepository(this.entity).find({
-            where: {
-                boardId,
-            },
-        });
+        const tasks = await getRepository(this.entity)
+            .createQueryBuilder('task')
+            .where('task.boardId = :boardId', { boardId })
+            .getMany();
+
+        return tasks;
     }
 }

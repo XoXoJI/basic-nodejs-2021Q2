@@ -31,6 +31,6 @@ export default class CRUDService<T extends { id: string; }, U> {
     }
 
     async delete(id: string) {
-        await this.repository.delete(id);
+        return await this.repository.delete(id);
     }
 }

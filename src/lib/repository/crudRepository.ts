@@ -9,7 +9,7 @@ export default abstract class CRUDRepository<T extends { id: string }> {
     }
 
     async get(id: string) {
-        return await getRepository(this.entity).findOneOrFail({
+        return await getRepository(this.entity).findOne({
             where: { id },
         });
     }
@@ -35,6 +35,7 @@ export default abstract class CRUDRepository<T extends { id: string }> {
     }
 
     async delete(id: string) {
-        return await getRepository(this.entity).delete(id);
+        const result = await getRepository(this.entity).delete(id);
+        return result;
     }
 }

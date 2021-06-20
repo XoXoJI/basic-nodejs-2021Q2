@@ -8,7 +8,7 @@ export default class BoardRepository extends CRUDRepository<Board> {
     }
 
     async get(id: string) {
-        return await getRepository(this.entity).findOneOrFail({
+        return await getRepository(this.entity).findOne({
             relations: ["columns"],
             where: { id },
         });

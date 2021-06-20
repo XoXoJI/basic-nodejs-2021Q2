@@ -4,9 +4,13 @@ import User from '../../entity/user';
 import { userService } from './user.service';
 
 const router = Router();
-const crudController = new CRUDController(
+const crudController = new CRUDController<User>(
     userService,
-    User.toResponse as <T>(arg0: T) => Partial<T>
+    ((user: User) => {
+        const {id, name, login} = user;
+
+        return { id, name, login };
+    }) as <T>(arg0: T) => Partial<T>
 );
 
 

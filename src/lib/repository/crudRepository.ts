@@ -1,35 +1,35 @@
-import { DeepPartial, Repository } from 'typeorm';
+import { DeepPartial, EntityTarget, getRepository } from 'typeorm';
 
 
 export default abstract class CRUDRepository<T extends { id: string }> {
-    table!: Repository<T>;
+    constructor(public entity: EntityTarget<T>) {}
 
     async getAll() {
-        return await this.table.find();
+        return await getRepository(this.entity).find();
     }
 
     async get(id: string) {
-        return await this.table.findOneOrFail({
+        return await getRepository(this.entity).findOneOrFail({
             where: { id },
         });
     }
 
     async create(data: DeepPartial<T>) {
-        const model = this.table.create(data);
-        await this.table.save(data);
+        const model = getRepository(this.entity).create(data);
+        await getRepository(this.entity).save(data);
 
         return model;
     }
 
     async update(data: T) {
         //@ts-ignore
-        await this.table.update(data.id, data);
+        await getRepository(this.entity).update(data.id, data);
         const board = await this.get(data.id);
 
         return board;
     }
 
     async delete(id: string) {
-        return await this.table.delete(id);
+        return await getRepository(this.entity).delete(id);
     }
 }

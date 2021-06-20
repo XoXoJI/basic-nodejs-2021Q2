@@ -1,11 +1,11 @@
 import { Response } from 'express';
-import Model from '../model';
 import CRUDService from '../service/crudService';
 import {StatusCodes} from 'http-status-codes'
+import { DeepPartial } from 'typeorm';
 
-export default class CRUDController {
+export default class CRUDController<T extends {id: string}> {
     constructor(
-        protected service: CRUDService,
+        protected service: CRUDService<T>,
         protected toResponse: <T>(arg0: T) => Partial<T>
     ) {
         this.service = service;
@@ -28,13 +28,13 @@ export default class CRUDController {
         }
     }
 
-    async create(body: Partial<Model>, res: Response) {
+    async create(body: DeepPartial<T>, res: Response) {
         const model = await this.service.create(body);
 
         res.status(StatusCodes.CREATED).json(this.toResponse(model));
     }
 
-    async update(id: string, body: Partial<Model>, res: Response) {
+    async update(id: string, body: Partial<T>, res: Response) {
         const model = await this.service.update({
             id,
             ...body,

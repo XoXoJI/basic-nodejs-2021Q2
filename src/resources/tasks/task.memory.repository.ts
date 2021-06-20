@@ -4,8 +4,14 @@ import CRUDRepository from"../../lib/repository/crudRepository";
 
 export default class TaskRepository extends CRUDRepository<Task> {
     constructor() {
-        super();
+        super(Task);
+    }
 
-        this.table = getRepository(Task);
+    async getAllFromBoard(boardId: string) {
+        return await getRepository(this.entity).find({
+            where: {
+                boardId,
+            },
+        });
     }
 }

@@ -1,15 +1,14 @@
 import { Router } from 'express';
 import CRUDController from '../../lib/controller/crudController';
-import { db } from '../../lib/driver/dbDriver';
 import CRUDService from '../../lib/service/crudService';
 import BoardRepository from './board.memory.repository';
 import Board from '../../entity/board';
 
 const router = Router();
-const boardService = new CRUDService(new BoardRepository(db));
+const boardService = new CRUDService(new BoardRepository());
 const crudController = new CRUDController(
     boardService,
-    Board.toResponse as <T>(arg0: T) => Partial<T>
+    ((board: Board) => board) as <T>(arg0: T) => Partial<T>
 );
 
 

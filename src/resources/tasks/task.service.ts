@@ -1,29 +1,29 @@
-import { db } from "../../lib/driver/dbDriver";
+import Task from "../../entity/task";
 import EntityNotExistsError from "../../lib/error/dbError/entityNotExistsError";
 import CRUDService from "../../lib/service/crudService";
 import TaskRepository from "./task.memory.repository";
 
-export class TaskService extends CRUDService {
+export class TaskService extends CRUDService<Task> {
     constructor(protected repository: TaskRepository) {
         super(repository);
     }
 
-    async getAllFromBoard(idBoard: string) {
-        const tasks = await this.repository.getAllFromBoard(idBoard);
+    async getAllFromBoard(boardId: string) {
+        const tasks = await this.repository.getAllFromBoard(boardId);
 
         return tasks;
     }
 
 
-    async getFromBoard(idBoard: string, id: string) {
-        const tasks = await this.getAllFromBoard(idBoard);
+    async getFromBoard(boardId: string, id: string) {
+        const tasks = await this.getAllFromBoard(boardId);
 
         return tasks.find((task) => task.id === id);
     }
 
 
-    async deleteFromBoard(idBoard: string, id: string) {
-        const tasks = await this.getAllFromBoard(idBoard);
+    async deleteFromBoard(boardId: string, id: string) {
+        const tasks = await this.getAllFromBoard(boardId);
         const turgetTask = tasks.find((task) => task.id === id);
 
         if(!turgetTask) {
@@ -36,4 +36,4 @@ export class TaskService extends CRUDService {
     }
 }
 
-export const taskService = new TaskService(new TaskRepository(db));
+export const taskService = new TaskService(new TaskRepository());

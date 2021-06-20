@@ -14,14 +14,15 @@ export default {
     password: process.env['POSTGRES_PASSWORD'],
     synchronize: false,
     migrationsRun: true,
-    entities: ['../entity/**/*.{ts,js}'],
-    migrations: ['../migration/**/*.{ts,js}'],
-    subscribers: ['../subscriber/**/*.{ts,js}'],
+    entities: [join(__dirname, '../entity/**/*.{ts,js}')],
+    migrations: [join(__dirname, '../migration/**/*.{ts,js}')],
+    subscribers: [join(__dirname, '../subscriber/**/*.{ts,js}')],
     cli: {
         entitiesDir: 'src/entity',
         migrationsDir: 'src/migration',
         subscribersDir: 'src/subscriber',
     },
     autoReconnect: true,
-    recconectionIterval: 1000
+    recconectionIterval: 1000,
+    logging: true
 };

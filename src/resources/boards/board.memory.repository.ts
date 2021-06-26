@@ -7,10 +7,24 @@ export default class BoardRepository extends CRUDRepository<Board> {
         super(Board);
     }
 
+    async getAll() {
+        const boards = await getRepository(this.entity)
+            .createQueryBuilder('board')
+            .leftJoinAndSelect('board.columns', 'column')
+            .orderBy('column.order', 'ASC')
+            .getMany();
+
+        return boards;
+    }
+
     async get(id: string) {
-        return await getRepository(this.entity).findOne({
-            relations: ["columns"],
-            where: { id },
-        });
+        const board = await getRepository(this.entity)
+            .createQueryBuilder('board')
+            .leftJoinAndSelect('board.columns', 'column')
+            .orderBy('column.order', 'ASC')
+            .where({ id })
+            .getOne();
+
+        return board;
     }
 }

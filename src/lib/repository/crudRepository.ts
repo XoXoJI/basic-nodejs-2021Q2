@@ -2,7 +2,7 @@ import { DeepPartial, EntityTarget, getRepository } from 'typeorm';
 
 
 export default abstract class CRUDRepository<T extends { id: string }> {
-    constructor(public entity: EntityTarget<T>) {}
+    constructor(public entity: EntityTarget<T>) { }
 
     async getAll() {
         return await getRepository(this.entity).find();
@@ -25,11 +25,11 @@ export default abstract class CRUDRepository<T extends { id: string }> {
             data.id
         );
 
-        for(let key in data) {
+        for (let key in data) {
             instance[key] = data[key];
         }
         //@ts-ignore
-        getRepository(this.entity).save(instance);
+        await getRepository(this.entity).save(instance);
 
         return instance;
     }

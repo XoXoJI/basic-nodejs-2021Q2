@@ -1,4 +1,4 @@
-import UserRepository from "./user.memory.repository";
+import UserRepository from "./user.repository";
 import CRUDService from "../../lib/service/crudService";
 import User from "../../entity/user";
 import { userDTO } from "./user.dto";

@@ -3,7 +3,7 @@ import Board from "../../entity/board";
 import Column from "../../entity/column";
 import CRUDService from "../../lib/service/crudService";
 import { boardDTO } from "./board.dto";
-import BoardRepository from "./board.memory.repository";
+import BoardRepository from "./board.repository";
 
 export class BoardService extends CRUDService<Board, boardDTO> {
     constructor(protected repository: BoardRepository) {

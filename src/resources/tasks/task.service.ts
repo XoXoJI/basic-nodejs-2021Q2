@@ -6,7 +6,7 @@ import User from "../../entity/user";
 import EntityNotExistsError from "../../lib/error/dbError/entityNotExistsError";
 import CRUDService from "../../lib/service/crudService";
 import { taskDTO } from "./task.dto";
-import TaskRepository from "./task.memory.repository";
+import TaskRepository from "./task.repository";
 
 export class TaskService extends CRUDService<Task, taskDTO> {
     constructor(protected repository: TaskRepository) {

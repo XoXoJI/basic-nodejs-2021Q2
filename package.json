@@ -9,7 +9,7 @@
   "main": "dist/index.js",
   "scripts": {
     "start": "node dist/index.js",
-    "dev": "npm run migration:run & nodemon --config nodemon.json src/index.ts",
+    "dev": "npm run migration:run && nodemon --config nodemon.json src/index.ts",
     "build": "tsc --build tsconfig.json",
     "lint": "eslint --ext .js,.ts --fix src/",
     "test": "cross-env DEBUG=rs:* jest --testMatch \"<rootDir>/test/e2e/test/*.test.js\" --noStackTrace --runInBand",
@@ -17,6 +17,7 @@
     "doc": "./node_modules/.bin/jsdoc -c ./.jsdoc.conf.json",
     "typeorm": "node --require ts-node/register ./node_modules/typeorm/cli.js",
     "migration:generate": "npm run typeorm migration:generate -- -f ./src/common/ormconfig -n",
+    "migration:create": "npm run typeorm migration:create -- -f ./src/common/ormconfig -n",
     "migration:run": "npm run typeorm migration:run -- -f ./src/common/ormconfig"
   },
   "keywords": [

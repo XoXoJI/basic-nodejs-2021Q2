@@ -24,9 +24,9 @@ export function checkLogin(req: Request, res: Response, next: NextFunction) {
                 next();
             } catch (err) {
                 res.status(StatusCodes.UNAUTHORIZED).json(TEXT_ERROR);
-            } finally {
-                return;
             }
+
+            return;
         }
     }
 

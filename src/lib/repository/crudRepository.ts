@@ -25,7 +25,7 @@ export default abstract class CRUDRepository<T extends { id: string }> {
             data.id
         );
 
-        for (let key in data) {
+        for (const key in data) {
             instance[key] = data[key];
         }
         //@ts-ignore

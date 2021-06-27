@@ -5,6 +5,7 @@ import {finished} from 'stream';
 import swaggerUI from 'swagger-ui-express';
 import { join } from 'path';
 import YAML from 'yamljs';
+import loginRouter from './resources/login/login.router';
 import userRouter from './resources/users/user.router';
 import boardRouter from './resources/boards/board.router';
 import taskRouter from './resources/tasks/task.router';
@@ -69,6 +70,8 @@ createConnection(ormconfig as ConnectionOptions).then((_connection) => {
         }
         next();
     });
+
+    app.use('/login', loginRouter);
 
     boardRouter.use('/:boardId/tasks', taskRouter);
 

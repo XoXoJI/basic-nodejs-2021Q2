@@ -1,65 +1,41 @@
-import { DB } from '../driver/dbDriver';
-import EntityNotExistsError from '../error/dbError/entityNotExistsError';
-import IdNotUniqueError from '../error/dbError/idNotUniqueError';
-import Model from '../model';
+import { DeepPartial, EntityTarget, getRepository } from 'typeorm';
 
 
-export default abstract class CRUDRepository<T extends Model> {
-    table: T[];
-
-    tableName: string;
-
-    constructor(protected db: DB) {
-        this.table = [];
-        this.tableName = 'tableName';
-    }
+export default abstract class CRUDRepository<T extends { id: string }> {
+    constructor(public entity: EntityTarget<T>) {}
 
     async getAll() {
-        // TODO: mock implementation. should be replaced during task development
-        return this.table;
+        return await getRepository(this.entity).find();
     }
 
     async get(id: string) {
-        return this.table.find((row) => row.id === id);
+        return await getRepository(this.entity).findOne({
+            where: { id },
+        });
     }
 
-    abstract create(body: Partial<T>): Promise<T>;
+    async create(data: DeepPartial<T>) {
+        const model = await getRepository(this.entity).save(data);
 
-    abstract update(body: Partial<T>): Promise<T>;
-
-    protected async checkToUnique(model: T) {
-        if (model.id) {
-            const index = this.table.findIndex(
-                (tableRow) => tableRow.id === model.id
-            );
-
-            if (index !== -1) {
-                throw new IdNotUniqueError(
-                    `${this.tableName} with id: ${model.id} exsits!`
-                );
-            }
-        }
+        return model;
     }
 
-    protected async checkToExists(model: T) {
-        const tableRow = this.table.find((row) => row.id === model.id);
+    async update(data: T) {
+        const instance = await getRepository(this.entity).findOneOrFail(
+            data.id
+        );
 
-        if (!tableRow) {
-            throw new EntityNotExistsError(
-                `${this.tableName} with id: ${model.id} not exsits!`
-            );
+        for(let key in data) {
+            instance[key] = data[key];
         }
+        //@ts-ignore
+        getRepository(this.entity).save(instance);
+
+        return instance;
     }
 
     async delete(id: string) {
-        const index = this.table.findIndex((tableRow) => tableRow.id === id);
-
-        if (index === -1) {
-            throw new EntityNotExistsError(
-                `${this.tableName} with id: ${id} not exsits!`
-            );
-        }
-
-        this.table.splice(index, 1);
+        const result = await getRepository(this.entity).delete(id);
+        return result;
     }
 }

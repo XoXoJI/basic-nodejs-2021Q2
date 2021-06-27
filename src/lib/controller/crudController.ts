@@ -1,11 +1,10 @@
 import { Response } from 'express';
-import Model from '../model';
 import CRUDService from '../service/crudService';
 import {StatusCodes} from 'http-status-codes'
 
-export default class CRUDController {
+export default class CRUDController<T extends { id: string }, U> {
     constructor(
-        protected service: CRUDService,
+        protected service: CRUDService<T, U>,
         protected toResponse: <T>(arg0: T) => Partial<T>
     ) {
         this.service = service;
@@ -13,39 +12,59 @@ export default class CRUDController {
     }
 
     async getAll(res: Response) {
-        const models = await this.service.getAll();
+        try {
+            const models = await this.service.getAll();
 
-        res.json(models.map(this.toResponse));
-    }
-
-    async get(id: string, res: Response) {
-        const model = await this.service.get(id);
-
-        if (!model) {
-            res.sendStatus(StatusCodes.NOT_FOUND);
-        } else {
-            res.json(this.toResponse(model));
+            res.json(models.map(this.toResponse));
+        } catch (err) {
+            res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(err);
         }
     }
 
-    async create(body: Partial<Model>, res: Response) {
-        const model = await this.service.create(body);
+    async get(id: string, res: Response) {
+        try {
+            const model = await this.service.get(id);
 
-        res.status(StatusCodes.CREATED).json(this.toResponse(model));
+            if (!model) {
+                res.sendStatus(StatusCodes.NOT_FOUND);
+            } else {
+                res.json(this.toResponse(model));
+            }
+        } catch (err) {
+            res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(err);
+        }
     }
 
-    async update(id: string, body: Partial<Model>, res: Response) {
-        const model = await this.service.update({
-            id,
-            ...body,
-        });
+    async create(body: Partial<U>, res: Response) {
+        try {
+            const model = await this.service.create(body);
 
-        res.json(this.toResponse(model));
+            res.status(StatusCodes.CREATED).json(this.toResponse(model));
+        } catch (err) {
+            res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(err);
+        }
+    }
+
+    async update(id: string, body: Partial<U>, res: Response) {
+        try {
+            const model = await this.service.update({
+                id,
+                ...body,
+            });
+
+            res.json(this.toResponse(model));
+        } catch (err) {
+            res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(err);
+        }
     }
 
     async delete(id: string, res: Response) {
-        await this.service.delete(id);
+        try {
+            await this.service.delete(id);
 
-        res.sendStatus(StatusCodes.NO_CONTENT);
+            res.sendStatus(StatusCodes.NO_CONTENT);
+        } catch (err) {
+            res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(err);
+        }
     }
 }

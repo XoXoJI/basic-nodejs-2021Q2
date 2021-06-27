@@ -1,9 +1,9 @@
-import Model from "../model";
+import { DeepPartial } from "typeorm";
 import CRUDRepository from "../repository/crudRepository";
 
 
-export default class CRUDService {
-    constructor(protected repository: CRUDRepository<Model>) {}
+export default class CRUDService<T extends { id: string; }, U> {
+    constructor(protected repository: CRUDRepository<T>) {}
 
     async getAll() {
         const models = await this.repository.getAll();
@@ -17,19 +17,20 @@ export default class CRUDService {
         return model;
     }
 
-    async create(data: Partial<Model>) {
-        const model = await this.repository.create(data);
+    async create(data: Partial<U>) {
+        const model = await this.repository.create(data as DeepPartial<T>);
 
         return model;
     }
 
-    async update(data: Partial<Model>) {
+    async update(data: Partial<U>) {
+        //@ts-ignore
         const model = await this.repository.update(data);
 
         return model;
     }
 
     async delete(id: string) {
-        await this.repository.delete(id);
+        return await this.repository.delete(id);
     }
 }

@@ -1,8 +1,8 @@
-import { IsString, IsUUID } from "class-validator";
+import { IsEmpty, IsString } from "class-validator";
 import { User } from "../entities/user.entity";
 
 export class CreateUserDto extends User {
-    @IsUUID(4)
+    @IsEmpty()
     id!: string;
     @IsString()
     name!: string;

@@ -33,7 +33,7 @@ export class BoardsService {
             .getMany();
     }
 
-    async findOne(id: number) {
+    async findOne(id: string) {
         return await this.repositoryBoard.createQueryBuilder('board')
             .leftJoinAndSelect('board.columns', 'column')
             .orderBy('column.order', 'ASC')
@@ -41,7 +41,7 @@ export class BoardsService {
             .getOne();
     }
 
-    async update(id: number, updateBoardDto: UpdateBoardDto) {
+    async update(id: string, updateBoardDto: UpdateBoardDto) {
         const boardDTO = _.clone(updateBoardDto);
 
         if (boardDTO.columns?.length) {
@@ -51,7 +51,7 @@ export class BoardsService {
         return await this.repositoryBoard.save(boardDTO);
     }
 
-    async remove(id: number) {
+    async remove(id: string) {
         return await this.repositoryBoard.delete(id);
     }
 

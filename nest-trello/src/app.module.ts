@@ -7,6 +7,7 @@ import { join } from 'path';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { BoardsModule } from './boards/boards.module';
 import { ColumnsModule } from './columns/columns.module';
+import { TasksModule } from './tasks/tasks.module';
 
 @Module({
     imports: [
@@ -33,7 +34,8 @@ import { ColumnsModule } from './columns/columns.module';
         }),
         UsersModule,
         BoardsModule,
-        ColumnsModule
+        ColumnsModule,
+        TasksModule
     ],
     controllers: [AppController],
     providers: [AppService],

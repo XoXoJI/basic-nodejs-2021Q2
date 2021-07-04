@@ -7,17 +7,21 @@ import { Column } from './entities/column.entity';
 export class ColumnsService {
     constructor(
         @InjectRepository(Column)
-        private columnRepository: Repository<Column>
+        private repositoryColumn: Repository<Column>
     ) {}
 
     async createOrUpdate(columnDTO: Column) {
-        let column = await this.columnRepository.findOne(columnDTO);
+        let column = await this.repositoryColumn.findOne(columnDTO);
 
         if (!column) {
-            column = await this.columnRepository.save(columnDTO);
+            column = await this.repositoryColumn.save(columnDTO);
         }
 
 
         return column;
+    }
+
+    async findOne(id: string) {
+        return await this.repositoryColumn.findOne(id);
     }
 }

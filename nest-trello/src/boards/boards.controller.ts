@@ -19,16 +19,16 @@ export class BoardsController {
 
   @Get(':id')
   async findOne(@Param('id') id: string) {
-    return await this.boardsService.findOne(+id);
+    return await this.boardsService.findOne(id);
   }
 
   @Patch(':id')
   async update(@Param('id') id: string, @Body() updateBoardDto: UpdateBoardDto) {
-    return await this.boardsService.update(+id, updateBoardDto);
+    return await this.boardsService.update(id, updateBoardDto);
   }
 
   @Delete(':id')
   async remove(@Param('id') id: string) {
-    return await this.boardsService.remove(+id);
+    return await this.boardsService.remove(id);
   }
 }

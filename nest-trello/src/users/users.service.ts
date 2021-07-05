@@ -44,6 +44,12 @@ export class UsersService {
         return await this.userRepository.delete(id);
     }
 
+    async findForAuth(login: string) {
+        return await this.userRepository.findOne({
+            where: { login }
+        });
+    }
+
     private async hashPassword(password: string) {
         const salt = await bcrypt.genSalt();
 

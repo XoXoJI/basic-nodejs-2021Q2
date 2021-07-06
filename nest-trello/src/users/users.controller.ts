@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, ClassSerializerInterceptor } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, ClassSerializerInterceptor, NotFoundException } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -20,7 +20,11 @@ export class UsersController {
 
   @Get(':userId')
   async findOne(@Param('userId') userId: string) {
-    return await this.usersService.findOne(userId);
+    const user = await this.usersService.findOne(userId);
+
+    if(!user) {
+      return new NotFoundException('user not found');
+    }
   }
 
   // Может быть придеться заменить на Put

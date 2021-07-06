@@ -1,6 +1,6 @@
-import { ValidationPipe } from '@nestjs/common';
+import { Logger, ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { NestFactory } from '@nestjs/core';
+import { HttpAdapterHost, NestFactory } from '@nestjs/core';
 import { JwtService } from '@nestjs/jwt';
 import moment from 'moment';
 import { WinstonModule } from 'nest-winston';
@@ -10,6 +10,7 @@ import { writeFileSync } from 'fs';
 import { resolve } from 'path';
 import { logger } from './logger';
 import { DATE_FORMAT } from './config';
+import { GlobalFilter } from './global.filter';
 
 // Поскольку winston не может в синхронность приходится самому
 process.on('uncaughtException', (err) => {
@@ -32,9 +33,15 @@ process.on('unhandledRejection', (reason, _promise) => {
 });
 
 async function bootstrap() {
+    const winstonModuleLogger = WinstonModule.createLogger(logger);
+
     const app = await NestFactory.create(AppModule, {
-        logger: WinstonModule.createLogger(logger)
+        logger: winstonModuleLogger
     });
+
+    const { httpAdapter } = app.get(HttpAdapterHost);
+    app.useGlobalFilters(new GlobalFilter(winstonModuleLogger, httpAdapter));
+
     app.useGlobalPipes(new ValidationPipe());
 
     const configService = app.get(ConfigService);

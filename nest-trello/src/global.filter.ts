@@ -1,5 +1,6 @@
-import { ArgumentsHost, Catch, HttpServer, LoggerService } from '@nestjs/common';
+import { ArgumentsHost, Catch, HttpServer, HttpStatus, LoggerService, NotFoundException } from '@nestjs/common';
 import { BaseExceptionFilter } from '@nestjs/core';
+import { QueryFailedError } from 'typeorm';
 
 @Catch()
 export class GlobalFilter<T> extends BaseExceptionFilter {
@@ -7,7 +8,16 @@ export class GlobalFilter<T> extends BaseExceptionFilter {
 		super(applicationRef);
 	}
 	catch(exception: T, host: ArgumentsHost) {
-        super.catch(exception, host);
+		const ctx = host.switchToHttp();
+		const response = ctx.getResponse();
+
+		if(exception instanceof QueryFailedError) {
+			response.status(HttpStatus.NOT_FOUND).json('Not Found');
+		}
+		else {
+			super.catch(exception, host);
+		}
+
 
         this.logger.error(exception);
     }

@@ -32,12 +32,20 @@ export class UsersService {
 
     async update(id: string, updateUserDto: UpdateUserDto) {
         const userDTO = _.clone(updateUserDto);
+        let user = await this.findOne(id);
+
+        if(!user) {
+            return null;
+        }
 
         if(userDTO.password) {
             userDTO.password = await this.hashPassword(userDTO.password);
         }
 
-        return await this.userRepository.save(userDTO);
+        Object.assign(user, userDTO);
+
+        console.log(user);
+        return await this.userRepository.save(user);
     }
 
     async remove(id: string) {

@@ -1,9 +1,10 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, ClassSerializerInterceptor, NotFoundException } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete, UseInterceptors, ClassSerializerInterceptor, NotFoundException, Put } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 
 @Controller('users')
+@UseInterceptors(ClassSerializerInterceptor)
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
@@ -12,7 +13,6 @@ export class UsersController {
     return await this.usersService.create(createUserDto);
   }
 
-  @UseInterceptors(ClassSerializerInterceptor)
   @Get()
   async findAll() {
     return await this.usersService.findAll();
@@ -25,12 +25,20 @@ export class UsersController {
     if(!user) {
       return new NotFoundException('user not found');
     }
+
+    return user;
   }
 
   // Может быть придеться заменить на Put
-  @Patch(':userId')
+  @Put(':userId')
   async update(@Param('userId') userId: string, @Body() updateUserDto: UpdateUserDto) {
-    return await this.usersService.update(userId, updateUserDto);
+    const user =  await this.usersService.update(userId, updateUserDto);
+
+    if (!user) {
+      return new NotFoundException('user not found');
+    }
+
+    return user;
   }
 
   @Delete(':userId')

@@ -11,14 +11,13 @@ export class ColumnsService {
     ) {}
 
     async createOrUpdate(columnDTO: Column) {
-        let column = await this.repositoryColumn.findOne(columnDTO);
+        let column = await this.repositoryColumn.findOne(columnDTO.id);
 
-        if (!column) {
-            column = await this.repositoryColumn.save(columnDTO);
+        if (column) {
+            Object.assign(column, columnDTO);
         }
 
-
-        return column;
+        return await this.repositoryColumn.save(column);
     }
 
     async findOne(id: string) {

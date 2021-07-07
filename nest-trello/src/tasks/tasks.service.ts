@@ -20,7 +20,11 @@ export class TasksService {
     ) {}
 
     async create(idBoard: string, createTaskDto: CreateTaskDto) {
-        const task = await this.getTaskEntities(idBoard, createTaskDto);
+        const linksEntities = await this.getLinksEntities(idBoard, createTaskDto);
+        const task = {
+            ...createTaskDto,
+            ...linksEntities
+        }
 
         return await this.repositoryTask.save(task);
     }
@@ -41,7 +45,14 @@ export class TasksService {
     }
 
     async update(idBoard: string, id: string, updateTaskDto: UpdateTaskDto) {
-        const task = await this.getTaskEntities(idBoard, updateTaskDto);
+        const linksEntities = await this.getLinksEntities(idBoard, updateTaskDto);
+        const task = await this.findOne(idBoard, id);
+
+        if(!task) {
+            return null;
+        }
+
+        Object.assign(task, linksEntities);
 
         return await this.repositoryTask.save(task);
     }
@@ -52,19 +63,20 @@ export class TasksService {
         return task ? await this.repositoryTask.delete(id) : null;
     }
 
-    private async getTaskEntities(idBoard, taskDTO: UpdateTaskDto) {
-        const { userId, columnId, ...task } = taskDTO
+    private async getLinksEntities(idBoard: string, taskDTO: UpdateTaskDto) {
+        const { userId, columnId } = taskDTO
+        const linksEntities = {}
 
         if (userId) {
-            (task as Task).user = await this.userService.findOne(userId)
+            linksEntities['user'] = await this.userService.findOne(userId)
         }
 
-        (task as Task).board = await this.boardService.findOne(idBoard);
+        linksEntities['board'] = await this.boardService.findOne(idBoard);
 
         if (columnId) {
-            (task as Task).column = await this.columnService.findOne(columnId);
+            linksEntities['column'] = await this.columnService.findOne(columnId);
         }
 
-        return task as Task
+        return taskDTO
     }
 }

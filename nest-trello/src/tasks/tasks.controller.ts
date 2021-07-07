@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, NotFoundException } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete, NotFoundException, Put } from '@nestjs/common';
 import { TasksService } from './tasks.service';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
@@ -34,7 +34,7 @@ export class TasksController {
         return task;
     }
 
-    @Patch(':id')
+    @Put(':id')
     async update(
         @Param('idBoard') idBoard: string,
         @Param('id') id: string,

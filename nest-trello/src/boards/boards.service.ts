@@ -48,7 +48,15 @@ export class BoardsService {
             boardDTO.columns = await this.getColumnsEntities(boardDTO.columns);
         }
 
-        return await this.repositoryBoard.save(boardDTO);
+        const board = await this.findOne(id);
+
+        if(!board) {
+            return null;
+        }
+
+        Object.assign(board, boardDTO);
+
+        return await this.repositoryBoard.save(board);
     }
 
     async remove(id: string) {

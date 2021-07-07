@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete, NotFoundException, Put } from '@nestjs/common';
 import { BoardsService } from './boards.service';
 import { CreateBoardDto } from './dto/create-board.dto';
 import { UpdateBoardDto } from './dto/update-board.dto';
@@ -19,12 +19,24 @@ export class BoardsController {
 
   @Get(':id')
   async findOne(@Param('id') id: string) {
-    return await this.boardsService.findOne(id);
+    const board = await this.boardsService.findOne(id);
+
+    if (!board) {
+      return new NotFoundException('board not found');
+    }
+
+    return board;
   }
 
-  @Patch(':id')
+  @Put(':id')
   async update(@Param('id') id: string, @Body() updateBoardDto: UpdateBoardDto) {
-    return await this.boardsService.update(id, updateBoardDto);
+    const board = await this.boardsService.update(id, updateBoardDto);
+
+    if (!board) {
+      return new NotFoundException('board not found');
+    }
+
+    return board;
   }
 
   @Delete(':id')

@@ -1,4 +1,4 @@
-import { Logger, ValidationPipe } from '@nestjs/common';
+import { INestApplication, ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { HttpAdapterHost, NestFactory } from '@nestjs/core';
 import { JwtService } from '@nestjs/jwt';
@@ -9,8 +9,10 @@ import { AuthGuard } from './auth/auth.guard';
 import { writeFileSync } from 'fs';
 import { resolve } from 'path';
 import { logger } from './logger';
-import { DATE_FORMAT } from './config';
+import { DATE_FORMAT, USE_FASTIFY } from './config';
 import { GlobalFilter } from './global.filter';
+import { NestExpressApplication } from '@nestjs/platform-express';
+import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify';
 
 // Поскольку winston не может в синхронность приходится самому
 process.on('uncaughtException', (err) => {
@@ -34,13 +36,26 @@ process.on('unhandledRejection', (reason, _promise) => {
 
 async function bootstrap() {
     const winstonModuleLogger = WinstonModule.createLogger(logger);
+    let app!: INestApplication;
 
-    const app = await NestFactory.create(AppModule, {
-        logger: winstonModuleLogger
-    });
+    if(USE_FASTIFY === 'true') {
+        app = await NestFactory.create<NestFastifyApplication>(
+            AppModule,
+            new FastifyAdapter({
+                logger: true
+            })
+        );
+    } else {
+        app = await NestFactory.create<NestExpressApplication>(
+            AppModule,
+            {
+                logger: winstonModuleLogger
+            }
+        );
 
-    const { httpAdapter } = app.get(HttpAdapterHost);
-    app.useGlobalFilters(new GlobalFilter(winstonModuleLogger, httpAdapter));
+        const { httpAdapter } = app.get(HttpAdapterHost);
+        app.useGlobalFilters(new GlobalFilter(winstonModuleLogger, httpAdapter));
+    }
 
     app.useGlobalPipes(new ValidationPipe());
 

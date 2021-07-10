@@ -6,5 +6,6 @@ config({
 });
 
 export const {
-    DATE_FORMAT
+    DATE_FORMAT,
+    USE_FASTIFY
 } = process.env;

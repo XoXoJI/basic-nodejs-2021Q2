@@ -1,0 +1,77 @@
+config:
+  target: "http://localhost:{{$processEnvironment.PORT}}"
+  phases:
+    - duration: 10
+      arrivalRate: 5
+      name: Warm up
+    - duration: 20
+      arrivalRate: 5
+      rampTo: 50
+      name: Ramp up load
+    - duration: 30
+      arrivalRate: 50
+      name: Sustained load
+  payload:
+      path: "users.csv"
+      fields:
+        - "login"
+        - "name"
+        - "password"
+      order: sequence
+  plugins:
+    expect: {}
+
+before:
+  flow:
+    - log: "Get auth token"
+    - post:
+        url: "/login"
+        json:
+          login: "admin"
+          password: "admin"
+        capture:
+          - json: $.token
+            as: token
+scenarios:
+  - flow:
+    - get:
+        url: "/users"
+        headers:
+          authorization: "Bearer {{ token }}"
+    - post:
+        url: "/users"
+        headers:
+          authorization: "Bearer {{ token }}"
+        json:
+          login: "{{ login }}{{ $randomNumber(100,10000) }}"
+          name: "{{ name }}"
+          password: "{{ login }}"
+        capture:
+          - json: "$.id"
+            as: "userId"
+    - put:
+        url: "/users/{{userId}}"
+        headers:
+          authorization: "Bearer {{ token }}"
+        json:
+          name: "updated"
+        capture:
+        - json: "$.name"
+          as: updateName
+        expect:
+          - statusCode: 200
+          - contentType: json
+          - hasProperty: name
+          - equals:
+            - "{{ updateName }}"
+            - "updated"
+    - delete:
+        url: "/users/{{userId}}"
+        headers:
+          authorization: "Bearer {{ token }}"
+    - get:
+        url: "/users/{{userId}}"
+        headers:
+          authorization: "Bearer {{ token }}"
+        expect:
+          - statusCode: 404

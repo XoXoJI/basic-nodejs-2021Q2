@@ -4,3 +4,4 @@ out
 dist
 logs
 db/data
+artillery-report.*

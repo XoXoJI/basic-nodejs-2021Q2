@@ -21,7 +21,7 @@ import { GlobalJwtModule } from './global-jwt/global-jwt.module';
             useFactory: (configService: ConfigService) => ({
                 type: 'postgres',
                 host: configService.get<string>('POSTGRES_HOST'),
-                port: 5433, //configService.get<number>('POSTGRES_PORT'),
+                port: configService.get<number>('POSTGRES_PORT'),
                 database: configService.get<string>('POSTGRES_DB'),
                 username: configService.get<string>('POSTGRES_USER'),
                 password: configService.get<string>('POSTGRES_PASSWORD'),

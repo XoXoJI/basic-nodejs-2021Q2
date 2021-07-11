@@ -9,7 +9,7 @@
   "main": "dist/index.js",
   "scripts": {
     "start": "nest start",
-    "dev": "nest start --watch",
+    "dev": "npm run migration:run && nest start --watch",
     "prod": "node dist/main",
     "build": "tsc --build tsconfig.json",
     "lint": "eslint --ext .js,.ts --fix src/",
@@ -17,9 +17,9 @@
     "test:auth": "cross-env DEBUG=rs:* TEST_MODE=auth jest --noStackTrace",
     "doc": "./node_modules/.bin/jsdoc -c ./.jsdoc.conf.json",
     "typeorm": "node --require ts-node/register ./node_modules/typeorm/cli.js",
-    "migration:generate": "npm run typeorm migration:generate -- -f ./src/common/ormconfig -n",
-    "migration:create": "npm run typeorm migration:create -- -f ./src/common/ormconfig -n",
-    "migration:run": "npm run typeorm migration:run -- -f ./src/common/ormconfig",
+    "migration:generate": "npm run typeorm migration:generate -- -n",
+    "migration:create": "npm run typeorm migration:create -- -n",
+    "migration:run": "npm run typeorm migration:run",
     "artillery:user": "dotenv -- artillery run --output ./artillery-report.json user-crud.yml",
     "artillery:report": "artillery report --output artillery-report.html artillery-report.json"
   },

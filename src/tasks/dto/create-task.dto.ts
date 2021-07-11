@@ -1,6 +1,8 @@
+import { PartialType } from "@nestjs/mapped-types";
 import { IsEmpty, IsNumber, IsOptional, IsString, IsUUID } from "class-validator";
+import Task from "../entities/task.entity";
 
-export class CreateTaskDto {
+export class CreateTaskDto extends PartialType(Task) {
     @IsEmpty()
     id: string;
     @IsString()
@@ -11,8 +13,11 @@ export class CreateTaskDto {
     description: string;
     @IsOptional()
     @IsUUID(4)
-    userId: string;
+    userId?: string;
     @IsOptional()
     @IsUUID(4)
-    columnId: string;
+    columnId?: string;
+    @IsOptional()
+    @IsUUID(4)
+    boardId?: string;
 }

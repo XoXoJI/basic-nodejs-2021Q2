@@ -18,7 +18,7 @@ export class AuthGuard implements CanActivate {
     ): Promise<boolean> {
         const request = context.switchToHttp().getRequest();
 
-        if (this.whiteListRouters.indexOf(request.path) !== -1) {
+        if (this.whiteListRouters.indexOf(request.path || request.url) !== -1) {
             return true;
         }
 

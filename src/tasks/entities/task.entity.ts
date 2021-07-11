@@ -2,6 +2,7 @@ import { Board } from '../../boards/entities/board.entity';
 import { Column } from '../../columns/entities/column.entity';
 import { User } from '../../users/entities/user.entity';
 import { Entity, PrimaryGeneratedColumn, Column as dbColumn, ManyToOne } from 'typeorm';
+import { Expose, Transform } from 'class-transformer';
 
 @Entity()
 export default class Task {
@@ -22,13 +23,17 @@ export default class Task {
         onDelete: 'SET NULL',
         onUpdate: 'CASCADE',
     })
-    user!: User;
+    @Expose({ name: 'userId', toPlainOnly: true })
+    @Transform(({ value }) => value ? value.id : null, {toPlainOnly: true})
+    user!: User | null;
 
     @ManyToOne(() => Board, {
         cascade: true,
         onDelete: 'CASCADE',
         onUpdate: 'CASCADE',
     })
+    @Expose({ name: 'boardId', toPlainOnly: true })
+    @Transform(({ value }) => value ? value.id : null, { toPlainOnly: true })
     board!: Board;
 
     @ManyToOne(() => Column, {
@@ -36,5 +41,7 @@ export default class Task {
         onDelete: 'CASCADE',
         onUpdate: 'CASCADE',
     })
-    column!: Column;
+    @Expose({ name: 'columnId', toPlainOnly: true })
+    @Transform(({ value }) => value ? value.id : null, { toPlainOnly: true })
+    column!: Column | null;
 }

@@ -27,6 +27,6 @@ export class User {
         type: 'text',
         nullable: false
     })
-    @Exclude()
+    @Exclude({ toPlainOnly: true })
     password!: string;
 }

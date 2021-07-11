@@ -11,7 +11,7 @@ export class ColumnsService {
     ) {}
 
     async createOrUpdate(columnDTO: Column) {
-        const column = await this.repositoryColumn.findOne(columnDTO.id);
+        const column = await this.repositoryColumn.findOne(columnDTO);
 
         if (column) {
             Object.assign(column, columnDTO);

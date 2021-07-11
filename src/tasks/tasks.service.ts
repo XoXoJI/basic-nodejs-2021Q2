@@ -23,13 +23,14 @@ export class TasksService {
     ) {}
 
     async create(idBoard: string, createTaskDto: CreateTaskDto) {
-        const linksEntities = await this.getLinksEntities(idBoard, createTaskDto);
-        const task = {
-            ...createTaskDto,
-            ...linksEntities
-        }
+        const taskDTO = _.clone(createTaskDto);
 
-        return await this.repositoryTask.save(task);
+        const linksEntities = await this.getLinksEntities(idBoard, taskDTO);
+        Object.assign(taskDTO, linksEntities);
+
+        const task = await this.repositoryTask.save(taskDTO);
+
+        return task;
     }
 
     async findAll(boardId: string) {
@@ -55,7 +56,7 @@ export class TasksService {
             return null;
         }
 
-        Object.assign(task, linksEntities);
+        Object.assign(task, linksEntities, updateTaskDto);
 
         return await this.repositoryTask.save(task);
     }
@@ -68,22 +69,22 @@ export class TasksService {
 
     private async getLinksEntities(idBoard: string, taskDTO: UpdateTaskDto) {
         const { userId, columnId } = taskDTO
-        const linksEntities = {} as Partial<{
-            user: User,
+        const linksEntities = {} as {
+            user: User | null,
             board: Board,
-            column: Column
-        }>
+            column: Column | null
+        }
 
         if (userId) {
-            linksEntities['user'] = await this.userService.findOne(userId)
+            linksEntities.user = await this.userService.findOne(userId) || null
         }
 
-        linksEntities['board'] = await this.boardService.findOne(idBoard);
+        linksEntities.board = await this.boardService.findOne(idBoard) as Board;
 
         if (columnId) {
-            linksEntities['column'] = await this.columnService.findOne(columnId);
+            linksEntities.column = await this.columnService.findOne(columnId) || null;
         }
 
-        return taskDTO
+        return linksEntities
     }
 }

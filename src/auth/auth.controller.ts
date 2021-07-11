@@ -14,6 +14,6 @@ export class AuthController {
             throw new ForbiddenException();
         }
 
-        return token;
+        return {token};
     }
 }

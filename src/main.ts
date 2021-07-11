@@ -58,7 +58,9 @@ async function bootstrap() {
         app.useGlobalFilters(new GlobalFilter(winstonModuleLogger, httpAdapter));
     }
 
-    app.useGlobalPipes(new ValidationPipe());
+    app.useGlobalPipes(new ValidationPipe({
+        transform: true,
+    }));
 
     const configService = app.get(ConfigService);
     const port = configService.get("PORT");

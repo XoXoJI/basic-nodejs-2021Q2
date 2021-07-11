@@ -23,7 +23,7 @@ export class UsersController {
     const user = await this.usersService.findOne(userId);
 
     if(!user) {
-      return new NotFoundException('user not found');
+      throw new NotFoundException('user not found');
     }
 
     return user;
@@ -35,7 +35,7 @@ export class UsersController {
     const user =  await this.usersService.update(userId, updateUserDto);
 
     if (!user) {
-      return new NotFoundException('user not found');
+      throw new NotFoundException('user not found');
     }
 
     return user;
@@ -43,6 +43,12 @@ export class UsersController {
 
   @Delete(':userId')
   async remove(@Param('userId') userId: string) {
-    return await this.usersService.remove(userId);
+    const result = await this.usersService.remove(userId);
+
+    if (!result?.affected) {
+      throw new NotFoundException('task not found');
+    }
+
+    return;
   }
 }

@@ -22,7 +22,7 @@ export class BoardsController {
     const board = await this.boardsService.findOne(id);
 
     if (!board) {
-      return new NotFoundException('board not found');
+      throw new NotFoundException('board not found');
     }
 
     return board;
@@ -33,7 +33,7 @@ export class BoardsController {
     const board = await this.boardsService.update(id, updateBoardDto);
 
     if (!board) {
-      return new NotFoundException('board not found');
+      throw new NotFoundException('board not found');
     }
 
     return board;
@@ -41,6 +41,12 @@ export class BoardsController {
 
   @Delete(':id')
   async remove(@Param('id') id: string) {
-    return await this.boardsService.remove(id);
+    const result = await this.boardsService.remove(id);
+
+    if (!result?.affected) {
+      throw new NotFoundException('task not found');
+    }
+
+    return;
   }
 }

@@ -1,9 +1,10 @@
-import { Controller, Get, Post, Body, Param, Delete, NotFoundException, Put } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete, NotFoundException, Put, UseInterceptors, ClassSerializerInterceptor } from '@nestjs/common';
 import { TasksService } from './tasks.service';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
 
-@Controller(':idBoard/tasks')
+@Controller('boards/:idBoard/tasks')
+@UseInterceptors(ClassSerializerInterceptor)
 export class TasksController {
     constructor(private readonly tasksService: TasksService) {}
 
@@ -12,7 +13,8 @@ export class TasksController {
         @Param('idBoard') idBoard: string,
         @Body() createTaskDto: CreateTaskDto
     ) {
-        return await this.tasksService.create(idBoard, createTaskDto);
+        const task = await this.tasksService.create(idBoard, createTaskDto);
+        return task;
     }
 
     @Get()
@@ -28,7 +30,7 @@ export class TasksController {
         const task = await this.tasksService.findOne(idBoard, id);
 
         if (!task) {
-            return new NotFoundException('task not found');
+            throw new NotFoundException('task not found');
         }
 
         return task;
@@ -43,7 +45,7 @@ export class TasksController {
         const task = await this.tasksService.update(idBoard, id, updateTaskDto);
 
         if (!task) {
-            return new NotFoundException('task not found');
+            throw new NotFoundException('task not found');
         }
 
         return task;
@@ -54,6 +56,12 @@ export class TasksController {
         @Param('idBoard') idBoard: string,
         @Param('id') id: string
     ) {
-        return await this.tasksService.remove(idBoard, id);
+        const result = await this.tasksService.remove(idBoard, id);
+
+        if (!result?.affected) {
+            throw new NotFoundException('task not found');
+        }
+
+        return;
     }
 }

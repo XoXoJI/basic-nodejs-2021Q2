@@ -9,13 +9,23 @@ class User {
     @PrimaryGeneratedColumn('uuid')
     id!: string;
 
-    @Column('text')
+    @Column({
+        type: 'text',
+        nullable: false
+    })
     name!: string;
 
-    @Column('text')
+    @Column({
+        type: 'text',
+        unique: true,
+        nullable: false
+    })
     login!: string;
 
-    @Column('text')
+    @Column({
+        type: 'text',
+        nullable: false
+    })
     password!: string;
 }
 

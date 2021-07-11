@@ -1,15 +1,13 @@
 // <reference path="../types/custom.d.ts" />
 
-import express, { NextFunction, Request, Response } from 'express';
-import {finished} from 'stream';
+import express from 'express';
 import swaggerUI from 'swagger-ui-express';
 import { join } from 'path';
 import YAML from 'yamljs';
+import loginRouter from './resources/login/login.router';
 import userRouter from './resources/users/user.router';
 import boardRouter from './resources/boards/board.router';
 import taskRouter from './resources/tasks/task.router';
-import EntityNotExistsError from './lib/error/dbError/entityNotExistsError';
-import { StatusCodes } from 'http-status-codes';
 import { logger } from './common/logger';
 import { writeFileSync } from 'fs';
 import { resolve } from 'path';
@@ -18,6 +16,9 @@ import { DATE_FORMAT, PORT } from './common/config';
 import 'reflect-metadata';
 import { ConnectionOptions, createConnection } from 'typeorm';
 import ormconfig from './common/ormconfig';
+import { log } from './resources/middleware/log';
+import { error, notFoundError } from './resources/middleware/error';
+import { checkLogin } from './resources/middleware/login';
 
 // Поскольку winston не может в синхронность приходится самому
 process.on('uncaughtException', (err) => {
@@ -45,23 +46,10 @@ createConnection(ormconfig as ConnectionOptions).then((_connection) => {
 
     app.use(express.json());
 
+    app.use(log);
+    app.use(checkLogin);
+
     app.use('/doc', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
-
-    app.use((req, res, next) => {
-        const { url, query, body, params } = req;
-        finished(res, () => {
-            logger.info({
-                url,
-                query,
-                body,
-                params,
-                code: res.statusCode,
-            });
-        });
-
-        next();
-    });
-
     app.use('/', (req, res, next) => {
         if (req.originalUrl === '/') {
             res.send('Service is running!');
@@ -69,27 +57,13 @@ createConnection(ormconfig as ConnectionOptions).then((_connection) => {
         }
         next();
     });
-
+    app.use('/login', loginRouter);
     boardRouter.use('/:boardId/tasks', taskRouter);
-
     app.use('/users', userRouter);
     app.use('/boards', boardRouter);
 
-    app.use((err: Error, _req: Request, res: Response, next: NextFunction) => {
-        logger.error(err.message);
-
-        if (err instanceof EntityNotExistsError) {
-            res.sendStatus(StatusCodes.NOT_FOUND);
-        }
-
-        next(err);
-    });
-
-    app.use(
-        (_err: Error, _req: Request, res: Response, _next: NextFunction) => {
-            res.sendStatus(StatusCodes.INTERNAL_SERVER_ERROR);
-        }
-    );
+    app.use(notFoundError);
+    app.use(error);
 
     app.listen(PORT, () =>
         logger.info(`App is running on http://localhost:${PORT}`)

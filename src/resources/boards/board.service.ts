@@ -3,7 +3,7 @@ import Board from "../../entity/board";
 import Column from "../../entity/column";
 import CRUDService from "../../lib/service/crudService";
 import { boardDTO } from "./board.dto";
-import BoardRepository from "./board.memory.repository";
+import BoardRepository from "./board.repository";
 
 export class BoardService extends CRUDService<Board, boardDTO> {
     constructor(protected repository: BoardRepository) {
@@ -13,7 +13,7 @@ export class BoardService extends CRUDService<Board, boardDTO> {
     async create(data: Partial<boardDTO>) {
         const board = new Board();
 
-        for (let key in data) {
+        for (const key in data) {
             if (['columns'].indexOf(key) === -1) {
                 //@ts-ignore
                 board[key] = data[key];
@@ -22,7 +22,7 @@ export class BoardService extends CRUDService<Board, boardDTO> {
         board.columns = [];
 
         if (data.columns) {
-            for (let column of data.columns) {
+            for (const column of data.columns) {
                 let entityColumn = await getRepository(Column).findOne(column);
 
                 if(!entityColumn) {
@@ -41,7 +41,7 @@ export class BoardService extends CRUDService<Board, boardDTO> {
     async update(data: Partial<boardDTO>) {
         const board = new Board();
 
-        for (let key in data) {
+        for (const key in data) {
             if (['columns'].indexOf(key) === -1) {
                 //@ts-ignore
                 board[key] = data[key];
@@ -50,7 +50,7 @@ export class BoardService extends CRUDService<Board, boardDTO> {
         board.columns = [];
 
         if (data.columns) {
-            for (let column of data.columns) {
+            for (const column of data.columns) {
                 let entityColumn = await getRepository(Column).findOne(column);
 
                 if (!entityColumn) {
